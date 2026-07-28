@@ -79,7 +79,7 @@ def main():
         print(f"\nTraining dengan {dataset_name}")
 
         train_examples = load_qa_pairs(dataset_file)
-        print(f"   → {len(train_examples)} QA pairs")
+        print(f"   -> {len(train_examples)} QA pairs")
 
         if not train_examples:
             print("Tidak ada data valid, skip.")

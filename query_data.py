@@ -9,7 +9,7 @@ from langchain_openai import ChatOpenAI
 from langchain_huggingface import HuggingFaceEmbeddings
 from sklearn.metrics.pairwise import cosine_similarity
 
-load_dotenv()
+load_dotenv(override=True)
 
 CHROMA_PATH = "chroma"
 EMBEDDING_MODEL_PATH = "./indo_finetuned_embedding"

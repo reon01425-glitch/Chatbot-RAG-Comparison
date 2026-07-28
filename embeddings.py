@@ -81,7 +81,7 @@ def add_to_chroma(chunks: list[Document]):
         train_file = f"train_{os.path.splitext(doc_name)[0]}.json"
 
         if train_file not in trained_files:
-            print(f"{doc_name} not yet trained → Generating QA & Fine-tuning...")
+            print(f"{doc_name} not yet trained -> Generating QA & Fine-tuning...")
             subprocess.run(["python", "generate_qa.py", "--doc", doc_name], check=True)
             subprocess.run(["python", "finetune_embeddings.py"], check=True)
             embedding_function = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL_PATH)

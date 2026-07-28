@@ -19,7 +19,7 @@ def split_document(file_path):
     )
     chunks = splitter.split_documents(documents)
 
-    print(f"\nFile: {os.path.basename(file_path)} → {len(chunks)} chunks")
+    print(f"\nFile: {os.path.basename(file_path)} -> {len(chunks)} chunks")
     for i, chunk in enumerate(chunks, start=1):
         print(f"\n--- Chunk {i}/{len(chunks)} ---")
         print(chunk.page_content)
@@ -28,7 +28,7 @@ def split_document(file_path):
 
 def generate_qa_for_doc(doc_path, out_file):
     chunks = split_document(doc_path)
-    print(f"{os.path.basename(doc_path)} → {len(chunks)} chunks")
+    print(f"{os.path.basename(doc_path)} -> {len(chunks)} chunks")
 
     qa_pairs = []
     for i, chunk in enumerate(chunks):

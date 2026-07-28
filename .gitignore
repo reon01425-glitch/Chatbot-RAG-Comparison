@@ -205,3 +205,14 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Environment & Secrets
+.env
+.venv/
+
+# Large Model Weights & Vector Database
+indo_finetuned_embedding/*.safetensors
+indo_finetuned_embedding/*.bin
+chroma/
+
+
