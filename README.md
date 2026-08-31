@@ -1,35 +1,70 @@
-# 📚 Chatbot RAG – Benchmark 5 Advanced RAG Architectures (SOP FSM UNDIP)
+# 🎓 Chatbot RAG – Benchmark 5 Advanced RAG Architectures (SOP FSM UNDIP)
 
-Project ini merupakan implementasi dan evaluasi komparatif dari **5 Arsitektur Advanced RAG** beserta **Baseline Naive RAG** untuk menjawab pertanyaan seputar Standar Operasional Prosedur (SOP) Fakultas Sains dan Matematika Universitas Diponegoro (FSM UNDIP).
+[![Python 3.11+](https://img.shields.io/badge/Python-3.11%20%7C%203.12-blue.svg?logo=python&logoColor=white)](https://www.python.org/)
+[![Streamlit](https://img.shields.io/badge/UI-Streamlit-FF4B4B.svg?logo=streamlit&logoColor=white)](https://streamlit.io/)
+[![LangChain](https://img.shields.io/badge/Framework-LangChain-1C3C3C.svg?logo=langchain&logoColor=white)](https://www.langchain.com/)
+[![Ollama](https://img.shields.io/badge/LLM-Ollama%20(Llama--3.1--8B)-black.svg?logo=ollama&logoColor=white)](https://ollama.com/)
+[![Chroma DB](https://img.shields.io/badge/VectorDB-Chroma-orange.svg)](https://www.trychroma.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-Sistem ini membandingkan kinerja berbagai metode Retrieval-Augmented Generation menggunakan metric kuantitatif NLP (**ROUGE-1, ROUGE-L, BERTScore**) serta evaluasi berbasis RAG (**Ragas Faithfulness** & **Ragas Answer Relevance**).
+Project ini merupakan implementasi dan evaluasi komparatif dari **5 Arsitektur Advanced RAG** beserta **Baseline Naive RAG** untuk menjawab pertanyaan seputar Standar Operasional Prosedur (SOP) resmi Fakultas Sains dan Matematika Universitas Diponegoro (FSM UNDIP).
+
+Sistem ini membandingkan kinerja berbagai metode *Retrieval-Augmented Generation* menggunakan metrik kuantitatif NLP (**ROUGE-1, ROUGE-L, BERTScore**) serta evaluasi berbasis RAG (**Ragas Faithfulness** & **Ragas Answer Relevance**), lengkap dengan antarmuka web interaktif berbasis **Streamlit**.
 
 ---
 
 ## 🎯 About The Project
 
-Chatbot RAG ini dirancang untuk membaca dokumen resmi kampus (SOP PDF pada folder `data/`), melakukan ekstraksi konteks dan embedding, serta memproses kueri pengguna menggunakan arsitektur RAG yang disesuaikan.
+Chatbot RAG ini membaca dokumen resmi kampus (SOP format PDF pada folder `data/`), melakukan ekstraksi konteks dan embedding berbasis model lokal berbahasa Indonesia, serta memproses kueri pengguna menggunakan 6 variasi arsitektur RAG yang dapat dibandingkan secara *side-by-side*.
 
-### 🏛️ 6 Arsitektur RAG yang Diuji:
+```
+                ┌───────────────────────────────────────────────────────────┐
+                │             Kueri Mahasiswa seputar SOP Kampus             │
+                └─────────────────────────────┬─────────────────────────────┘
+                                              │
+                    ┌─────────────────────────┴─────────────────────────┐
+                    │      Pilihan Arsitektur RAG (src/architectures/)  │
+                    └─────────────────────────┬─────────────────────────┘
+         ┌───────────────┬────────────────────┼───────────────────┬───────────────┐
+         │               │                    │                   │               │
+         ▼               ▼                    ▼                   ▼               ▼
+   [ Naive RAG ]  [ Hybrid RAG ]       [ GraphRAG ]        [ Agentic RAG ]     [ CRAG ]
+    Dense Vector   Dense + BM25     Knowledge Graph Ent.   ReAct Tool Agent   Self-Correction
+    (Chroma DB)    (RRF Ranking)    (NetworkX Relations)  (cari_dokumen_sop) (Query Rewrite)
+         │               │                    │                   │               │
+         └───────────────┴────────────────────┼───────────────────┴───────────────┘
+                                              │
+                                              ▼
+                    ┌───────────────────────────────────────────────────┐
+                    │      Ekstraksi Layout & Figur (Multimodal RAG)    │
+                    └─────────────────────────┬─────────────────────────┘
+                                              │
+                                              ▼
+                    ┌───────────────────────────────────────────────────┐
+                    │      Sintesis Jawaban LLM Lokal (Llama 3.1 8B)    │
+                    └───────────────────────────────────────────────────┘
+```
 
-1. **Naive RAG (Baseline)** (`src/architectures/naive_rag.py`):
-   - Pendekatan standar menggunakan pencarian vektor kosinus tunggal pada Chroma DB.
-2. **Hybrid RAG (Dense + BM25)** (`src/architectures/hybrid_rag.py`):
-   - Penggabungan pencarian semantik (Chroma Dense Vector) dan pencarian kata kunci (BM25 Sparse Search) menggunakan algoritma **Reciprocal Rank Fusion (RRF)**.
-3. **GraphRAG (Entity Expansion)** (`src/architectures/graph_rag.py`):
-   - Ekspansi kueri semantik berbasis grafik relasi entitas kampus yang dibangun dengan **NetworkX** (misal: menghubungkan *cuti akademik* $\rightarrow$ *dekan* $\rightarrow$ *ketua prodi*).
-4. **Agentic RAG (Tools Agent)** (`src/architectures/agentic_rag.py`):
-   - Agentik pintar berbasis **LangChain ReAct Agent** yang secara dinamis memilih dan mengeksekusi alat pencarian dokumen (`cari_dokumen_sop`).
-5. **Corrective RAG / CRAG** (`src/architectures/corrective_rag.py`):
-   - Alur keputusan *self-correction* dengan penilai skor kemiripan (grader) dan *query rewriter* otomatis untuk penulisan ulang kueri ambigu.
-6. **Multimodal RAG (Layout RAG)** (`src/architectures/multimodal_rag.py`):
-   - Ekstraksi deskriptor tata letak visual PDF (tabel data, diagram alur, gambar kerja) untuk memperkaya konteks pencarian teks.
+---
+
+## 🏛️ 6 Arsitektur RAG yang Diuji
+
+| No | Arsitektur | File Sumber | Deskripsi Singkat |
+|:---:|:---|:---|:---|
+| 1 | **Naive RAG (Baseline)** | `src/architectures/naive_rag.py` | Pendekatan standar pencarian vektor kosinus tunggal pada Chroma DB. |
+| 2 | **Hybrid RAG (Dense + BM25)** | `src/architectures/hybrid_rag.py` | Penggabungan pencarian semantik (Chroma) dan leksikal (BM25) dengan algoritma **Reciprocal Rank Fusion (RRF)**. |
+| 3 | **GraphRAG (Entity Expansion)** | `src/architectures/graph_rag.py` | Ekspansi kueri semantik berbasis grafik relasi entitas kampus yang dibangun menggunakan **NetworkX**. |
+| 4 | **Agentic RAG (Tools Agent)** | `src/architectures/agentic_rag.py` | Agent pintar berbasis **LangChain ReAct** yang secara dinamis memanggil alat pencarian dokumen (`cari_dokumen_sop`). |
+| 5 | **Corrective RAG (CRAG)** | `src/architectures/corrective_rag.py` | Alur *self-correction* dengan grader skor kemiripan dan *query rewriter* otomatis untuk kueri ambigu. |
+| 6 | **Multimodal RAG (Layout RAG)** | `src/architectures/multimodal_rag.py` | Ekstraksi deskriptor tata letak visual PDF (tabel data, diagram alur, gambar kerja) untuk memperkaya konteks. |
+
+> 📖 *Dokumentasi teknis lengkap dan alur diagram per arsitektur dapat dibaca di [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).*
 
 ---
 
 ## 📊 Hasil Evaluasi Komparatif Benchmark
 
-Evaluasi dijalankan menggunakan LLM lokal **`llama3.1:8b`** via **Ollama** dengan evaluasi Ragas secara sekuensial pada dataset pertanyaan SOP FSM UNDIP.
+Evaluasi dijalankan menggunakan LLM lokal **`llama3.1:8b`** via **Ollama** dengan dataset uji SOP FSM UNDIP:
 
 | Arsitektur RAG | ROUGE-1 | ROUGE-L | BERTScore | Ragas Faithfulness | Ragas Answer Relevance |
 | :--- | :---: | :---: | :---: | :---: | :---: |
@@ -41,159 +76,162 @@ Evaluasi dijalankan menggunakan LLM lokal **`llama3.1:8b`** via **Ollama** denga
 | ⚠️ **Naive RAG (Baseline)** | 0.4776 | 0.4498 | 0.7640 | 0.2857 | 0.4478 |
 
 ### 🔍 Analisis Temuan Utama:
-
 - **Akurasi Fakta Tertinggi (Faithfulness)**: **Agentic RAG (0.9167)**  
-  *Mengapa?* Penggunaan ReAct tools agent memungkinkan LLM secara aktif melakukan verifikasi fakta berulang ke dalam basis data dokumen, sehingga meminimalisir halusinasi.
+  Penggunaan *ReAct tool agent* memungkinkan LLM melakukan verifikasi fakta berulang ke basis data dokumen sebelum menyusun jawaban, meminimalisir halusinasi.
 - **Relevansi Jawaban Tertinggi**: **GraphRAG (0.7829)**  
-  *Mengapa?* Ekstensi entitas grafik membantu LLM memahami hubungan struktural antar pihak kampus (misal: syarat rekomendasi cuti oleh dosen wali), sehingga jawaban lebih komprehensif.
+  Ekstensi entitas grafik membantu LLM memahami relasi hierarki kampus (misal: keterkaitan cuti akademik dengan persetujuan ketua prodi dan dekan).
 - **Risiko Halusinasi Naive RAG**:  
-  Meskipun Naive RAG memiliki nilai token overlap (ROUGE) yang baik, skor **Faithfulness-nya paling rendah (0.2857)**, menunjukkan risiko tinggi menghasilkan informasi palsu tanpa mekanisme verifikasi.
+  Skor **Faithfulness Naive RAG paling rendah (0.2857)**, menunjukkan risiko tinggi menghasilkan informasi fiktif tanpa mekanisme verifikasi atau re-ranking.
 
 ---
 
-## 🚀 Panduan Setup dari 0 (How to Start from Scratch)
+## 🚀 Panduan Setup di Laptop Baru (Step-by-Step)
 
-Ikuti langkah-langkah berikut untuk menginstall dan menjalankan seluruh sistem dari 0 di perangkat baru.
+Ikuti panduan ini untuk mengklon, menginstall, dan menjalankan project secara langsung di laptop baru:
 
-### 📋 Prasyarat Sistem
-- **OS**: Windows / Linux / macOS
-- **Python**: Versi `3.11` atau `3.12`
+### 📋 1. Prasyarat Sistem
+- **Sistem Operasi**: Windows 10/11, macOS, atau Linux
+- **Python**: Versi `3.11` atau `3.12` (disarankan)
 - **Git**: Terinstall di komputer
-- **Ollama**: Terinstall untuk menjalankan LLM lokal ([https://ollama.com](https://ollama.com))
+- **Ollama**: Terinstall untuk menjalankan LLM lokal ([Download Ollama](https://ollama.com))
 
 ---
 
-### Langkah 1: Clone Repository & Masuk ke Folder
-
+### 📥 2. Clone Repository
 Buka Terminal / Command Prompt / PowerShell:
 
 ```bash
-git clone https://github.com/PIP-Bravo/Chatbot-RAG.git
-cd Chatbot-RAG
+git clone https://github.com/reon01425-glitch/Chatbot-RAG-Comparison.git
+cd Chatbot-RAG-Comparison
 ```
 
 ---
 
-### Langkah 2: Buat & Aktifkan Virtual Environment
+### 🐍 3. Buat & Aktifkan Virtual Environment
 
-#### Menggunakan `venv` (Standar Python):
-```bash
-# Membuat environment
+#### Windows (PowerShell):
+```powershell
 python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
+*(Jika muncul error execution policy di PowerShell, jalankan: `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process` lalu aktifkan kembali).*
 
-# Mengaktifkan di Windows PowerShell:
-.venv\Scripts\Activate.ps1
-
-# Mengaktifkan di Linux/macOS:
+#### Linux / macOS:
+```bash
+python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-#### Atau Menggunakan Conda:
-```bash
-conda create -n chatbot_rag python=3.12 -y
-conda activate chatbot_rag
-```
-
 ---
 
-### Langkah 3: Install Dependencies
-
-Pastikan virtual environment sudah aktif, lalu jalankan:
+### 📦 4. Install Dependencies
+Pastikan virtual environment telah aktif, lalu jalankan:
 
 ```bash
+pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
 ---
 
-### Langkah 4: Setup LLM Lokal (Ollama)
-
-1. Buka aplikasi **Ollama** atau jalankan server Ollama:
+### 🦙 5. Setup LLM Lokal (Ollama)
+1. Jalankan service Ollama di background (atau buka aplikasi desktop Ollama):
    ```bash
    ollama serve
    ```
-2. Di terminal lain, unduh model **Llama 3.1 (8B)**:
+2. Buka terminal baru dan unduh model **Llama 3.1 (8B)**:
    ```bash
    ollama pull llama3.1:8b
    ```
 
 ---
 
-### Langkah 5: Setup Environment File (`.env`)
+### ⚙️ 6. Setup Environment File (`.env`)
+Salin file konfigurasi contoh:
 
-Buat file bernama `.env` di direktori utama project:
+```bash
+# Windows PowerShell:
+Copy-Item .env.example .env
 
-```env
-GITHUB_TOKEN="your_github_personal_access_token_here"
+# Linux / macOS:
+cp .env.example .env
+```
+
+*(Opsional)* Anda dapat menambahkan `GITHUB_TOKEN` atau `GOOGLE_API_KEY` di dalam `.env` jika diperlukan.
+
+---
+
+### 🧠 7. Fine-tuning Embeddings & Membangun Vector Database
+Jalankan script pembuatan model embedding lokal dan ekstraksi dokumen PDF ke Chroma DB:
+
+```bash
+# 1. Fine-tuning model embedding bahasa Indonesia (menghasilkan ./indo_finetuned_embedding/)
+python finetune_embeddings.py
+
+# 2. Ekstrak seluruh PDF di folder data/ dan bangun basis data vektor Chroma
+python embeddings.py
 ```
 
 ---
 
-### Langkah 6: Fine-tuning Embedding & Membangun Vector Database
+### 💻 8. Menjalankan Aplikasi
 
-1. **Jalankan Fine-tuning Embedding Bahasa Indonesia**:
-   ```bash
-   python finetune_embeddings.py
-   ```
-   *Proses ini membuat model embedding lokal pada folder `./indo_finetuned_embedding/`.*
-
-2. **Ekstrak & Simpan Dokumen SOP ke Chroma DB**:
-   ```bash
-   python embeddings.py
-   ```
-   *Proses ini membaca seluruh PDF di folder `data/` dan menyimpannya ke folder `chroma/`.*
-
----
-
-### Langkah 7: Menjalankan Pengujian Query
-
-Anda dapat menguji individual RAG architecture:
-
-#### Menjalankan Naive RAG:
+#### 🌐 A. Menjalankan Interactive Web Dashboard (Streamlit UI):
 ```bash
+streamlit run app.py
+```
+Aplikasi akan terbuka otomatis di browser pada alamat `http://localhost:8501`. Dashboard ini menyediakan:
+- Chatbot interaktif dengan pilihan 6 arsitektur RAG.
+- Live *Execution Trace* (ReAct step, similarity score, latency, and context inspection).
+- Visualisasi radar chart & perbandingan metrik *side-by-side*.
+
+#### 🔍 B. Menguji Kueri via CLI:
+```bash
+# Menguji Naive RAG Baseline:
 python src/architectures/naive_rag.py
-```
 
-#### Menjalankan Hybrid RAG:
-```bash
+# Menguji Hybrid RAG:
 python src/architectures/hybrid_rag.py
-```
 
-#### Menjalankan Agentic RAG:
-```bash
+# Menguji Agentic RAG:
 python src/architectures/agentic_rag.py
-```
 
-#### Menjalankan Query Baseline Asli:
-```bash
+# Query custom via CLI:
 python query_data.py "Bagaimana prosedur pengajuan cuti akademik?"
 ```
 
----
-
-### Langkah 8: Menjalankan Benchmark Evaluasi Semua Arsitektur
-
-Untuk menjalankan pengujian lengkap ROUGE, BERTScore, dan Ragas pada 6 arsitektur:
-
+#### 📈 C. Menjalankan Benchmark Evaluasi Lengkap:
 ```bash
 python evaluate_all.py
 ```
-
-Hasil pengujian akan otomatis ditampilkan di terminal dan disimpan dalam file `comparison_report.csv`.
+Hasil evaluasi komparatif akan ditampilkan di konsol dan disimpan otomatis ke dalam file `comparison_report.csv`.
 
 ---
 
 ## 📂 Struktur Direktori Project
 
 ```
-Chatbot-RAG/
+Chatbot-RAG-Comparison/
 ├── data/                       # Dokumen PDF resmi SOP FSM UNDIP
-├── datasets/                   # Dataset synthetic QA ground truth
+│   ├── SOP_Izin_Cuti_Akademik.pdf
+│   ├── SOP_Legalisir_Ijazah_Dan_Transkrip.pdf
+│   ├── SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf
+│   ├── SOP_Pengajuan_Rekomendasi_Beasiswa.pdf
+│   ├── SOP_Pengisian_IRS.pdf
+│   ├── SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf
+│   └── SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf
+├── datasets/                   # Dataset synthetic QA ground truth untuk evaluasi
+├── docs/
+│   └── ARCHITECTURE.md         # Dokumentasi detail teknis & diagram arsitektur
+├── assets/                     # Aset visual & logo
+│   └── undip_logo.png
 ├── chroma/                     # Basis data vektor Chroma (persist)
 ├── indo_finetuned_embedding/   # Model embedding hasil fine-tuning lokal
 ├── src/
 │   ├── __init__.py
+│   ├── engine.py               # RAG Core Engine & Unified Execution Manager
 │   └── architectures/
+│       ├── __init__.py
 │       ├── naive_rag.py        # 1. Baseline Naive RAG
 │       ├── hybrid_rag.py       # 2. Dense + BM25 Sparse Search + RRF
 │       ├── graph_rag.py        # 3. Entity Graph Expansion (NetworkX)
@@ -201,41 +239,29 @@ Chatbot-RAG/
 │       ├── corrective_rag.py   # 5. Corrective RAG (CRAG)
 │       └── multimodal_rag.py   # 6. PDF Layout & Figure Descriptor RAG
 │
+├── app.py                      # Interactive Streamlit Web UI Dashboard
 ├── finetune_embeddings.py     # Script fine-tuning sentence-transformers
-├── embeddings.py               # Script pembangunan Chroma Vector DB
+├── embeddings.py               # Script pembentukan Chroma Vector DB
 ├── generate_qa.py              # Generator dataset Q&A sintetis
 ├── query_data.py               # Entrypoint query CLI sederhana
 ├── evaluate_all.py             # Runner evaluasi komparatif multi-arsitektur
 ├── comparison_report.csv       # Laporan spreadsheet hasil benchmark
-├── requirements.txt            # Dependency daftar package
+├── requirements.txt            # Daftar dependensi Python
+├── .env.example                # Template konfigurasi environment
+├── LICENSE                     # MIT License
 └── README.md                   # Dokumentasi panduan project
 ```
 
 ---
 
-## 🧠 Knowledge Base Dokumen SOP
-
-Dokumen yang digunakan sebagai basis data pengetahuan meliputi:
-- SOP Pengisian IRS
-- SOP Permohonan Izin Aktif Kuliah Setelah Cuti
-- SOP Permohonan Izin Cuti Akademik
-- SOP Permohonan Izin Keterlambatan Pembayaran UKT
-- SOP Legalisir Ijazah dan Transkrip
-- SOP Pengajuan Beasiswa
-- SOP Pengajuan Proposal Kegiatan Organisasi
-
-*Hak Cipta Dokumen: Fakultas Sains dan Matematika, Universitas Diponegoro.*
-
----
-
 ## 📌 Troubleshooting & FAQ
 
-- **`Error: ConnectionRefusedError / Ollama server not reachable`**:  
-  Pastikan Ollama sudah berjalan di background dengan mengetikkan `ollama serve`.
+- **`ConnectionRefusedError / Ollama server not reachable`**:  
+  Pastikan Ollama sudah aktif di background dengan menjalankan perintah `ollama serve`.
 - **`Model llama3.1:8b not found`**:  
-  Jalankan `ollama pull llama3.1:8b` untuk mengunduh model.
+  Jalankan `ollama pull llama3.1:8b` di terminal untuk mengunduh bobot model.
 - **`ModuleNotFoundError: No module named 'src'`**:  
-  Jalankan script dengan menambahkan PYTHONPATH:
+  Jalankan script dengan menyetel `PYTHONPATH`:
   ```bash
   # PowerShell Windows:
   $env:PYTHONPATH="."; python evaluate_all.py
@@ -243,6 +269,8 @@ Dokumen yang digunakan sebagai basis data pengetahuan meliputi:
   # Linux/macOS:
   PYTHONPATH=. python evaluate_all.py
   ```
+- **Port Streamlit 8501 sudah terpakai**:  
+  Jalankan Streamlit di port lain: `streamlit run app.py --server.port 8502`.
 
 ---
 
@@ -250,4 +278,4 @@ Dokumen yang digunakan sebagai basis data pengetahuan meliputi:
 
 **Alfonso Clement S**  
 - Email: sutancs42@gmail.com  
-- GitHub: [https://github.com/PIP-Bravo](https://github.com/PIP-Bravo)
+- GitHub: [reon01425-glitch](https://github.com/reon01425-glitch) / [PIP-Bravo](https://github.com/PIP-Bravo)

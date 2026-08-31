@@ -214,5 +214,7 @@ __marimo__/
 indo_finetuned_embedding/*.safetensors
 indo_finetuned_embedding/*.bin
 chroma/
+checkpoints/
+
 
 
