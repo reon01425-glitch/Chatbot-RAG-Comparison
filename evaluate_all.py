@@ -76,10 +76,11 @@ def run_ragas_eval(evaluation_data):
         from langchain_ollama import ChatOllama
         from langchain_huggingface import HuggingFaceEmbeddings
 
-        print("Initializing Ragas evaluation with local Ollama llama3.1:8b (sequential 600s timeout)...")
+        model_name = os.getenv("OLLAMA_MODEL", "gemma4:e2b")
+        print(f"Initializing Ragas evaluation with local Ollama {model_name} (sequential 600s timeout)...")
         
         # Prepare evaluation LLM and Embeddings
-        eval_llm = ChatOllama(model="llama3.1:8b", timeout=600)
+        eval_llm = ChatOllama(model=model_name, timeout=600)
         eval_embeddings = HuggingFaceEmbeddings(model_name="./indo_finetuned_embedding")
         
         llm_wrapper = LangchainLLMWrapper(eval_llm)

@@ -21,7 +21,8 @@ def cari_dokumen_sop(query: str) -> str:
 
 class AgenticRAG:
     def __init__(self):
-        self.model = ChatOllama(model="llama3.1:8b")
+        model_name = os.getenv("OLLAMA_MODEL", "gemma4:e2b")
+        self.model = ChatOllama(model=model_name)
         self.tools = [cari_dokumen_sop]
         
         # System prompt for ReAct or OpenAI Tools agent

@@ -15,6 +15,7 @@ from langchain.prompts import ChatPromptTemplate
 from langchain_community.document_loaders import PyPDFDirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from rank_bm25 import BM25Okapi
+from langchain_ollama import ChatOllama
 import pypdf
 
 # Load environment configuration
@@ -166,8 +167,8 @@ class RAGCore:
         """
         if self.is_ollama_available():
             try:
-                from langchain_ollama import ChatOllama
-                model = ChatOllama(model="llama3.1:8b", timeout=15)
+                model_name = os.getenv("OLLAMA_MODEL", "gemma4:e2b")
+                model = ChatOllama(model=model_name, timeout=15)
                 resp = model.invoke(prompt)
                 if resp and resp.content.strip():
                     return resp.content.strip()

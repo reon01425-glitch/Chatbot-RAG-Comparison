@@ -2,7 +2,7 @@
   "__version__": {
     "sentence_transformers": "5.1.1",
     "transformers": "4.56.2",
-    "pytorch": "2.8.0+cpu"
+    "pytorch": "2.13.0"
   },
   "prompts": {
     "query": "",

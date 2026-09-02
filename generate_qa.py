@@ -6,7 +6,8 @@ from langchain_ollama import OllamaLLM
 DATA_PATH = "data"
 DATASET_PATH = "datasets"
 
-llm = OllamaLLM(model="llama2")
+model_name = os.getenv("OLLAMA_MODEL", "gemma4:e2b")
+llm = OllamaLLM(model=model_name)
 
 def split_document(file_path):
     loader = PyPDFLoader(file_path)

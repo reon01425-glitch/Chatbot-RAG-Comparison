@@ -30,7 +30,8 @@ class GraphRAG:
     def __init__(self):
         self.embedding_function = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL_PATH)
         self.db = Chroma(persist_directory=CHROMA_PATH, embedding_function=self.embedding_function)
-        self.model = ChatOllama(model="llama3.1:8b")
+        model_name = os.getenv("OLLAMA_MODEL", "gemma4:e2b")
+        self.model = ChatOllama(model=model_name)
         self.prompt_template = ChatPromptTemplate.from_template(PROMPT_TEMPLATE)
         
         # Build local relationship Graph using NetworkX
