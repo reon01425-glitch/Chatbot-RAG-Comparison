@@ -65,6 +65,12 @@ class RAGCore:
         # Load and chunk documents for BM25 and Multimodal layout indexing
         self._init_bm25_and_layout()
         self._init_knowledge_graph()
+        
+        # Load Workflow Graph (BPMN / State Machine DAG) and Hierarchical Tree Chunker
+        from src.graph_sop.workflow_graph import SOPWorkflowGraph
+        from src.graph_sop.hierarchical_chunker import SOPHierarchicalChunker
+        self.workflow_graph = SOPWorkflowGraph()
+        self.hierarchical_chunker = SOPHierarchicalChunker()
         print("[RAGCore] Initialization complete.")
 
     @classmethod
@@ -774,20 +780,199 @@ class RAGEngine:
             "metrics": metrics
         }
 
-    def query_architecture(self, arch_name: str, query_text: str, k: int = 3, threshold: float = 0.3) -> Dict[str, Any]:
-        """Dispatch query to specified architecture."""
-        norm_name = arch_name.lower()
-        if "naive" in norm_name:
-            return self.execute_naive_rag(query_text, k=k, threshold=threshold)
-        elif "hybrid" in norm_name:
-            return self.execute_hybrid_rag(query_text, k=k, threshold=threshold)
-        elif "graph" in norm_name:
-            return self.execute_graph_rag(query_text, k=k, threshold=threshold)
-        elif "agentic" in norm_name:
-            return self.execute_agentic_rag(query_text, k=k, threshold=threshold)
-        elif "corrective" in norm_name or "crag" in norm_name:
-            return self.execute_crag(query_text, k=k)
-        elif "multimodal" in norm_name:
-            return self.execute_multimodal_rag(query_text, k=k, threshold=threshold)
+    def execute_workflow_graph_rag(self, query_text: str, k: int = 3, threshold: float = 0.3) -> Dict[str, Any]:
+        """7. Workflow GraphRAG (Process / Workflow State-Machine DAG + BPMN Flowchart)"""
+        start_time = time.time()
+        trace = []
+        
+        matched_sop = self.core.workflow_graph.match_sop(query_text)
+        trace.append({
+            "step": "1. Workflow State-Machine Identification",
+            "type": "Graph Process Matching",
+            "detail": f"Identified SOP: {matched_sop['title'] if matched_sop else 'None'} (Graph Root: {matched_sop['id'] if matched_sop else 'N/A'})"
+        })
+        
+        workflow_context = ""
+        mermaid_code = ""
+        if matched_sop:
+            workflow_context = self.core.workflow_graph.get_workflow_context(matched_sop["id"])
+            mermaid_code = self.core.workflow_graph.generate_mermaid_flowchart(matched_sop["id"])
+            trace.append({
+                "step": "2. Sequential Step Traversal (BPMN DAG)",
+                "type": "Topological Workflow Path",
+                "detail": f"Traversed {len(matched_sop['steps'])} ordered steps with swimlane actors, prerequisites, and outputs."
+            })
+            
+        expanded_query = query_text
+        if matched_sop:
+            expanded_query += f" {matched_sop['title']} " + " ".join([s['action'] for s in matched_sop['steps'][:3]])
+            
+        docs = self.core.db.similarity_search(expanded_query, k=k)
+        query_embedding = self.core.embedding_function.embed_query(query_text)
+        
+        scored_results = []
+        for doc in docs:
+            doc_embedding = self.core.embedding_function.embed_query(doc.page_content)
+            sim = float(cosine_similarity([query_embedding], [doc_embedding])[0][0])
+            scored_results.append((doc, sim))
+            
+        scored_results.sort(key=lambda x: x[1], reverse=True)
+        best_doc, best_score = scored_results[0] if scored_results else (None, 0.0)
+        
+        trace.append({
+            "step": "3. Vector Context Alignment",
+            "type": "Similarity Retrieval",
+            "detail": f"Aligned {len(docs)} text chunks from Chroma. Best cosine similarity: {best_score:.4f}"
+        })
+        
+        if not matched_sop and best_score < threshold:
+            answer = "Maaf, prosedur atau informasi terkait pertanyaan Anda tidak ditemukan dalam dokumen SOP resmi FSM UNDIP."
+            sources = []
+            contexts = []
+            scores = []
         else:
-            return self.execute_naive_rag(query_text, k=k, threshold=threshold)
+            sources = [doc.metadata.get("id", os.path.basename(doc.metadata.get("source", "SOP.pdf"))) for doc, _ in scored_results]
+            contexts = [doc.page_content for doc, _ in scored_results]
+            scores = [score for _, score in scored_results]
+            
+            doc_context_text = "\n\n---\n\n".join(contexts)
+            full_context = f"{workflow_context}\n\nKonteks Dokumen Pendukung:\n{doc_context_text}"
+            prompt = PROMPT_TEMPLATE.format(context=full_context, question=query_text)
+            answer = self.core.generate_synthesis(prompt, contexts, query_text)
+            
+            trace.append({
+                "step": "4. Procedural Workflow Synthesis",
+                "type": "LLM Synthesis + BPMN Output",
+                "detail": f"Synthesized chronologically ordered answer with interactive visual Mermaid diagram."
+            })
+            
+        total_latency = time.time() - start_time
+        metrics = self.calculate_metrics(query_text, answer, contexts if (matched_sop or best_score >= threshold) else [], scores, total_latency)
+        
+        return {
+            "architecture": "Workflow GraphRAG (Process DAG)",
+            "answer": answer,
+            "sources": sources,
+            "contexts": contexts,
+            "scores": scores,
+            "mermaid": mermaid_code,
+            "matched_sop": matched_sop["title"] if matched_sop else None,
+            "raw_docs": [doc.metadata for doc, _ in scored_results] if scored_results else [],
+            "trace": trace,
+            "metrics": metrics
+        }
+
+    def execute_hierarchical_rag(self, query_text: str, k: int = 3, threshold: float = 0.3) -> Dict[str, Any]:
+        """8. Hierarchical Tree RAG (Parent Document Tree + Child Step Chunking)"""
+        start_time = time.time()
+        trace = []
+        
+        docs = self.core.db.similarity_search(query_text, k=k)
+        query_embedding = self.core.embedding_function.embed_query(query_text)
+        
+        scored_results = []
+        for doc in docs:
+            doc_embedding = self.core.embedding_function.embed_query(doc.page_content)
+            sim = float(cosine_similarity([query_embedding], [doc_embedding])[0][0])
+            scored_results.append((doc, sim))
+            
+        scored_results.sort(key=lambda x: x[1], reverse=True)
+        best_doc, best_score = scored_results[0] if scored_results else (None, 0.0)
+        
+        trace.append({
+            "step": "1. Leaf Chunk Vector Retrieval",
+            "type": "Bottom-Up Traversal",
+            "detail": f"Retrieved top-{len(docs)} chunks. Best similarity: {best_score:.4f}"
+        })
+        
+        if best_score < threshold:
+            answer = "Maaf, rincian hierarki atau informasi terkait pertanyaan Anda tidak ditemukan dalam dokumen SOP resmi."
+            sources = []
+            contexts = []
+            scores = []
+        else:
+            top_doc = scored_results[0][0]
+            source_file = os.path.basename(top_doc.metadata.get("source", ""))
+            
+            tree_context = ""
+            if source_file in self.core.hierarchical_chunker.document_tree:
+                tree_context = self.core.hierarchical_chunker.get_hierarchical_context_for_doc(source_file)
+                trace.append({
+                    "step": "2. Parent Document Tree Expansion",
+                    "type": "Top-Down Context Injection",
+                    "detail": f"Expanded root node: {source_file} with full procedural tree & leaf metadata."
+                })
+            else:
+                tree_context = "\n\n---\n\n".join([d.page_content for d, _ in scored_results])
+                
+            sources = [doc.metadata.get("id", source_file) for doc, _ in scored_results]
+            contexts = [doc.page_content for doc, _ in scored_results]
+            scores = [score for _, score in scored_results]
+            
+            prompt = PROMPT_TEMPLATE.format(context=tree_context, question=query_text)
+            answer = self.core.generate_synthesis(prompt, contexts, query_text)
+            
+            trace.append({
+                "step": "3. Tree-Synthesized Response",
+                "type": "Hierarchical Answer",
+                "detail": f"Generated answer retaining complete hierarchical structure and attributes."
+            })
+            
+        total_latency = time.time() - start_time
+        metrics = self.calculate_metrics(query_text, answer, contexts if best_score >= threshold else [], scores, total_latency)
+        
+        return {
+            "architecture": "Hierarchical Tree RAG",
+            "answer": answer,
+            "sources": sources,
+            "contexts": contexts,
+            "scores": scores,
+            "raw_docs": [doc.metadata for doc, _ in scored_results] if scored_results else [],
+            "trace": trace,
+            "metrics": metrics
+        }
+
+    def query_architecture(self, arch_name: str, query_text: str, k: int = 3, threshold: float = 0.3) -> Dict[str, Any]:
+        """Dispatch query to specified architecture and guarantee visual flowchart attachment."""
+        norm_name = arch_name.lower()
+        if "workflow" in norm_name or "bpmn" in norm_name:
+            result = self.execute_workflow_graph_rag(query_text, k=k, threshold=threshold)
+        elif "hierarchical" in norm_name or "tree" in norm_name:
+            result = self.execute_hierarchical_rag(query_text, k=k, threshold=threshold)
+        elif "naive" in norm_name:
+            result = self.execute_naive_rag(query_text, k=k, threshold=threshold)
+        elif "hybrid" in norm_name:
+            result = self.execute_hybrid_rag(query_text, k=k, threshold=threshold)
+        elif "graph" in norm_name:
+            result = self.execute_graph_rag(query_text, k=k, threshold=threshold)
+        elif "agentic" in norm_name:
+            result = self.execute_agentic_rag(query_text, k=k, threshold=threshold)
+        elif "corrective" in norm_name or "crag" in norm_name:
+            result = self.execute_crag(query_text, k=k)
+        elif "multimodal" in norm_name:
+            result = self.execute_multimodal_rag(query_text, k=k, threshold=threshold)
+        else:
+            result = self.execute_naive_rag(query_text, k=k, threshold=threshold)
+
+        # Universal Diagram & SOP Matching Layer (Ciri khas sistem RAG SOP)
+        # Ensure any architecture returning an answer about an SOP gets the flowchart & BPMN data attached
+        matched_sop = self.core.workflow_graph.match_sop(query_text)
+        if not matched_sop and result.get("sources"):
+            # Try to match from top retrieved document source
+            top_src = result["sources"][0]
+            for s_id, meta in self.core.workflow_graph.sop_metadata.items():
+                if meta["title"].lower() in top_src.lower() or s_id.lower() in top_src.lower():
+                    matched_sop = meta
+                    break
+
+        if matched_sop:
+            result["matched_sop"] = matched_sop["title"]
+            result["sop_id"] = matched_sop["id"]
+            result["sop_max_duration"] = matched_sop["max_duration"]
+            result["mermaid_standard"] = self.core.workflow_graph.generate_mermaid_flowchart(matched_sop["id"], mode="standard")
+            result["mermaid_swimlane"] = self.core.workflow_graph.generate_mermaid_flowchart(matched_sop["id"], mode="swimlane")
+            result["mermaid_detailed"] = self.core.workflow_graph.generate_mermaid_flowchart(matched_sop["id"], mode="detailed")
+            if not result.get("mermaid"):
+                result["mermaid"] = result["mermaid_standard"]
+
+        return result

@@ -1,0 +1,9 @@
+Arsitektur,Model Retrieval,Tipe Representasi,Struktur Graf,Mitigasi Halusinasi,Format Luaran
+Naive RAG (Baseline),Dense Vector Cosine,Fixed-size (1700 chars),None (Flat Chunks),Threshold Filter (0.30),Teks Naratif
+Hybrid RAG,Dense + Sparse BM25 (RRF),Fixed-size Tokenized,None (Inverted Index),Rank Fusion (k=60),Teks Naratif
+GraphRAG (Entity),Graph Query Expansion,Entity-Enriched Chunks,Undirected Relation Graph,Relation Header Injection,Teks + Hubungan Entitas
+Agentic RAG,ReAct Tool Execution,On-demand Dynamic Lookup,None (Tool Invocation),Multi-hop Verification Loop,Teks + Thought Tracing
+Corrective RAG (CRAG),Self-Graded Adaptive,Evaluated Confidence Chunks,None (Decision Boundary),Grader + Query Rewriting,Teks + Confidence Grade
+Multimodal RAG,Layout-Aware Embedding,Visual + Text Chunks,Page-Element Hierarchy,Layout Flow Metadata,Teks + Layout Metadata
+Hierarchical Tree RAG,Bottom-up Leaf Search,Parent-Child Tree Chunker,Document Tree Hierarchy,Parent Context Fusion,Teks Terstruktur Pohon
+Workflow GraphRAG,Topological State Machine,Procedural Step DAG,Directed Process Graph (DAG),Topological Step Grounding,Teks + Bagan Alur BPMN/Mermaid

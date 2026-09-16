@@ -5,3 +5,5 @@ GraphRAG (Entity Expansion),0.4881,0.4693,0.7737,0.75,0.7829
 Agentic RAG (Tools Agent),0.4888,0.4612,0.764,0.9167,0.738
 Corrective RAG (CRAG),0.4702,0.4429,0.7596,0.625,0.6822
 Multimodal RAG (Layout RAG),0.4445,0.4126,0.754,0.75,0.3418
+Hierarchical Tree RAG,0.3487,0.2926,0.6954,0.9465,0.7575
+Workflow GraphRAG (Process DAG),0.3568,0.3096,0.6929,0.8377,0.7477

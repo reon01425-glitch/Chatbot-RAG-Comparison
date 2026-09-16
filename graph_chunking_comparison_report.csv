@@ -1,0 +1,5 @@
+Architecture,ROUGE-1,ROUGE-L,BERTScore,Ragas Faithfulness,Ragas Answer Relevance,Avg Latency (s)
+Naive RAG (Baseline),0.1349,0.1146,0.6847,1.0,0.6149,0.118
+GraphRAG (Entity Expansion),0.384,0.3381,0.7231,0.9332,0.8014,16.47
+Hierarchical Tree RAG,0.3487,0.2926,0.6954,0.9465,0.7575,12.943
+Workflow GraphRAG (Process DAG),0.3568,0.3096,0.6929,0.8377,0.7477,15.718

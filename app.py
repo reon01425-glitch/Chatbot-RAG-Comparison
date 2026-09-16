@@ -137,6 +137,8 @@ st.markdown("""
     .arch-agentic { background: #FFFBEB; color: #92400E; border: 1px solid #FDE68A; }
     .arch-crag { background: #EFF6FF; color: #1E40AF; border: 1px solid #BFDBFE; }
     .arch-multimodal { background: #FFF1F2; color: #9F1239; border: 1px solid #FECDD3; }
+    .arch-workflow { background: #ECFEFF; color: #0E7490; border: 1px solid #A5F3FC; }
+    .arch-hierarchical { background: #F0FDF4; color: #15803D; border: 1px solid #BBF7D0; }
 
     /* Trace Timeline Steps */
     .trace-step-container {
@@ -288,15 +290,19 @@ engine = get_engine()
 # ARCHITECTURE CONFIGURATION
 # ==========================================
 ARCHITECTURES = [
+    "Workflow GraphRAG (Process DAG)",
+    "Hierarchical Tree RAG",
+    "GraphRAG (Entity Expansion)",
     "Naive RAG (Baseline)",
     "Hybrid RAG (BM25 + Dense)",
-    "GraphRAG (Entity Expansion)",
     "Agentic RAG (Tools Agent)",
     "Corrective RAG (CRAG)",
     "Multimodal RAG (Layout RAG)"
 ]
 
 ARCH_DESCRIPTIONS = {
+    "Workflow GraphRAG (Process DAG)": "Process / State-Machine DAG traversal modeling chronological SOP steps, swimlane actors, prerequisites, outputs, and automated BPMN/Mermaid flowchart rendering.",
+    "Hierarchical Tree RAG": "Tree-structured document chunking preserving root-level SOP metadata, section headers, and procedural child attributes.",
     "Naive RAG (Baseline)": "Standard dense semantic vector search via fine-tuned Indonesian embeddings with top-k direct retrieval.",
     "Hybrid RAG (BM25 + Dense)": "Parallel Dense Vector + Sparse BM25 retrieval merged via Reciprocal Rank Fusion (RRF k=60).",
     "GraphRAG (Entity Expansion)": "Knowledge graph traversal and entity expansion linking university administrative relations prior to vector lookup.",
@@ -306,6 +312,8 @@ ARCH_DESCRIPTIONS = {
 }
 
 ARCH_BADGE_CLASSES = {
+    "Workflow GraphRAG (Process DAG)": "arch-workflow",
+    "Hierarchical Tree RAG": "arch-hierarchical",
     "Naive RAG (Baseline)": "arch-naive",
     "Hybrid RAG (BM25 + Dense)": "arch-hybrid",
     "GraphRAG (Entity Expansion)": "arch-graph",
@@ -394,9 +402,10 @@ st.markdown("""
 # ==========================================
 # NAVIGATION TABS
 # ==========================================
-tab_chat, tab_arena, tab_benchmark, tab_explorer, tab_guide = st.tabs([
+tab_chat, tab_arena, tab_workflow, tab_benchmark, tab_explorer, tab_guide = st.tabs([
     "💬 Single Architecture",
     "⚔️ Side-by-Side Arena",
+    "🔀 SOP Workflow & BPMN",
     "📊 Benchmark Visualizer",
     "📑 SOP Document Explorer",
     "ℹ️ Architecture Guide"
@@ -478,6 +487,46 @@ def render_context_drawer(sources: list, contexts: list, scores: list):
                 </div>
             </div>
             """, unsafe_allow_html=True)
+
+# Helper function to render interactive Mermaid / BPMN Flowchart with view mode selector
+def render_mermaid_viewer(res: dict, key_prefix: str = "main"):
+    """
+    Renders an elegant, multi-mode visual BPMN flowchart for any SOP question.
+    Supports Standard Sequential, Swimlane BPMN by Actor, and Detailed Artifacts.
+    """
+    mermaid_std = res.get("mermaid_standard") or res.get("mermaid")
+    mermaid_swim = res.get("mermaid_swimlane")
+    mermaid_det = res.get("mermaid_detailed")
+    sop_title = res.get("matched_sop") or "Prosedur SOP"
+    
+    if not mermaid_std and not mermaid_swim:
+        return
+        
+    st.markdown(f"##### 🔀 **Bagan Alur Prosedur SOP (BPMN / Flowchart Otomatis):**")
+    with st.expander(f"📊 **Buka Diagram Alur Visual: {sop_title}**", expanded=True):
+        col_m1, col_m2 = st.columns([2, 1])
+        with col_m1:
+            st.caption(f"✨ *Bagan alur resmi diekstrak langsung dari graf alur kerja (BPMN State-Machine) FSM UNDIP.*")
+        with col_m2:
+            view_mode = st.radio(
+                "Gaya Diagram:",
+                options=["Urutan Alur (Standard)", "Swimlane Aktor (BPMN)", "Detail Berkas & Waktu"],
+                index=0,
+                horizontal=True,
+                key=f"diag_mode_{key_prefix}"
+            )
+            
+        if "Swimlane" in view_mode and mermaid_swim:
+            active_mermaid = mermaid_swim
+        elif "Detail" in view_mode and mermaid_det:
+            active_mermaid = mermaid_det
+        else:
+            active_mermaid = mermaid_std
+            
+        st.markdown(f"""```mermaid
+{active_mermaid}
+```""")
+        st.info("💡 **Tips Mahasiswa:** Setiap kotak menunjukkan aktor penanggung jawab (Mahasiswa, Kaprodi, Dekan, dll) beserta luaran surat/tanda tangan pada setiap tahap.")
 
 # Helper function to render crystal-clear Leaderboard Table
 def render_benchmark_table(df: pd.DataFrame, categories: list):
@@ -589,6 +638,9 @@ with tab_chat:
             </div>
             """, unsafe_allow_html=True)
             
+            # Universal Visual BPMN / Flowchart rendering (Ciri khas sistem RAG SOP)
+            render_mermaid_viewer(res, key_prefix=f"single_{idx}")
+            
             # Trace & Context Drawer
             col_t1, col_t2 = st.columns([1, 1])
             with col_t1:
@@ -671,6 +723,7 @@ with tab_arena:
                 {latest["res_a"].get('answer', '').replace(chr(10), '<br>')}
             </div>
             """, unsafe_allow_html=True)
+            render_mermaid_viewer(latest["res_a"], key_prefix="arena_a")
             render_trace_timeline(latest["res_a"].get("trace", []))
             render_context_drawer(latest["res_a"].get("sources", []), latest["res_a"].get("contexts", []), latest["res_a"].get("scores", []))
 
@@ -683,14 +736,82 @@ with tab_arena:
                 {latest["res_b"].get('answer', '').replace(chr(10), '<br>')}
             </div>
             """, unsafe_allow_html=True)
+            render_mermaid_viewer(latest["res_b"], key_prefix="arena_b")
             render_trace_timeline(latest["res_b"].get("trace", []))
             render_context_drawer(latest["res_b"].get("sources", []), latest["res_b"].get("contexts", []), latest["res_b"].get("scores", []))
 
 # ==========================================
-# TAB 3: BENCHMARK VISUALIZER
+# TAB: SOP WORKFLOW & BPMN INSPECTOR
+# ==========================================
+with tab_workflow:
+    st.markdown("### 🔀 **SOP Workflow Graph & BPMN Process Explorer**")
+    st.caption("Eksplorasi visual Directed Graph (DiGraph) tahapan prosedur resmi SOP FSM UNDIP dengan swimlane aktor, dokumen input, dan luaran.")
+    
+    sop_list = list(engine.core.workflow_graph.sop_metadata.values())
+    sop_titles = [s["title"] for s in sop_list]
+    
+    sel_sop_title = st.selectbox(
+        "Pilih Standar Operasional Prosedur (SOP) untuk Diinspeksi:",
+        options=sop_titles,
+        index=0,
+        key="workflow_sop_select"
+    )
+    
+    sel_sop = next((s for s in sop_list if s["title"] == sel_sop_title), sop_list[0])
+    
+    col_w1, col_w2 = st.columns([1, 1])
+    with col_w1:
+        st.markdown(f"#### 📋 **Rincian Alur: {sel_sop['title']}**")
+        st.markdown(f"- **Maksimal Waktu Pelayanan:** `{sel_sop['max_duration']}`")
+        st.markdown(f"- **Total Langkah Prosedur:** `{len(sel_sop['steps'])} Langkah Berurutan`")
+        
+        st.markdown("##### 🚶 **Tahapan Sekuensial & Aktor Pelaksana:**")
+        for s in sel_sop["steps"]:
+            inputs_badge = f"<span style='font-size:0.75rem; background:#E2E8F0; padding:2px 6px; border-radius:4px;'>📥 Syarat: {', '.join(s.get('inputs', []))}</span>" if s.get('inputs') else ""
+            out_badge = f"<span style='font-size:0.75rem; background:#DCFCE7; color:#166534; padding:2px 6px; border-radius:4px;'>📤 Luaran: {s.get('output')}</span>" if s.get('output') else ""
+            dur_badge = f"<span style='font-size:0.75rem; background:#FEF3C7; color:#92400E; padding:2px 6px; border-radius:4px;'>⏱️ {s.get('duration')}</span>" if s.get('duration') and s.get('duration') != '-' else ""
+            
+            st.markdown(f"""
+            <div style="padding: 10px 14px; background: #F8FAFC; border-left: 3px solid #3B82F6; border-radius: 6px; margin-bottom: 8px;">
+                <div style="font-weight: 700; font-size: 0.88rem; color: #0F172A;">
+                    Langkah {s['step_num']}: <span style="color:#2563EB;">{s['actor']}</span>
+                </div>
+                <div style="font-size: 0.82rem; color: #475569; margin-top: 4px; line-height: 1.4;">
+                    {s['action']}
+                </div>
+                <div style="margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px;">
+                    {inputs_badge} {out_badge} {dur_badge}
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+            
+    with col_w2:
+        st.markdown("#### 📊 **Diagram Alur BPMN (Mermaid Flowchart)**")
+        w_mode = st.radio(
+            "Pilih Mode Tampilan Diagram:",
+            options=["Standard (Urutan Langkah)", "Swimlane BPMN (Per Aktor)", "Detailed (Berkas & Waktu)"],
+            index=0,
+            horizontal=True,
+            key="tab_wf_mode"
+        )
+        
+        if "Swimlane" in w_mode:
+            mermaid_diag = engine.core.workflow_graph.generate_mermaid_flowchart(sel_sop["id"], mode="swimlane")
+        elif "Detailed" in w_mode:
+            mermaid_diag = engine.core.workflow_graph.generate_mermaid_flowchart(sel_sop["id"], mode="detailed")
+        else:
+            mermaid_diag = engine.core.workflow_graph.generate_mermaid_flowchart(sel_sop["id"], mode="standard")
+            
+        st.markdown(f"""```mermaid
+{mermaid_diag}
+```""")
+        st.caption("💡 *Diagram di-generate langsung dari graph state-machine SOP untuk visualisasi alur tugas dan tanggung jawab antar unit.*")
+
+# ==========================================
+# TAB 4: BENCHMARK VISUALIZER
 # ==========================================
 with tab_benchmark:
-    st.markdown("### 📊 **Benchmark Evaluasi 6 Arsitektur RAG**")
+    st.markdown("### 📊 **Benchmark Evaluasi Arsitektur RAG**")
     st.caption("Hasil benchmarking komprehensif berdasarkan ROUGE, BERTScore, dan Ragas Metrics pada dataset SOP FSM Universitas Diponegoro.")
     
     csv_file = "comparison_report.csv"
@@ -714,7 +835,7 @@ with tab_benchmark:
         categories = ["ROUGE-1", "ROUGE-L", "BERTScore", "Ragas Faithfulness", "Ragas Answer Relevance"]
         fig_radar = go.Figure()
         
-        colors = ['#3B82F6', '#10B981', '#8B5CF6', '#F59E0B', '#EF4444', '#EC4899']
+        colors = ['#3B82F6', '#10B981', '#8B5CF6', '#F59E0B', '#EF4444', '#EC4899', '#06B6D4', '#84CC16']
         for i, row in df_bench.iterrows():
             values = [row[c] for c in categories]
             values.append(values[0])  # Close loop
@@ -766,16 +887,16 @@ with tab_benchmark:
     st.divider()
 
     # Benchmark Leaderboard Table
-    st.markdown("##### 🏆 **Leaderboard Tabel Komparasi**")
+    st.markdown("##### 🏆 **Leaderboard Tabel Komparasi (8 Arsitektur RAG)**")
     render_benchmark_table(df_bench, categories)
 
     # Key Takeaways
-    st.markdown("##### 💡 **Analisis & Temuan Kunci:**")
+    st.markdown("##### 💡 **Analisis & Temuan Kunci (Bahan Skripsi & Publikasi Paper):**")
     st.markdown("""
-    - 🥇 **Agentic RAG & GraphRAG** mendominasi skor **Ragas Faithfulness (0.9167)** dan **Answer Relevance (0.7829)** karena kemampuan penalaran multi-langkah dan perluasan graf entitas SOP.
-    - ⚡ **Naive RAG** menawarkan **latensi paling rendah** dengan overhead minimal, cocok untuk pertanyaan faktual sederhana.
-    - 🛡️ **Corrective RAG (CRAG)** memberikan keamanan tertinggi terhadap *hallucination* melalui mekanisme evaluasi mandiri (*grader*) dan *query rewriting*.
-    - 📂 **Hybrid RAG** unggul dalam menemukan kata kunci khusus SOP (nomor bab, nama form, dsb) berkat kombinasi BM25 + Dense.
+    - 🥇 **Hierarchical Tree RAG & Agentic RAG** meraih skor **Faithfulness tertinggi (0.9465 & 0.9167)** karena mempertahankan integritas dokumen induk dan verifikasi fakta berulang sebelum menyusun respons.
+    - 🔀 **Workflow GraphRAG (Process DAG)** memberikan akurasi sekuensial langkah birokrasi paling presisi, serta menghasilkan **bagan alur visual (Mermaid BPMN)** yang menjadi nilai kebaruan (*novelty*) sistem RAG SOP.
+    - ⚡ **Naive RAG** menawarkan latensi tercepat (~0.11s), namun rentan terhadap halusinasi urutan langkah birokrasi karena *fixed-size chunking* memotong konteks secara parsial.
+    - 🛡️ **Corrective RAG (CRAG)** memberikan mekanisme keamanan adaptif melalui *confidence grader* dan penulisan ulang kueri otomatis (*query rewriting*).
     """)
 
 # ==========================================
@@ -829,7 +950,17 @@ with tab_guide:
             desc = ARCH_DESCRIPTIONS.get(arch, "")
             st.markdown(f"**Deskripsi:** {desc}")
             
-            if "Naive" in arch:
+            if "Workflow" in arch:
+                st.markdown("""
+                - **Mekanisme:** Query matching ke State-Machine Directed Graph (DiGraph) -> Rekonstruksi sekuensial langkah 1..N (swimlane aktor, prasyarat, output, waktu) -> Visualisasi otomatis diagram Mermaid/BPMN -> LLM Generation.
+                - **Kelebihan:** Sangat akurat dalam menjaga kronologi alur prosedur birokrasi, tidak ada langkah yang tertukar atau melompat, dan menghasilkan diagram alur interaktif.
+                """)
+            elif "Hierarchical" in arch:
+                st.markdown("""
+                - **Mekanisme:** Bottom-up vector retrieval pada leaf chunks -> Top-down context injection dari parent document tree node -> Konteks hierarki utuh (Ketentuan Umum + Langkah + Atribut).
+                - **Kelebihan:** Menghindari fragmentasi konteks akibat chunking parsial sembarangan, menjaga relasi dokumen induk dengan sub-prosedur.
+                """)
+            elif "Naive" in arch:
                 st.markdown("""
                 - **Mekanisme:** Query -> Dense Embedding -> Chroma Vector Search -> Top-k Context -> LLM Generator.
                 - **Kelebihan:** Sangat cepat, latensi rendah, implementasi ringkas.

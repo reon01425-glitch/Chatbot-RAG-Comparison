@@ -189,3 +189,38 @@ Pengujian dilakukan menggunakan dataset sintetis ground-truth SOP FSM UNDIP deng
 | **Semantic Similarity** | **BERTScore (F1)** | Kemiripan representasi semantik token-level berbasis transformer. |
 | **RAG Evaluation** | **Ragas Faithfulness** | Proporsi klaim faktual dalam jawaban yang didukung oleh konteks retrieval (meminimalisir halusinasi). |
 | **RAG Evaluation** | **Ragas Answer Relevance** | Tingkat kesesuaian dan kelengkapan jawaban terhadap kueri pengguna. |
+
+---
+
+### 7. Workflow GraphRAG (Process / Workflow State-Machine DAG)
+* **File Sumber**: `src/architectures/workflow_graph_rag.py` | `src/graph_sop/workflow_graph.py` | `RAGEngine.execute_workflow_graph_rag`
+
+#### Mekanisme Kerja:
+Mengatasi batasan graf entitas biasa yang tidak memiliki arah kronologis. Memetakan langkah-langkah SOP sebagai Directed Acyclic Graph (DAG) state-machine:
+1. **Process Matching**: Mencocokkan kueri dengan simpul SOP induk (root).
+2. **Sequential Step Traversal**: Menelusuri seluruh simpul langkah secara topologis ($L_1 \to L_2 \to \dots \to L_N$).
+3. **Swimlane Actor & Artifact Extraction**: Mengekstrak aktor pelaksana, dokumen prasyarat, dan dokumen luaran per tahap.
+4. **Automated BPMN / Mermaid Generation**: Menghasilkan sintaks bagan alur Mermaid yang dapat dirender visual interaktif pada UI.
+
+```mermaid
+flowchart LR
+    Q[Query Pengguna] --> Match[Process SOP Matcher]
+    Match --> DAG[(Directed Workflow Graph)]
+    DAG --> Seq[Topological Step Traversal]
+    Seq --> Mermaid[BPMN / Flowchart Generator]
+    Seq --> Context[Sequential Context Injection]
+    Context --> LLM[LLM Synthesis Engine]
+    LLM --> Out[Jawaban Runtut + Diagram Alur Visual]
+    Mermaid --> Out
+```
+
+---
+
+### 8. Hierarchical Tree RAG (Parent Document Tree Chunking)
+* **File Sumber**: `src/architectures/hierarchical_rag.py` | `src/graph_sop/hierarchical_chunker.py` | `RAGEngine.execute_hierarchical_rag`
+
+#### Mekanisme Kerja:
+1. **Hierarchical Document Parsing**: Memecah SOP ke dalam struktur pohon relasional: Root (Dokumen) $\to$ Branch (Bagian/Ketentuan Umum) $\to$ Leaf (Sub-Langkah Prosedur).
+2. **Bottom-up Retrieval**: Mencari kemiripan vektor pada leaf chunks.
+3. **Top-down Context Injection**: Menyuntikkan kembali ringkasan dokumen induk dan relasi hierarki ke dalam prompt generasi untuk mencegah *parent-orphan chunking*.
+
