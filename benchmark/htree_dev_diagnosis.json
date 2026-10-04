@@ -1,0 +1,718 @@
+{
+  "base": {
+    "model": "base",
+    "n": 20,
+    "accuracies": {
+      "top1": 0.65,
+      "vote": 0.45,
+      "sum": 0.45,
+      "v0": 0.6
+    },
+    "counts": {
+      "top1": 13,
+      "vote": 9,
+      "sum": 9,
+      "v0": 12
+    },
+    "details": [
+      {
+        "id": "DEV-CUTI-1",
+        "expected": "SOP_Izin_Cuti_Akademik.pdf",
+        "top1": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "vote": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "sum": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "v0": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "ok_top1": false,
+        "ok_vote": false,
+        "ok_sum": false,
+        "ok_v0": false,
+        "leaves": [
+          "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:1 (0.487)",
+          "SOP_Izin_Cuti_Akademik.pdf:1 (0.482)",
+          "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:2 (0.476)"
+        ]
+      },
+      {
+        "id": "DEV-CUTI-2",
+        "expected": "SOP_Izin_Cuti_Akademik.pdf",
+        "top1": "SOP_Izin_Cuti_Akademik.pdf",
+        "vote": "SOP_Izin_Cuti_Akademik.pdf",
+        "sum": "SOP_Izin_Cuti_Akademik.pdf",
+        "v0": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+        "ok_top1": true,
+        "ok_vote": true,
+        "ok_sum": true,
+        "ok_v0": false,
+        "leaves": [
+          "SOP_Izin_Cuti_Akademik.pdf:1 (0.541)",
+          "SOP_Izin_Cuti_Akademik.pdf:2 (0.537)",
+          "SOP_Izin_Cuti_Akademik.pdf:3 (0.528)"
+        ]
+      },
+      {
+        "id": "DEV-CUTI-3",
+        "expected": "SOP_Izin_Cuti_Akademik.pdf",
+        "top1": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+        "vote": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+        "sum": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+        "v0": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+        "ok_top1": false,
+        "ok_vote": false,
+        "ok_sum": false,
+        "ok_v0": false,
+        "leaves": [
+          "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf:1 (0.379)",
+          "SOP_Izin_Cuti_Akademik.pdf:4 (0.320)",
+          "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf:3 (0.316)"
+        ]
+      },
+      {
+        "id": "DEV-AKT-1",
+        "expected": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+        "top1": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+        "vote": "SOP_Izin_Cuti_Akademik.pdf",
+        "sum": "SOP_Izin_Cuti_Akademik.pdf",
+        "v0": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+        "ok_top1": true,
+        "ok_vote": false,
+        "ok_sum": false,
+        "ok_v0": true,
+        "leaves": [
+          "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf:1 (0.427)",
+          "SOP_Izin_Cuti_Akademik.pdf:1 (0.392)",
+          "SOP_Izin_Cuti_Akademik.pdf:7 (0.390)"
+        ]
+      },
+      {
+        "id": "DEV-AKT-2",
+        "expected": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+        "top1": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+        "vote": "SOP_Izin_Cuti_Akademik.pdf",
+        "sum": "SOP_Izin_Cuti_Akademik.pdf",
+        "v0": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+        "ok_top1": true,
+        "ok_vote": false,
+        "ok_sum": false,
+        "ok_v0": true,
+        "leaves": [
+          "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf:1 (0.507)",
+          "SOP_Izin_Cuti_Akademik.pdf:4 (0.458)",
+          "SOP_Izin_Cuti_Akademik.pdf:1 (0.452)"
+        ]
+      },
+      {
+        "id": "DEV-AKT-3",
+        "expected": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+        "top1": "SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf",
+        "vote": "SOP_Izin_Cuti_Akademik.pdf",
+        "sum": "SOP_Izin_Cuti_Akademik.pdf",
+        "v0": "SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf",
+        "ok_top1": false,
+        "ok_vote": false,
+        "ok_sum": false,
+        "ok_v0": false,
+        "leaves": [
+          "SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf:1 (0.468)",
+          "SOP_Izin_Cuti_Akademik.pdf:1 (0.424)",
+          "SOP_Izin_Cuti_Akademik.pdf:2 (0.420)"
+        ]
+      },
+      {
+        "id": "DEV-UKT-1",
+        "expected": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "top1": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "vote": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "sum": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "v0": "SOP_Pengisian_IRS.pdf",
+        "ok_top1": true,
+        "ok_vote": true,
+        "ok_sum": true,
+        "ok_v0": false,
+        "leaves": [
+          "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:5 (0.362)",
+          "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:7 (0.357)",
+          "SOP_Pengisian_IRS.pdf:3 (0.354)"
+        ]
+      },
+      {
+        "id": "DEV-UKT-2",
+        "expected": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "top1": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "vote": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "sum": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "v0": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "ok_top1": true,
+        "ok_vote": true,
+        "ok_sum": true,
+        "ok_v0": true,
+        "leaves": [
+          "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:9 (0.395)",
+          "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:8 (0.361)",
+          "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:11 (0.349)"
+        ]
+      },
+      {
+        "id": "DEV-UKT-3",
+        "expected": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "top1": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "vote": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "sum": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "v0": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "ok_top1": true,
+        "ok_vote": true,
+        "ok_sum": true,
+        "ok_v0": true,
+        "leaves": [
+          "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:11 (0.575)",
+          "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:10 (0.555)",
+          "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:2 (0.547)"
+        ]
+      },
+      {
+        "id": "DEV-IRS-1",
+        "expected": "SOP_Pengisian_IRS.pdf",
+        "top1": "SOP_Pengisian_IRS.pdf",
+        "vote": "SOP_Pengisian_IRS.pdf",
+        "sum": "SOP_Pengisian_IRS.pdf",
+        "v0": "SOP_Pengisian_IRS.pdf",
+        "ok_top1": true,
+        "ok_vote": true,
+        "ok_sum": true,
+        "ok_v0": true,
+        "leaves": [
+          "SOP_Pengisian_IRS.pdf:2 (0.388)",
+          "SOP_Pengisian_IRS.pdf:3 (0.372)",
+          "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:2 (0.362)"
+        ]
+      },
+      {
+        "id": "DEV-IRS-2",
+        "expected": "SOP_Pengisian_IRS.pdf",
+        "top1": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "vote": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "sum": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "v0": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "ok_top1": false,
+        "ok_vote": false,
+        "ok_sum": false,
+        "ok_v0": false,
+        "leaves": [
+          "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:2 (0.493)",
+          "SOP_Izin_Cuti_Akademik.pdf:2 (0.471)",
+          "SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf:4 (0.469)"
+        ]
+      },
+      {
+        "id": "DEV-IRS-3",
+        "expected": "SOP_Pengisian_IRS.pdf",
+        "top1": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "vote": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "sum": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "v0": "SOP_Pengisian_IRS.pdf",
+        "ok_top1": false,
+        "ok_vote": false,
+        "ok_sum": false,
+        "ok_v0": true,
+        "leaves": [
+          "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:10 (0.399)",
+          "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:2 (0.367)",
+          "SOP_Pengisian_IRS.pdf:6 (0.366)"
+        ]
+      },
+      {
+        "id": "DEV-LEG-1",
+        "expected": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+        "top1": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+        "vote": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+        "sum": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+        "v0": "SOP_Izin_Cuti_Akademik.pdf",
+        "ok_top1": true,
+        "ok_vote": true,
+        "ok_sum": true,
+        "ok_v0": false,
+        "leaves": [
+          "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf:1 (0.425)",
+          "SOP_Izin_Cuti_Akademik.pdf:1 (0.391)",
+          "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:1 (0.372)"
+        ]
+      },
+      {
+        "id": "DEV-LEG-2",
+        "expected": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+        "top1": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+        "vote": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+        "sum": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+        "v0": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+        "ok_top1": true,
+        "ok_vote": true,
+        "ok_sum": true,
+        "ok_v0": true,
+        "leaves": [
+          "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf:1 (0.412)",
+          "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf:3 (0.386)",
+          "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf:2 (0.347)"
+        ]
+      },
+      {
+        "id": "DEV-LEG-3",
+        "expected": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+        "top1": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+        "vote": "SOP_Izin_Cuti_Akademik.pdf",
+        "sum": "SOP_Izin_Cuti_Akademik.pdf",
+        "v0": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+        "ok_top1": true,
+        "ok_vote": false,
+        "ok_sum": false,
+        "ok_v0": true,
+        "leaves": [
+          "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf:1 (0.405)",
+          "SOP_Izin_Cuti_Akademik.pdf:1 (0.374)",
+          "SOP_Izin_Cuti_Akademik.pdf:8 (0.363)"
+        ]
+      },
+      {
+        "id": "DEV-BEA-1",
+        "expected": "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+        "top1": "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+        "vote": "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+        "sum": "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+        "v0": "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+        "ok_top1": true,
+        "ok_vote": true,
+        "ok_sum": true,
+        "ok_v0": true,
+        "leaves": [
+          "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:1 (0.456)",
+          "SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf:1 (0.430)",
+          "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:3 (0.428)"
+        ]
+      },
+      {
+        "id": "DEV-BEA-2",
+        "expected": "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+        "top1": "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+        "vote": "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+        "sum": "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+        "v0": "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+        "ok_top1": true,
+        "ok_vote": true,
+        "ok_sum": true,
+        "ok_v0": true,
+        "leaves": [
+          "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:1 (0.544)",
+          "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:3 (0.520)",
+          "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:5 (0.496)"
+        ]
+      },
+      {
+        "id": "DEV-PROP-1",
+        "expected": "SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf",
+        "top1": "SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf",
+        "vote": "SOP_Pengisian_IRS.pdf",
+        "sum": "SOP_Pengisian_IRS.pdf",
+        "v0": "SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf",
+        "ok_top1": true,
+        "ok_vote": false,
+        "ok_sum": false,
+        "ok_v0": true,
+        "leaves": [
+          "SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf:ov (0.397)",
+          "SOP_Pengisian_IRS.pdf:3 (0.360)",
+          "SOP_Pengisian_IRS.pdf:2 (0.345)"
+        ]
+      },
+      {
+        "id": "DEV-PROP-2",
+        "expected": "SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf",
+        "top1": "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+        "vote": "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+        "sum": "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+        "v0": "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+        "ok_top1": false,
+        "ok_vote": false,
+        "ok_sum": false,
+        "ok_v0": false,
+        "leaves": [
+          "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:1 (0.396)",
+          "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:3 (0.376)",
+          "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:5 (0.367)"
+        ]
+      },
+      {
+        "id": "DEV-PROP-3",
+        "expected": "SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf",
+        "top1": "SOP_Izin_Cuti_Akademik.pdf",
+        "vote": "SOP_Izin_Cuti_Akademik.pdf",
+        "sum": "SOP_Izin_Cuti_Akademik.pdf",
+        "v0": "SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf",
+        "ok_top1": false,
+        "ok_vote": false,
+        "ok_sum": false,
+        "ok_v0": true,
+        "leaves": [
+          "SOP_Izin_Cuti_Akademik.pdf:2 (0.369)",
+          "SOP_Izin_Cuti_Akademik.pdf:7 (0.367)",
+          "SOP_Izin_Cuti_Akademik.pdf:6 (0.366)"
+        ]
+      }
+    ]
+  },
+  "v2": {
+    "model": "v2",
+    "n": 20,
+    "accuracies": {
+      "top1": 0.55,
+      "vote": 0.55,
+      "sum": 0.55,
+      "v0": 0.55
+    },
+    "counts": {
+      "top1": 11,
+      "vote": 11,
+      "sum": 11,
+      "v0": 11
+    },
+    "details": [
+      {
+        "id": "DEV-CUTI-1",
+        "expected": "SOP_Izin_Cuti_Akademik.pdf",
+        "top1": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "vote": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "sum": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "v0": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "ok_top1": false,
+        "ok_vote": false,
+        "ok_sum": false,
+        "ok_v0": false,
+        "leaves": [
+          "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:1 (0.329)",
+          "SOP_Izin_Cuti_Akademik.pdf:1 (0.329)",
+          "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:2 (0.305)"
+        ]
+      },
+      {
+        "id": "DEV-CUTI-2",
+        "expected": "SOP_Izin_Cuti_Akademik.pdf",
+        "top1": "SOP_Izin_Cuti_Akademik.pdf",
+        "vote": "SOP_Izin_Cuti_Akademik.pdf",
+        "sum": "SOP_Izin_Cuti_Akademik.pdf",
+        "v0": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+        "ok_top1": true,
+        "ok_vote": true,
+        "ok_sum": true,
+        "ok_v0": false,
+        "leaves": [
+          "SOP_Izin_Cuti_Akademik.pdf:2 (0.417)",
+          "SOP_Izin_Cuti_Akademik.pdf:3 (0.414)",
+          "SOP_Izin_Cuti_Akademik.pdf:6 (0.412)"
+        ]
+      },
+      {
+        "id": "DEV-CUTI-3",
+        "expected": "SOP_Izin_Cuti_Akademik.pdf",
+        "top1": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+        "vote": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+        "sum": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+        "v0": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+        "ok_top1": false,
+        "ok_vote": false,
+        "ok_sum": false,
+        "ok_v0": false,
+        "leaves": [
+          "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf:1 (0.215)",
+          "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf:ov (0.179)",
+          "SOP_Izin_Cuti_Akademik.pdf:ov (0.168)"
+        ]
+      },
+      {
+        "id": "DEV-AKT-1",
+        "expected": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+        "top1": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+        "vote": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+        "sum": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+        "v0": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+        "ok_top1": true,
+        "ok_vote": true,
+        "ok_sum": true,
+        "ok_v0": true,
+        "leaves": [
+          "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf:1 (0.203)",
+          "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf:ov (0.156)",
+          "SOP_Izin_Cuti_Akademik.pdf:7 (0.148)"
+        ]
+      },
+      {
+        "id": "DEV-AKT-2",
+        "expected": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+        "top1": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+        "vote": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+        "sum": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+        "v0": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+        "ok_top1": true,
+        "ok_vote": true,
+        "ok_sum": true,
+        "ok_v0": true,
+        "leaves": [
+          "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf:1 (0.321)",
+          "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf:ov (0.295)",
+          "SOP_Izin_Cuti_Akademik.pdf:4 (0.265)"
+        ]
+      },
+      {
+        "id": "DEV-AKT-3",
+        "expected": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+        "top1": "SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf",
+        "vote": "SOP_Izin_Cuti_Akademik.pdf",
+        "sum": "SOP_Izin_Cuti_Akademik.pdf",
+        "v0": "SOP_Izin_Cuti_Akademik.pdf",
+        "ok_top1": false,
+        "ok_vote": false,
+        "ok_sum": false,
+        "ok_v0": false,
+        "leaves": [
+          "SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf:1 (0.299)",
+          "SOP_Izin_Cuti_Akademik.pdf:1 (0.292)",
+          "SOP_Izin_Cuti_Akademik.pdf:4 (0.285)"
+        ]
+      },
+      {
+        "id": "DEV-UKT-1",
+        "expected": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "top1": "SOP_Pengisian_IRS.pdf",
+        "vote": "SOP_Pengisian_IRS.pdf",
+        "sum": "SOP_Pengisian_IRS.pdf",
+        "v0": "SOP_Pengisian_IRS.pdf",
+        "ok_top1": false,
+        "ok_vote": false,
+        "ok_sum": false,
+        "ok_v0": false,
+        "leaves": [
+          "SOP_Pengisian_IRS.pdf:ov (0.196)",
+          "SOP_Pengisian_IRS.pdf:3 (0.173)",
+          "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:5 (0.156)"
+        ]
+      },
+      {
+        "id": "DEV-UKT-2",
+        "expected": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "top1": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "vote": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "sum": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "v0": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "ok_top1": true,
+        "ok_vote": true,
+        "ok_sum": true,
+        "ok_v0": true,
+        "leaves": [
+          "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:9 (0.273)",
+          "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:8 (0.260)",
+          "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:10 (0.214)"
+        ]
+      },
+      {
+        "id": "DEV-UKT-3",
+        "expected": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "top1": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "vote": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "sum": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "v0": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "ok_top1": true,
+        "ok_vote": true,
+        "ok_sum": true,
+        "ok_v0": true,
+        "leaves": [
+          "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:11 (0.397)",
+          "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:9 (0.368)",
+          "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:10 (0.358)"
+        ]
+      },
+      {
+        "id": "DEV-IRS-1",
+        "expected": "SOP_Pengisian_IRS.pdf",
+        "top1": "SOP_Pengisian_IRS.pdf",
+        "vote": "SOP_Pengisian_IRS.pdf",
+        "sum": "SOP_Pengisian_IRS.pdf",
+        "v0": "SOP_Pengisian_IRS.pdf",
+        "ok_top1": true,
+        "ok_vote": true,
+        "ok_sum": true,
+        "ok_v0": true,
+        "leaves": [
+          "SOP_Pengisian_IRS.pdf:ov (0.249)",
+          "SOP_Pengisian_IRS.pdf:2 (0.232)",
+          "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:ov (0.209)"
+        ]
+      },
+      {
+        "id": "DEV-IRS-2",
+        "expected": "SOP_Pengisian_IRS.pdf",
+        "top1": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "vote": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "sum": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "v0": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "ok_top1": false,
+        "ok_vote": false,
+        "ok_sum": false,
+        "ok_v0": false,
+        "leaves": [
+          "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:2 (0.280)",
+          "SOP_Izin_Cuti_Akademik.pdf:2 (0.267)",
+          "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:10 (0.263)"
+        ]
+      },
+      {
+        "id": "DEV-IRS-3",
+        "expected": "SOP_Pengisian_IRS.pdf",
+        "top1": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "vote": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "sum": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "v0": "SOP_Pengisian_IRS.pdf",
+        "ok_top1": false,
+        "ok_vote": false,
+        "ok_sum": false,
+        "ok_v0": true,
+        "leaves": [
+          "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:10 (0.266)",
+          "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:11 (0.229)",
+          "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:1 (0.211)"
+        ]
+      },
+      {
+        "id": "DEV-LEG-1",
+        "expected": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+        "top1": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+        "vote": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+        "sum": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+        "v0": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+        "ok_top1": true,
+        "ok_vote": true,
+        "ok_sum": true,
+        "ok_v0": true,
+        "leaves": [
+          "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf:1 (0.330)",
+          "SOP_Izin_Cuti_Akademik.pdf:1 (0.250)",
+          "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:1 (0.222)"
+        ]
+      },
+      {
+        "id": "DEV-LEG-2",
+        "expected": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+        "top1": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+        "vote": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+        "sum": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+        "v0": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+        "ok_top1": true,
+        "ok_vote": true,
+        "ok_sum": true,
+        "ok_v0": true,
+        "leaves": [
+          "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf:1 (0.303)",
+          "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf:3 (0.276)",
+          "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf:2 (0.236)"
+        ]
+      },
+      {
+        "id": "DEV-LEG-3",
+        "expected": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+        "top1": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+        "vote": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+        "sum": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+        "v0": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+        "ok_top1": true,
+        "ok_vote": true,
+        "ok_sum": true,
+        "ok_v0": true,
+        "leaves": [
+          "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf:1 (0.275)",
+          "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf:ov (0.238)",
+          "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf:4 (0.215)"
+        ]
+      },
+      {
+        "id": "DEV-BEA-1",
+        "expected": "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+        "top1": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "vote": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "sum": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "v0": "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+        "ok_top1": false,
+        "ok_vote": false,
+        "ok_sum": false,
+        "ok_v0": true,
+        "leaves": [
+          "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:8 (0.263)",
+          "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:2 (0.262)",
+          "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:4 (0.262)"
+        ]
+      },
+      {
+        "id": "DEV-BEA-2",
+        "expected": "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+        "top1": "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+        "vote": "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+        "sum": "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+        "v0": "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+        "ok_top1": true,
+        "ok_vote": true,
+        "ok_sum": true,
+        "ok_v0": true,
+        "leaves": [
+          "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:1 (0.342)",
+          "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:3 (0.328)",
+          "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:5 (0.308)"
+        ]
+      },
+      {
+        "id": "DEV-PROP-1",
+        "expected": "SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf",
+        "top1": "SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf",
+        "vote": "SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf",
+        "sum": "SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf",
+        "v0": "SOP_Pengisian_IRS.pdf",
+        "ok_top1": true,
+        "ok_vote": true,
+        "ok_sum": true,
+        "ok_v0": false,
+        "leaves": [
+          "SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf:ov (0.253)",
+          "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:ov (0.202)",
+          "SOP_Pengisian_IRS.pdf:2 (0.196)"
+        ]
+      },
+      {
+        "id": "DEV-PROP-2",
+        "expected": "SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf",
+        "top1": "SOP_Izin_Cuti_Akademik.pdf",
+        "vote": "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+        "sum": "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+        "v0": "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+        "ok_top1": false,
+        "ok_vote": false,
+        "ok_sum": false,
+        "ok_v0": false,
+        "leaves": [
+          "SOP_Izin_Cuti_Akademik.pdf:2 (0.175)",
+          "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:1 (0.168)",
+          "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:4 (0.155)"
+        ]
+      },
+      {
+        "id": "DEV-PROP-3",
+        "expected": "SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf",
+        "top1": "SOP_Izin_Cuti_Akademik.pdf",
+        "vote": "SOP_Izin_Cuti_Akademik.pdf",
+        "sum": "SOP_Izin_Cuti_Akademik.pdf",
+        "v0": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
+        "ok_top1": false,
+        "ok_vote": false,
+        "ok_sum": false,
+        "ok_v0": false,
+        "leaves": [
+          "SOP_Izin_Cuti_Akademik.pdf:2 (0.279)",
+          "SOP_Izin_Cuti_Akademik.pdf:5 (0.269)",
+          "SOP_Izin_Cuti_Akademik.pdf:6 (0.269)"
+        ]
+      }
+    ]
+  }
+}

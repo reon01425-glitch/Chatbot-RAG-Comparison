@@ -1137,10 +1137,15 @@ class RAGEngine:
             "metrics": metrics
         }
 
-    def execute_hierarchical_rag(self, query_text: str, k: int = 3, threshold: float = 0.3) -> Dict[str, Any]:
+    def execute_hierarchical_rag(self, query_text: str, k: int = 3, threshold: float = 0.3, variant: Optional[str] = None) -> Dict[str, Any]:
         """8. Hierarchical Tree RAG (Bottom-Up Leaf Chunk Retrieval + Top-Down Parent Tree Context Expansion)"""
         start_time = time.time()
         trace = []
+        
+        # Determine parent SOP selection variant: top1, vote, sum
+        htree_variant = (variant or os.getenv("HTREE_VARIANT", "top1")).lower().strip()
+        if htree_variant not in ("top1", "vote", "sum"):
+            htree_variant = "top1"
         
         # Dense top-k retrieval over fine-grained leaf chunks (individual steps & overview)
         htree_store = getattr(self.core, "htree_db", self.core.db)
@@ -1168,16 +1173,42 @@ class RAGEngine:
             contexts = []
             scores = []
         else:
-            top_doc = scored_results[0][0]
-            source_file = os.path.basename(top_doc.metadata.get("source", ""))
+            # Select parent SOP according to chosen variant
+            from collections import defaultdict
+            if htree_variant == "vote":
+                votes = defaultdict(int)
+                best_score_per_sop = defaultdict(float)
+                for doc, score in scored_results:
+                    sop = os.path.basename(doc.metadata.get("source", ""))
+                    votes[sop] += 1
+                    if score > best_score_per_sop[sop]:
+                        best_score_per_sop[sop] = score
+                sorted_sops = sorted(votes.keys(), key=lambda s: (votes[s], best_score_per_sop[s]), reverse=True)
+                source_file = sorted_sops[0]
+                selection_detail = f"majority vote across top-{len(scored_results)} leaves ({votes[source_file]} votes, variant=vote)"
+            elif htree_variant == "sum":
+                sums = defaultdict(float)
+                best_score_per_sop = defaultdict(float)
+                for doc, score in scored_results:
+                    sop = os.path.basename(doc.metadata.get("source", ""))
+                    sums[sop] += score
+                    if score > best_score_per_sop[sop]:
+                        best_score_per_sop[sop] = score
+                sorted_sops = sorted(sums.keys(), key=lambda s: (sums[s], best_score_per_sop[s]), reverse=True)
+                source_file = sorted_sops[0]
+                selection_detail = f"score sum across top-{len(scored_results)} leaves (sum={sums[source_file]:.4f}, variant=sum)"
+            else:  # default "top1"
+                top_doc = scored_results[0][0]
+                source_file = os.path.basename(top_doc.metadata.get("source", ""))
+                selection_detail = f"top-1 leaf ({top_doc.metadata.get('id', '')}, score={best_score:.4f}, variant=top1)"
             
             tree_context = ""
             if source_file in self.core.hierarchical_chunker.document_tree:
                 tree_context = self.core.hierarchical_chunker.get_hierarchical_context_for_doc(source_file)
                 trace.append({
-                    "step": "2. Parent Document Tree Expansion",
+                    "step": f"2. Parent Document Tree Expansion ({htree_variant})",
                     "type": "Top-Down Context Injection",
-                    "detail": f"Expanded root node: {source_file} from top-1 leaf ({top_doc.metadata.get('id', '')}) with full procedural tree."
+                    "detail": f"Expanded root node: {source_file} via {selection_detail} with full procedural tree."
                 })
             else:
                 tree_context = "\n\n---\n\n".join([d.page_content for d, _ in scored_results])

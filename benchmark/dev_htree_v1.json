@@ -1,0 +1,106 @@
+{
+  "name": "dev_htree_v1",
+  "description": "Validation dev set for H-Tree parent SOP retrieval diagnosis and algorithm comparison. Must NOT be tuned on test benchmark.",
+  "items": [
+    {
+      "id": "DEV-CUTI-1",
+      "question": "Formulir permohonan penghentian studi sementara dapat diunduh melalui tautan sistem apa?",
+      "expected_sop": "SOP_Izin_Cuti_Akademik.pdf"
+    },
+    {
+      "id": "DEV-CUTI-2",
+      "question": "Siapakah pejabat fakultas yang menerbitkan dan menandatangani Surat Keputusan Izin Cuti Akademik?",
+      "expected_sop": "SOP_Izin_Cuti_Akademik.pdf"
+    },
+    {
+      "id": "DEV-CUTI-3",
+      "question": "Jika saya ingin berhenti sementara dari perkuliahan semester ini karena alasan keluarga, bagaimana alur pengajuannya?",
+      "expected_sop": "SOP_Izin_Cuti_Akademik.pdf"
+    },
+    {
+      "id": "DEV-AKT-1",
+      "question": "Setelah masa penghentian studi sementara berakhir, ke mana mahasiswa melapor untuk pemulihan status perkuliahan?",
+      "expected_sop": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf"
+    },
+    {
+      "id": "DEV-AKT-2",
+      "question": "Apa syarat berkas yang harus dilampirkan oleh mahasiswa yang ingin kuliah kembali sesudah menjalani masa istirahat cuti akademik?",
+      "expected_sop": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf"
+    },
+    {
+      "id": "DEV-AKT-3",
+      "question": "Saya sudah selesai melewati semester cuti dan berencana masuk kuliah lagi di FSM, permohonan apa yang harus saya ajukan?",
+      "expected_sop": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf"
+    },
+    {
+      "id": "DEV-UKT-1",
+      "question": "Berapa hari kerja waktu maksimal yang dibutuhkan oleh Wakil Dekan Sumber Daya untuk memproses persetujuan dispensasi pembayaran uang kuliah?",
+      "expected_sop": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf"
+    },
+    {
+      "id": "DEV-UKT-2",
+      "question": "Siapakah yang bertugas membuka sistem tagihan bank setelah permohonan penundaan biaya kuliah disetujui pimpinan?",
+      "expected_sop": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf"
+    },
+    {
+      "id": "DEV-UKT-3",
+      "question": "Apabila mahasiswa belum melunasi biaya SPP/UKT sampai batas waktu kalender akademik, bagaimana mengurus izin dispensasinya sebelum pengisian kartu studi?",
+      "expected_sop": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf"
+    },
+    {
+      "id": "DEV-IRS-1",
+      "question": "Berapa lama estimasi waktu bimbingan pemilihan mata kuliah bersama dosen wali saat registrasi rencana studi?",
+      "expected_sop": "SOP_Pengisian_IRS.pdf"
+    },
+    {
+      "id": "DEV-IRS-2",
+      "question": "Apa fungsi status persetujuan yang diberikan dosen wali pada portal akademik terkait rencana pengambilan mata kuliah mahasiswa?",
+      "expected_sop": "SOP_Pengisian_IRS.pdf"
+    },
+    {
+      "id": "DEV-IRS-3",
+      "question": "Setelah pembayaran biaya pendidikan selesai tervalidasi bank, portal sistem apakah yang dipakai untuk menyusun rencana studi semesteran?",
+      "expected_sop": "SOP_Pengisian_IRS.pdf"
+    },
+    {
+      "id": "DEV-LEG-1",
+      "question": "Berapa lembar fotokopi dokumen kelulusan yang diizinkan untuk diajukan pengesahan cap resmi dalam sekali permohonan?",
+      "expected_sop": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf"
+    },
+    {
+      "id": "DEV-LEG-2",
+      "question": "Siapa pejabat yang melakukan pemeriksaan kesesuaian dokumen fotokopi dengan ijazah asli sebelum diparaf oleh supervisor?",
+      "expected_sop": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf"
+    },
+    {
+      "id": "DEV-LEG-3",
+      "question": "Di manakah alumni mengambil salinan ijazah dan transkrip yang telah ditandatangani Dekan setelah 3 hari kerja?",
+      "expected_sop": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf"
+    },
+    {
+      "id": "DEV-BEA-1",
+      "question": "Siapa pejabat di FSM yang bertugas membubuhkan tanda tangan pengesahan pada surat rekomendasi beasiswa mahasiswa?",
+      "expected_sop": "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf"
+    },
+    {
+      "id": "DEV-BEA-2",
+      "question": "Unit bagian apakah yang bertugas membubuhkan stempel fakultas dan mencatat nomor surat keluar rekomendasi beasiswa?",
+      "expected_sop": "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf"
+    },
+    {
+      "id": "DEV-PROP-1",
+      "question": "Kapan batas waktu paling lambat proposal kegiatan ormawa diserahkan ke bagian akademik sebelum tanggal pelaksanaan acara?",
+      "expected_sop": "SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf"
+    },
+    {
+      "id": "DEV-PROP-2",
+      "question": "Siapakah yang melakukan review substansi dan memberikan persetujuan kegiatan kemahasiswaan tingkat fakultas?",
+      "expected_sop": "SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf"
+    },
+    {
+      "id": "DEV-PROP-3",
+      "question": "Surat izin kegiatan ormawa yang sudah disetujui akan diarsipkan dan ditembuskan ke pihak mana saja?",
+      "expected_sop": "SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf"
+    }
+  ]
+}

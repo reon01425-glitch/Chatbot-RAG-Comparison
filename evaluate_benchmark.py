@@ -286,27 +286,100 @@ def _pkg_version(name: str) -> str:
 # Leakage check
 # --------------------------------------------------------------------------------------
 def cmd_check_leakage(args) -> int:
-    from rouge_score import rouge_scorer
+    import numpy as np
     bench = load_benchmark(Path(args.benchmark))
-    train_q = []
-    for p in sorted((ROOT / "datasets").glob("train_*.json")):
+    
+    # 1. Gather comparison questions (training data and dev set)
+    candidate_q = []
+    
+    # Training data
+    train_dir = Path(args.train_dir) if args.train_dir else (ROOT / "datasets")
+    if (train_dir / "train_v3").exists() and not args.train_dir:
+        train_dir = train_dir / "train_v3"
+        
+    for p in sorted(train_dir.glob("train_*.json")):
         for it in json.load(open(p, encoding="utf-8")):
             qa = it.get("qa", "")
             if "Q:" in qa and "A:" in qa:
-                train_q.append((p.name, qa.split("Q:")[1].split("A:")[0].strip()))
-    if not train_q:
-        print("No fine-tuning questions found in datasets/train_*.json")
+                q_text = qa.split("Q:")[1].split("A:")[0].strip()
+                candidate_q.append((p.name, q_text))
+            elif "question" in it:
+                candidate_q.append((p.name, it["question"].strip()))
+                
+    # Dev set questions if present
+    dev_path = Path(args.dev_set)
+    if dev_path.exists():
+        dev_data = json.load(open(dev_path, encoding="utf-8"))
+        dev_items = dev_data.get("items", dev_data) if isinstance(dev_data, dict) else dev_data
+        for it in dev_items:
+            if "question" in it:
+                candidate_q.append((dev_path.name, it["question"].strip()))
+                
+    if not candidate_q:
+        print("No training or dev questions found to compare against.")
         return 0
-    scorer = rouge_scorer.RougeScorer(["rougeL"], use_stemmer=False)
-    flagged = 0
-    print(f"Comparing {len(bench['items'])} benchmark questions with {len(train_q)} fine-tuning questions (ROUGE-L F1)")
-    for it in bench["items"]:
-        best = max(((scorer.score(tq, it["question"])["rougeL"].fmeasure, src, tq) for src, tq in train_q))
-        mark = "  <-- REVIEW" if best[0] >= args.threshold else ""
-        flagged += bool(mark)
-        print(f"{it['id']:8s} max={best[0]:.2f}  ({best[1]}){mark}")
-    print(f"\n{flagged} item(s) at or above threshold {args.threshold}.")
-    return 0
+
+    if args.semantic:
+        threshold = args.threshold if args.threshold is not None else 0.85
+        from sentence_transformers import SentenceTransformer
+        from sklearn.metrics.pairwise import cosine_similarity
+        
+        print(f"Loading base embedding model for semantic check: {args.base_model}...")
+        model = SentenceTransformer(args.base_model)
+        
+        bench_texts = [it["question"] for it in bench["items"]]
+        cand_texts = [q for _, q in candidate_q]
+        
+        print(f"Encoding {len(bench_texts)} benchmark questions and {len(cand_texts)} candidate questions...")
+        bench_embs = model.encode(bench_texts, convert_to_numpy=True, show_progress_bar=False)
+        cand_embs = model.encode(cand_texts, convert_to_numpy=True, show_progress_bar=False)
+        
+        sim_mat = cosine_similarity(bench_embs, cand_embs)
+        
+        flagged = 0
+        max_scores = []
+        print(f"\nComparing {len(bench['items'])} benchmark questions with {len(candidate_q)} candidate questions (Semantic Cosine)")
+        print(f"Alert threshold: >= {threshold:.2f}")
+        print("-" * 75)
+        
+        for i, it in enumerate(bench["items"]):
+            scores = sim_mat[i]
+            best_idx = int(np.argmax(scores))
+            best_score = float(scores[best_idx])
+            src, cand_text = candidate_q[best_idx]
+            max_scores.append(best_score)
+            
+            mark = "  <-- REVIEW" if best_score >= threshold else ""
+            flagged += bool(mark)
+            print(f"{it['id']:8s} max={best_score:.3f}  ({src}){mark}")
+            if mark:
+                print(f"         bench: \"{it['question'][:65]}...\"")
+                print(f"         cand : \"{cand_text[:65]}...\"")
+                
+        # Distribution report
+        arr = np.array(max_scores)
+        print("\nDistribution of max similarity to benchmark per question:")
+        print(f"  Min:    {np.min(arr):.3f}")
+        print(f"  25%:    {np.percentile(arr, 25):.3f}")
+        print(f"  Median: {np.percentile(arr, 50):.3f}")
+        print(f"  75%:    {np.percentile(arr, 75):.3f}")
+        print(f"  90%:    {np.percentile(arr, 90):.3f}")
+        print(f"  Max:    {np.max(arr):.3f}")
+        print(f"\n{flagged} item(s) at or above threshold {threshold:.2f}.")
+        return 0
+    else:
+        threshold = args.threshold if args.threshold is not None else 0.5
+        from rouge_score import rouge_scorer
+        scorer = rouge_scorer.RougeScorer(["rougeL"], use_stemmer=False)
+        flagged = 0
+        print(f"Comparing {len(bench['items'])} benchmark questions with {len(candidate_q)} candidate questions (ROUGE-L F1)")
+        for it in bench["items"]:
+            best = max(((scorer.score(tq, it["question"])["rougeL"].fmeasure, src, tq) for src, tq in candidate_q))
+            mark = "  <-- REVIEW" if best[0] >= threshold else ""
+            flagged += bool(mark)
+            print(f"{it['id']:8s} max={best[0]:.2f}  ({best[1]}){mark}")
+        print(f"\n{flagged} item(s) at or above threshold {threshold}.")
+        return 0
 
 
 # --------------------------------------------------------------------------------------
@@ -886,8 +959,12 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--benchmark", default=str(DEFAULT_BENCHMARK))
     sub = p.add_subparsers(dest="cmd", required=True)
 
-    lk = sub.add_parser("check-leakage", help="compare benchmark questions with fine-tuning questions")
-    lk.add_argument("--threshold", type=float, default=0.5)
+    lk = sub.add_parser("check-leakage", help="compare benchmark questions with fine-tuning/dev questions")
+    lk.add_argument("--threshold", type=float, default=None, help="alert threshold (default: 0.85 for semantic, 0.5 for lexical)")
+    lk.add_argument("--semantic", action="store_true", help="use dense cosine similarity with base embedding model")
+    lk.add_argument("--base-model", default="LazarusNLP/all-indo-e5-small-v4", help="base model for semantic check")
+    lk.add_argument("--dev-set", default=str(ROOT / "benchmark" / "dev_htree_v1.json"), help="path to dev set JSON")
+    lk.add_argument("--train-dir", default=None, help="directory for training data")
 
     g = sub.add_parser("generate", help="generate answers for all systems (resumable)")
     g.add_argument("--run-name", required=True)
