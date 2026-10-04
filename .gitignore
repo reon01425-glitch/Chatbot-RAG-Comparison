@@ -218,5 +218,23 @@ chroma/
 chroma_*/
 checkpoints/
 
-
-
+# Presentation & Paper Drafts
+4-modul-arsitektur.svg
+AGENTS.md
+DSRM-metodologi-penelitian.svg
+FIGURES_MERMAID.md
+IEEE_Conference_Paper_*
+IEEEtran.cls
+SLIDES_PRESENTASI_PAK_INDRA.md
+conference-latex-template*
+conference-template*
+en_page-*.png
+fig*.png
+fig*.svg
+generate_paper.py
+ieee_latex_template/
+make_typst.py
+mermaid-diagram*
+page_*_final.png
+paper_*
+presentation_pak_indra/
