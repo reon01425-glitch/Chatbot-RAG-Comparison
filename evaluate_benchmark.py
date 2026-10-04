@@ -470,10 +470,12 @@ def cmd_generate(args) -> int:
     if any(s in ENGINE_SYSTEMS for s, _ in todo):
         from src.engine import RAGCore, RAGEngine  # noqa: E402
 
-        def _patched(self, prompt, contexts, question):  # replaces the silent extractive fallback
+        def _patched_call_llm(self, prompt: str) -> str:  # intercepts all LLM calls (synthesis, agent, rewrite)
             return _invoke(llm, prompt, rec)
 
-        RAGCore.generate_synthesis = _patched
+        RAGCore.call_llm = _patched_call_llm
+        RAGCore.disable_extractive_fallback = True
+        os.environ["RAG_DISABLE_EXTRACTIVE_FALLBACK"] = "1"
         engine = RAGEngine()
 
     PROMPT_TEMPLATE = _engine_prompt_template()  # same prompt for the direct baselines

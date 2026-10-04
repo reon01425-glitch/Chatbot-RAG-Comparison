@@ -167,19 +167,30 @@ class RAGCore:
         except Exception:
             return False
 
+    def call_llm(self, prompt: str) -> str:
+        """Single patchable choke point for all LLM calls (synthesis, agent steps, query rewrites)."""
+        if not self.is_ollama_available():
+            raise RuntimeError("Ollama server is not available at 127.0.0.1:11434")
+        model_name = os.getenv("OLLAMA_MODEL", "gemma4:e2b")
+        model = ChatOllama(model=model_name, timeout=15)
+        resp = model.invoke(prompt)
+        if resp and resp.content:
+            return resp.content.strip()
+        return ""
+
     def generate_synthesis(self, prompt: str, contexts: List[str], question: str) -> str:
         """
         Generate answer using Ollama if online, or intelligent extractive synthesis fallback.
         """
-        if self.is_ollama_available():
-            try:
-                model_name = os.getenv("OLLAMA_MODEL", "gemma4:e2b")
-                model = ChatOllama(model=model_name, timeout=15)
-                resp = model.invoke(prompt)
-                if resp and resp.content.strip():
-                    return resp.content.strip()
-            except Exception as e:
-                print(f"[RAGCore] Ollama generation failed: {e}. Falling back to synthesis.")
+        if getattr(self, "disable_extractive_fallback", False) or os.getenv("RAG_DISABLE_EXTRACTIVE_FALLBACK", "0") == "1":
+            return self.call_llm(prompt)
+
+        try:
+            res = self.call_llm(prompt)
+            if res:
+                return res
+        except Exception as e:
+            print(f"[RAGCore] LLM generation failed: {e}. Falling back to synthesis.")
                 
         # Smart extractive heuristic synthesis based on retrieved contexts
         if not contexts:
