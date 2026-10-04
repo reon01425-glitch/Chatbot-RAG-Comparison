@@ -433,6 +433,7 @@ def cmd_generate(args) -> int:
         "llm_timeout_s": args.timeout,
         "retrieval_k": args.k,
         "retrieval_threshold": args.threshold,
+        "agentic_max_steps": getattr(args, "agentic_max_steps", 3),
         "python": sys.version.split()[0],
         "platform": platform.platform(),
         "packages": {p: _pkg_version(p) for p in
@@ -477,6 +478,7 @@ def cmd_generate(args) -> int:
         RAGCore.disable_extractive_fallback = True
         os.environ["RAG_DISABLE_EXTRACTIVE_FALLBACK"] = "1"
         engine = RAGEngine()
+        engine.agentic_max_steps = getattr(args, "agentic_max_steps", 3)
 
     PROMPT_TEMPLATE = _engine_prompt_template()  # same prompt for the direct baselines
     corpus_text = _load_corpus_text() if "full_context" in systems else ""
@@ -862,6 +864,7 @@ def build_parser() -> argparse.ArgumentParser:
     g.add_argument("--items", default=None, help="comma list of item ids")
     g.add_argument("--require-verified", action="store_true")
     g.add_argument("--retry-errors", action="store_true", help="re-generate rows that ended in an LLM error")
+    g.add_argument("--agentic-max-steps", type=int, default=3, help="Maximum ReAct steps for Agentic RAG (default: 3)")
 
     s = sub.add_parser("score", help="score generations")
     s.add_argument("--run-name", required=True)

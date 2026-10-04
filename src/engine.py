@@ -54,6 +54,24 @@ Kueri asli: {query}
 Kueri baru:
 """
 
+AGENTIC_REACT_PROMPT_TEMPLATE = """Anda adalah agen asisten akademik FSM Universitas Diponegoro yang menggunakan pola penalaran ReAct untuk mencari informasi SOP resmi.
+Anda memiliki akses ke alat (tool) berikut:
+- cari_dokumen_sop(query): Mencari dokumen atau prosedur SOP resmi FSM Undip berdasarkan query/kata kunci pencarian.
+
+Gunakan format persis berikut:
+Jika ingin mencari dokumen:
+Thought: <analisis kebutuhan informasi dan alasan pencarian>
+Action: cari_dokumen_sop
+Action Input: <kata kunci pencarian spesifik>
+
+Jika informasi sudah cukup untuk menjawab pertanyaan atau pencarian selesai:
+Thought: <alasan mengapa informasi sudah cukup>
+Final: siap menjawab
+
+Pertanyaan Pengguna: {question}
+{scratchpad}
+"""
+
 class RAGCore:
     _instance = None
     
@@ -218,6 +236,7 @@ class RAGCore:
 class RAGEngine:
     def __init__(self):
         self.core = RAGCore.get_instance()
+        self.agentic_max_steps = int(os.getenv("AGENTIC_MAX_STEPS", "3"))
         
     def calculate_metrics(self, query: str, answer: str, contexts: List[str], scores: List[float], total_latency: float) -> Dict[str, Any]:
         """
@@ -526,67 +545,156 @@ class RAGEngine:
             "related_entities": list(related_entities)
         }
 
-    def execute_agentic_rag(self, query_text: str, k: int = 3, threshold: float = 0.3) -> Dict[str, Any]:
-        """4. Agentic ReAct RAG (Autonomous Tool Execution & Thought Trace)"""
+    def execute_agentic_rag(self, query_text: str, k: int = 3, threshold: float = 0.3, max_steps: Optional[int] = None) -> Dict[str, Any]:
+        """4. Agentic ReAct RAG (Autonomous Tool Execution & Thought Trace via LLM)"""
         start_time = time.time()
         trace = []
         
-        # Step 1: ReAct Thought
-        trace.append({
-            "step": "1. ReAct Thought",
-            "type": "Reasoning Step",
-            "detail": f"Thought: Pengguna menanyakan '{query_text}'. Saya perlu memanggil tool `cari_dokumen_sop` untuk memeriksa ketentuan dan alur resmi FSM Undip."
-        })
+        limit_steps = max_steps if max_steps is not None else getattr(self, "agentic_max_steps", 3)
+        collected_chunks: Dict[str, Tuple[Any, float]] = {}
+        scratchpad = ""
         
-        # Step 2: Action & Tool Invocation
-        t_tool = time.time()
-        docs = self.core.db.similarity_search(query_text, k=k)
         query_embedding = self.core.embedding_function.embed_query(query_text)
         
-        scored_results = []
-        for doc in docs:
-            doc_embedding = self.core.embedding_function.embed_query(doc.page_content)
-            sim = float(cosine_similarity([query_embedding], [doc_embedding])[0][0])
-            scored_results.append((doc, sim))
+        for step_idx in range(limit_steps):
+            step_num = step_idx + 1
+            react_prompt = AGENTIC_REACT_PROMPT_TEMPLATE.format(
+                question=query_text,
+                scratchpad=f"\nCatatan Langkah Sebelumnya:\n{scratchpad}" if scratchpad else ""
+            )
             
-        scored_results.sort(key=lambda x: x[1], reverse=True)
-        best_doc, best_score = scored_results[0] if scored_results else (None, 0.0)
-        tool_elapsed = (time.time() - t_tool) * 1000
-        
-        trace.append({
-            "step": "2. Action & Tool Execution",
-            "type": "Tool: cari_dokumen_sop(query)",
-            "detail": f"Action: cari_dokumen_sop('{query_text}') -> Dieksekusi dalam {tool_elapsed:.1f}ms. Mengembalikan {len(docs)} dokumen SOP terkait."
-        })
-        
-        # Step 3: Observation
-        obs_snippet = docs[0].page_content[:120].replace('\n', ' ') if docs else "Tidak ada dokumen"
-        trace.append({
-            "step": "3. ReAct Observation",
-            "type": "Tool Observation",
-            "detail": f"Observation: Dokumen SOP ditemukan (Score: {best_score:.4f}). Cuplikan: '{obs_snippet}...'"
-        })
-        
-        # Step 4: Final Thought & Action
-        trace.append({
-            "step": "4. Synthesis Reasoning",
-            "type": "Final Reflection",
-            "detail": "Thought: Informasi SOP resmi telah lengkap dan terverifikasi. Saya akan merangkum langkah-langkah prosedural secara runut untuk mahasiswa."
-        })
-        
+            try:
+                llm_output = self.core.call_llm(react_prompt)
+            except Exception as e:
+                if getattr(self.core, "disable_extractive_fallback", False) or os.getenv("RAG_DISABLE_EXTRACTIVE_FALLBACK", "0") == "1":
+                    raise
+                trace.append({
+                    "step": f"Langkah {step_num}: Panggilan LLM Gagal",
+                    "type": "LLM Error",
+                    "detail": f"Error memanggil LLM: {str(e)}"
+                })
+                break
+                
+            if not llm_output or not llm_output.strip():
+                trace.append({
+                    "step": f"Langkah {step_num}: Output Kosong",
+                    "type": "Parse Warning",
+                    "detail": "LLM mengembalikan output kosong. Menghentikan loop ReAct."
+                })
+                break
+
+            # Parse Thought
+            thought_match = re.search(r'(?:^|\n)\s*Thought\s*:\s*(.*?)(?=(?:\n\s*Action\s*:|\n\s*Final\s*:|$))', llm_output, re.DOTALL | re.IGNORECASE)
+            thought_text = thought_match.group(1).strip() if thought_match else ""
+
+            # Parse Action and Action Input
+            action_match = re.search(r'(?:^|\n)\s*Action\s*:\s*([^\n]+)', llm_output, re.IGNORECASE)
+            input_match = re.search(r'(?:^|\n)\s*Action\s*Input\s*:\s*([^\n]+)', llm_output, re.IGNORECASE)
+            final_match = re.search(r'(?:^|\n)\s*Final(?:\s+Answer)?\s*:\s*(.*)', llm_output, re.IGNORECASE)
+
+            tool_name = ""
+            search_query = ""
+
+            if action_match:
+                raw_action = action_match.group(1).strip()
+                if "cari_dokumen_sop" in raw_action.lower():
+                    tool_name = "cari_dokumen_sop"
+                    inline_arg = re.search(r'cari_dokumen_sop\s*\((.*?)\)', raw_action, re.IGNORECASE)
+                    if inline_arg and inline_arg.group(1).strip():
+                        search_query = inline_arg.group(1).strip().strip('\'"')
+                    elif input_match:
+                        search_query = input_match.group(1).strip().strip('\'"')
+                    else:
+                        search_query = query_text
+                else:
+                    tool_name = raw_action
+                    if input_match:
+                        search_query = input_match.group(1).strip().strip('\'"')
+            elif final_match or "siap menjawab" in llm_output.lower():
+                detail_msg = f"Thought: {thought_text}" if thought_text else f"{llm_output.strip()}"
+                trace.append({
+                    "step": f"Langkah {step_num}: Keputusan Selesai",
+                    "type": "ReAct Thought & Final",
+                    "detail": f"{detail_msg}\nFinal: siap menjawab"
+                })
+                break
+            
+            if not tool_name:
+                trace.append({
+                    "step": f"Langkah {step_num}: Format Tak Terbaca",
+                    "type": "Parse Error",
+                    "detail": f"Respon LLM tidak mengikuti format Thought/Action/Final: {llm_output[:180]}"
+                })
+                break
+
+            if tool_name == "cari_dokumen_sop":
+                if not search_query:
+                    search_query = query_text
+                t_tool = time.time()
+                docs = self.core.db.similarity_search(search_query, k=k) if self.core.db else []
+                tool_elapsed = (time.time() - t_tool) * 1000
+                
+                obs_snippets = []
+                for doc in docs:
+                    doc_emb = self.core.embedding_function.embed_query(doc.page_content)
+                    sim = float(cosine_similarity([query_embedding], [doc_emb])[0][0])
+                    doc_id = doc.metadata.get("id") or os.path.basename(doc.metadata.get("source", "SOP.pdf"))
+                    if doc_id not in collected_chunks or sim > collected_chunks[doc_id][1]:
+                        collected_chunks[doc_id] = (doc, sim)
+                    snippet = doc.page_content[:100].replace('\n', ' ')
+                    obs_snippets.append(f"[{doc_id}] ({sim:.4f}): {snippet}...")
+                
+                obs_text = f"Ditemukan {len(docs)} chunk dokumen." if docs else "Tidak ditemukan dokumen yang cocok."
+                if obs_snippets:
+                    obs_text += " Cuplikan: " + " | ".join(obs_snippets[:2])
+                
+                trace.append({
+                    "step": f"Langkah {step_num}: ReAct Thought & Action",
+                    "type": "Tool Invocation",
+                    "detail": f"Thought: {thought_text}\nAction: cari_dokumen_sop('{search_query}')"
+                })
+                trace.append({
+                    "step": f"Langkah {step_num}: Tool Observation",
+                    "type": "Observation",
+                    "detail": f"Observation ({tool_elapsed:.1f}ms): {obs_text}"
+                })
+                
+                scratchpad += f"Thought: {thought_text}\nAction: cari_dokumen_sop\nAction Input: {search_query}\nObservation: {obs_text}\n"
+            else:
+                trace.append({
+                    "step": f"Langkah {step_num}: Tool Tidak Dikenal",
+                    "type": "Tool Error",
+                    "detail": f"Tool '{tool_name}' tidak dikenal. Hanya cari_dokumen_sop yang didukung."
+                })
+                break
+
+        sorted_scored = sorted(collected_chunks.values(), key=lambda x: x[1], reverse=True)
+        top_scored = sorted_scored[:k]
+        best_doc, best_score = top_scored[0] if top_scored else (None, 0.0)
+
         if best_score < threshold:
             answer = "Maaf, saya tidak menemukan jawaban pada dokumen SOP resmi yang tersedia."
             sources = []
             contexts = []
             scores = []
+            trace.append({
+                "step": "Evaluasi Akhir",
+                "type": "Threshold Refusal",
+                "detail": f"Skor kemiripan tertinggi ({best_score:.4f}) berada di bawah ambang ({threshold:.2f}). Mengembalikan penolakan jujur."
+            })
         else:
-            sources = [doc.metadata.get("id", os.path.basename(doc.metadata.get("source", "SOP.pdf"))) for doc, _ in scored_results]
-            contexts = [doc.page_content for doc, _ in scored_results]
-            scores = [score for _, score in scored_results]
+            sources = [doc.metadata.get("id", os.path.basename(doc.metadata.get("source", "SOP.pdf"))) for doc, _ in top_scored]
+            contexts = [doc.page_content for doc, _ in top_scored]
+            scores = [score for _, score in top_scored]
             
             context_text = "\n\n---\n\n".join(contexts)
             prompt = PROMPT_TEMPLATE.format(context=context_text, question=query_text)
             answer = self.core.generate_synthesis(prompt, contexts, query_text)
+            trace.append({
+                "step": "Sintesis Akhir",
+                "type": "LLM Synthesis",
+                "detail": f"Menghasilkan jawaban menggunakan PROMPT_TEMPLATE dengan {len(contexts)} chunk terbaik."
+            })
             
         total_latency = time.time() - start_time
         metrics = self.calculate_metrics(query_text, answer, contexts if best_score >= threshold else [], scores, total_latency)
@@ -597,7 +705,7 @@ class RAGEngine:
             "sources": sources,
             "contexts": contexts,
             "scores": scores,
-            "raw_docs": [doc.metadata for doc, _ in scored_results] if scored_results else [],
+            "raw_docs": [doc.metadata for doc, _ in top_scored] if top_scored else [],
             "trace": trace,
             "metrics": metrics
         }
