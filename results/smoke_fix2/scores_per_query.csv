@@ -1,0 +1,19 @@
+system,system_name,qid,category,answerable,verified,status,latency_s,prompt_tokens,completion_tokens,llm_calls,answer_chars,rouge1,rouge2,rougeL,key_fact_recall,refusal,false_refusal,refusal_correct,step_coverage,tir,amr,actor_accuracy,actor_unattributed_rate,steps_detected,steps_total
+naive,Naive RAG (Baseline),CUTI-P1,procedural,True,False,ok,15.398,1191,1024,1,395,0.2011834319526627,0.09580838323353293,0.11834319526627218,0.0,False,0.0,,0.125,,0.0,1.0,0.0,1.0,8.0
+naive,Naive RAG (Baseline),CUTI-P2,procedural,True,False,no_llm_call,0.068,0,0,0,72,0.0,0.0,0.0,0.0,False,0.0,,0.0,,,,,0.0,8.0
+naive,Naive RAG (Baseline),CUTI-A1,actor,True,False,ok,10.23,1270,645,1,486,0.3902439024390244,0.25000000000000006,0.36585365853658536,1.0,False,0.0,,,,,,,,
+agentic,Agentic RAG (Tools Agent),CUTI-P1,procedural,True,False,ok,43.261,2222,2897,4,988,0.5462184873949579,0.3135593220338983,0.3865546218487395,0.6,False,0.0,,0.375,0.0,0.0,1.0,0.0,3.0,8.0
+agentic,Agentic RAG (Tools Agent),CUTI-P2,procedural,True,False,ok,15.563,585,1084,2,72,0.0,0.0,0.0,0.0,False,0.0,,0.0,,,,,0.0,8.0
+agentic,Agentic RAG (Tools Agent),CUTI-A1,actor,True,False,ok,37.322,2560,2545,4,486,0.3902439024390244,0.25000000000000006,0.36585365853658536,1.0,False,0.0,,,,,,,,
+crag,Corrective RAG (CRAG),CUTI-P1,procedural,True,False,ok,25.045,1319,1710,2,395,0.2011834319526627,0.09580838323353293,0.11834319526627218,0.0,False,0.0,,0.125,,0.0,1.0,0.0,1.0,8.0
+crag,Corrective RAG (CRAG),CUTI-P2,procedural,True,False,no_llm_call,0.059,0,0,0,176,0.017857142857142856,0.0,0.017857142857142856,0.0,True,1.0,,0.0,,,,,0.0,8.0
+crag,Corrective RAG (CRAG),CUTI-A1,actor,True,False,no_llm_call,0.05,0,0,0,206,0.15384615384615385,0.04,0.15384615384615385,0.0,True,1.0,,,,,,,,
+workflow,Workflow GraphRAG (Process DAG),CUTI-P1,procedural,True,False,ok,15.854,1870,1024,1,758,0.411214953271028,0.22641509433962265,0.28971962616822433,0.4,False,0.0,,0.25,0.0,0.0,1.0,0.0,2.0,8.0
+workflow,Workflow GraphRAG (Process DAG),CUTI-P2,procedural,True,False,ok,15.387,1792,1024,1,1054,0.3835616438356164,0.12903225806451613,0.18264840182648404,0.5,False,0.0,,0.25,0.0,0.0,1.0,0.0,2.0,8.0
+workflow,Workflow GraphRAG (Process DAG),CUTI-A1,actor,True,False,ok,9.159,1871,555,1,315,0.22950819672131145,0.13559322033898308,0.22950819672131145,1.0,False,0.0,,,,,,,,
+htree,Hierarchical Tree RAG,CUTI-P1,procedural,True,False,ok,12.274,390,860,1,927,0.28099173553719003,0.09166666666666667,0.16528925619834708,0.2,False,0.0,,0.0,,,,,0.0,8.0
+htree,Hierarchical Tree RAG,CUTI-P2,procedural,True,False,no_llm_call,0.041,0,0,0,102,0.0,0.0,0.0,0.0,True,1.0,,0.0,,,,,0.0,8.0
+htree,Hierarchical Tree RAG,CUTI-A1,actor,True,False,ok,13.547,680,937,1,707,0.35185185185185186,0.16981132075471697,0.3148148148148149,1.0,False,0.0,,,,,,,,
+htree_v0,Hierarchical Tree RAG v0 (Doc Chunk Baseline),CUTI-P1,procedural,True,False,ok,12.307,390,860,1,927,0.28099173553719003,0.09166666666666667,0.16528925619834708,0.2,False,0.0,,0.0,,,,,0.0,8.0
+htree_v0,Hierarchical Tree RAG v0 (Doc Chunk Baseline),CUTI-P2,procedural,True,False,no_llm_call,0.044,0,0,0,102,0.0,0.0,0.0,0.0,True,1.0,,0.0,,,,,0.0,8.0
+htree_v0,Hierarchical Tree RAG v0 (Doc Chunk Baseline),CUTI-A1,actor,True,False,ok,13.764,680,937,1,707,0.35185185185185186,0.16981132075471697,0.3148148148148149,1.0,False,0.0,,,,,,,,

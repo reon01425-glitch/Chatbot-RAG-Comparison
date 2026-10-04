@@ -1,0 +1,13 @@
+system,category,key_fact_recall,rougeL,step_coverage,tir,amr,refusal_correct
+agentic,actor,1.0,0.36585365853658536,,,,
+agentic,procedural,0.3,0.19327731092436976,0.1875,0.0,0.0,
+crag,actor,0.0,0.15384615384615385,,,,
+crag,procedural,0.0,0.06810016906170752,0.0625,,0.0,
+htree,actor,1.0,0.3148148148148149,,,,
+htree,procedural,0.1,0.08264462809917354,0.0,,,
+htree_v0,actor,1.0,0.3148148148148149,,,,
+htree_v0,procedural,0.1,0.08264462809917354,0.0,,,
+naive,actor,1.0,0.36585365853658536,,,,
+naive,procedural,0.0,0.05917159763313609,0.0625,,0.0,
+workflow,actor,1.0,0.22950819672131145,,,,
+workflow,procedural,0.45,0.23618401399735417,0.25,0.0,0.0,

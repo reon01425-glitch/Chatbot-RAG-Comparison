@@ -1,0 +1,14 @@
+{
+  "scored": "2026-10-04T18:35:13",
+  "ragas": false,
+  "judge_model": null,
+  "judge_embedding": null,
+  "bertscore": false,
+  "bertscore_model": "lang=id default",
+  "reference_system": "naive",
+  "bootstrap_resamples": 10000,
+  "seed": 42,
+  "require_verified": false,
+  "n_items": 3,
+  "n_items_verified": 0
+}
