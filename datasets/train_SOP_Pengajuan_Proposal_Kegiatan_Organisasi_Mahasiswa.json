@@ -1,7 +1,32 @@
 [
   {
-    "id": "data\\SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf:0:0",
-    "qa": "Q: Baku apa langkah-langkah yang dapat diikuti untuk melakukan pengajuan proposal kegiatan organisasi mahasiswa?\nA: Mahasiswa menyerahkan proposal ke petugas kemahasiswaan dan Supervisor Akademik untuk registrasi dan alokasi ruang,Supervisor Akademik dan Kemahasiswaan meneliti dan memverifikasi proposal kegiatan yang diajukan agar sesuai peraturan dan memberikan paraf, Wakil Dekan Akademik dan Kemahasiswaan mengevaluasi substansi proposal kegiatan, pengesahan Wakil Dekan Akademik dan Kemahasiswaan, mahasiswa mengambil proposal yang telah disetujui.",
-    "source": "data\\SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf"
+    "id": "data/SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf:0:0",
+    "qa": "Q: Berapa alokasi batas waktu penyelesaian pengajuan usulan kegiatan ormawa di fakultas?\nA: Total durasi maksimal pemrosesan usulan proposal kegiatan organisasi mahasiswa adalah 3 (tiga) hari kerja.",
+    "source": "data/SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf"
+  },
+  {
+    "id": "data/SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf:0:1",
+    "qa": "Q: Kapan alokasi ruangan diproses saat penyerahan proposal kegiatan himpunan atau ormawa?\nA: Alokasi ruang diproses jika kegiatan ormawa bertempat di lingkungan kampus FSM saat penyerahan proposal ke petugas dan Supervisor Akademik.",
+    "source": "data/SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf"
+  },
+  {
+    "id": "data/SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf:0:2",
+    "qa": "Q: Apa fokus verifikasi yang dijalankan Supervisor Akademik terhadap proposal kemahasiswaan?\nA: Supervisor Akademik dan Kemahasiswaan meneliti kesesuaian proposal kegiatan dengan ketentuan peraturan yang berlaku dan memberi paraf.",
+    "source": "data/SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf"
+  },
+  {
+    "id": "data/SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf:0:3",
+    "qa": "Q: Pejabat pimpinan mana yang bertanggung jawab menelaah kelayakan materi proposal kegiatan ormawa?\nA: Wakil Dekan Akademik dan Kemahasiswaan mengevaluasi substansi materi proposal kegiatan ormawa.",
+    "source": "data/SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf"
+  },
+  {
+    "id": "data/SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf:0:4",
+    "qa": "Q: Langkah validasi akhir apa yang dilakukan oleh pimpinan fakultas pada lembar usulan ormawa?\nA: Wakil Dekan Akademik dan Kemahasiswaan memberikan pengesahan formal pada proposal kegiatan.",
+    "source": "data/SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf"
+  },
+  {
+    "id": "data/SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf:0:5",
+    "qa": "Q: Bagaimana tahapan akhir penyerahan berkas proposal ormawa yang telah divalidasi pimpinan?\nA: Mahasiswa mengambil kembali berkas fisik proposal kegiatan organisasi yang telah disetujui.",
+    "source": "data/SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf"
   }
 ]

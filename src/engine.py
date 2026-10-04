@@ -24,9 +24,9 @@ for k, v in env_config.items():
     if v and k not in os.environ:
         os.environ[k] = v
 
-CHROMA_PATH = "chroma"
-DATA_PATH = "data"
-EMBEDDING_MODEL_PATH = "./indo_finetuned_embedding"
+CHROMA_PATH = os.getenv("CHROMA_PATH", "chroma")
+DATA_PATH = os.getenv("DATA_PATH", "data")
+EMBEDDING_MODEL_PATH = os.getenv("EMBEDDING_MODEL_PATH", "./indo_finetuned_embedding")
 
 PROMPT_TEMPLATE = """
 Anda adalah asisten layanan mahasiswa Fakultas Sains dan Matematika Universitas Diponegoro 

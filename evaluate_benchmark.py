@@ -411,6 +411,22 @@ def cmd_generate(args) -> int:
     if unverified:
         print(f"WARNING: {unverified}/{len(items)} benchmark items are not yet verified by a human.")
 
+    emb_model = getattr(args, "embedding_model", None) or os.getenv("EMBEDDING_MODEL_PATH", "./indo_finetuned_embedding")
+    if emb_model.lower() == "base":
+        emb_model = "LazarusNLP/all-indo-e5-small-v4"
+
+    chroma_dir = getattr(args, "chroma_path", None) or os.getenv("CHROMA_PATH", None)
+    if not chroma_dir:
+        if "all-indo-e5-small-v4" in emb_model:
+            chroma_dir = "chroma_base" if (ROOT / "chroma_base").exists() else "chroma"
+        elif "v2" in emb_model:
+            chroma_dir = "chroma_v2" if (ROOT / "chroma_v2").exists() else "chroma"
+        else:
+            chroma_dir = "chroma"
+
+    os.environ["EMBEDDING_MODEL_PATH"] = emb_model
+    os.environ["CHROMA_PATH"] = str(chroma_dir)
+
     cfg_path = run_dir / "run_config.json"
     cfg = {
         "run_name": args.run_name,
@@ -425,6 +441,8 @@ def cmd_generate(args) -> int:
         "n_items_verified": len(items) - unverified,
         "systems": {k: SYSTEMS[k] for k in systems},
         "generator_model": model,
+        "embedding_model": emb_model,
+        "chroma_path": str(chroma_dir),
         "ollama_version": _ollama_version(),
         "temperature": 0.0,
         "seed": args.seed,
@@ -444,7 +462,7 @@ def cmd_generate(args) -> int:
     }
     if cfg_path.exists():
         old = json.load(open(cfg_path, encoding="utf-8"))
-        for key in ("generator_model", "benchmark_sha256", "seed", "retrieval_k", "retrieval_threshold", "num_ctx"):
+        for key in ("generator_model", "benchmark_sha256", "seed", "retrieval_k", "retrieval_threshold", "num_ctx", "embedding_model"):
             if old.get(key) != cfg.get(key):
                 raise SystemExit(f"run_config mismatch on '{key}' ({old.get(key)} vs {cfg.get(key)}). "
                                  "Use a new --run-name instead of mixing settings in one run.")
@@ -865,6 +883,10 @@ def build_parser() -> argparse.ArgumentParser:
     g.add_argument("--require-verified", action="store_true")
     g.add_argument("--retry-errors", action="store_true", help="re-generate rows that ended in an LLM error")
     g.add_argument("--agentic-max-steps", type=int, default=3, help="Maximum ReAct steps for Agentic RAG (default: 3)")
+    g.add_argument("--embedding-model", default=None,
+                   help="Embedding model path/ID (e.g. 'base', 'LazarusNLP/all-indo-e5-small-v4', './indo_finetuned_embedding_v2')")
+    g.add_argument("--chroma-path", default=None,
+                   help="Chroma persist directory (e.g. 'chroma', 'chroma_base', 'chroma_v2')")
 
     s = sub.add_parser("score", help="score generations")
     s.add_argument("--run-name", required=True)

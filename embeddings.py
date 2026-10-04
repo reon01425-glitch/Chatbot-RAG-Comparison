@@ -2,35 +2,36 @@ import argparse
 import os
 import shutil
 import json
-import subprocess
 from langchain_community.document_loaders import PyPDFDirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain.schema.document import Document
 from langchain_chroma import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
 
-CHROMA_PATH = "chroma"
-DATA_PATH = "data"
-DATASET_PATH = "datasets"
-TRAINED_JSON = os.path.join(DATASET_PATH, "trained.json")
-EMBEDDING_MODEL_PATH = "./indo_finetuned_embedding"
+CHROMA_PATH = os.getenv("CHROMA_PATH", "chroma")
+DATA_PATH = os.getenv("DATA_PATH", "data")
+EMBEDDING_MODEL_PATH = os.getenv("EMBEDDING_MODEL_PATH", "./indo_finetuned_embedding")
 
 
 def main():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description="Build Chroma vector store for SOP documents.")
     parser.add_argument("--reset", action="store_true", help="Reset the database.")
+    parser.add_argument("--chroma-path", default=os.getenv("CHROMA_PATH", "chroma"), help="Persist directory for Chroma DB")
+    parser.add_argument("--model-path", default=os.getenv("EMBEDDING_MODEL_PATH", "./indo_finetuned_embedding"), help="Path or HuggingFace ID of embedding model")
+    parser.add_argument("--data-path", default=os.getenv("DATA_PATH", "data"), help="Path to SOP PDFs")
     args = parser.parse_args()
+
     if args.reset:
-        print("Clearing Database")
-        clear_database()
+        print(f"Clearing Database at {args.chroma_path}")
+        clear_database(args.chroma_path)
 
-    documents = load_documents()
+    documents = load_documents(args.data_path)
     chunks = split_documents(documents)
-    add_to_chroma(chunks)
+    add_to_chroma(chunks, chroma_path=args.chroma_path, model_path=args.model_path)
 
 
-def load_documents():
-    document_loader = PyPDFDirectoryLoader(DATA_PATH)
+def load_documents(data_path: str = DATA_PATH):
+    document_loader = PyPDFDirectoryLoader(data_path)
     return document_loader.load()
 
 
@@ -44,57 +45,29 @@ def split_documents(documents: list[Document]):
     return text_splitter.split_documents(documents)
 
 
-def add_to_chroma(chunks: list[Document]):
-    embedding_function = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL_PATH)
+def add_to_chroma(chunks: list[Document], chroma_path: str = CHROMA_PATH, model_path: str = EMBEDDING_MODEL_PATH):
+    embedding_function = HuggingFaceEmbeddings(model_name=model_path)
 
     db = Chroma(
-        persist_directory=CHROMA_PATH,
+        persist_directory=chroma_path,
         embedding_function=embedding_function,
         collection_metadata={"hnsw:space": "cosine"}
     )
 
     chunks_with_ids = calculate_chunk_ids(chunks)
 
-    existing_items = db.get(include=[]) 
+    existing_items = db.get(include=[])
     existing_ids = set(existing_items["ids"])
-    print(f"Number of existing documents in DB: {len(existing_ids)}")
+    print(f"Number of existing documents in DB ({chroma_path}): {len(existing_ids)}")
 
-    docs_grouped = {}
-    for chunk in chunks_with_ids:
-        src = os.path.basename(chunk.metadata.get("source", ""))
-        docs_grouped.setdefault(src, []).append(chunk)
-
-    if os.path.exists(TRAINED_JSON):
-        with open(TRAINED_JSON, "r", encoding="utf-8") as f:
-            trained_files = set(json.load(f))
-    else:
-        trained_files = set()
-
-    for doc_name, doc_chunks in docs_grouped.items():
-        print(f"\nProcessing {doc_name} ...")
-        new_chunks = [c for c in doc_chunks if c.metadata["id"] not in existing_ids]
-
-        if not new_chunks:
-            print(f"{doc_name} already in DB, skipping...")
-            continue
-
-        train_file = f"train_{os.path.splitext(doc_name)[0]}.json"
-
-        if train_file not in trained_files:
-            print(f"{doc_name} not yet trained -> Generating QA & Fine-tuning...")
-            subprocess.run(["python", "generate_qa.py", "--doc", doc_name], check=True)
-            subprocess.run(["python", "finetune_embeddings.py"], check=True)
-            embedding_function = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL_PATH)
-            db = Chroma(
-                persist_directory=CHROMA_PATH,
-                embedding_function=embedding_function
-            )
-        else:
-            print(f"{doc_name} already trained, skipping training...")
-
-        print(f"Adding {len(new_chunks)} chunks from {doc_name} to DB")
+    new_chunks = [c for c in chunks_with_ids if c.metadata["id"] not in existing_ids]
+    if new_chunks:
+        print(f"Adding {len(new_chunks)} new chunks to DB ({chroma_path}) with model {model_path}...")
         new_chunk_ids = [chunk.metadata["id"] for chunk in new_chunks]
         db.add_documents(new_chunks, ids=new_chunk_ids)
+        print("Indexed successfully.")
+    else:
+        print("No new documents to add.")
 
 
 def calculate_chunk_ids(chunks):
@@ -119,9 +92,9 @@ def calculate_chunk_ids(chunks):
     return chunks
 
 
-def clear_database():
-    if os.path.exists(CHROMA_PATH):
-        shutil.rmtree(CHROMA_PATH)
+def clear_database(chroma_path: str = CHROMA_PATH):
+    if os.path.exists(chroma_path):
+        shutil.rmtree(chroma_path)
 
 
 if __name__ == "__main__":

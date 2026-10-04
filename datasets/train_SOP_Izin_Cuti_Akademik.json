@@ -1,7 +1,47 @@
 [
   {
-    "id": "data\\SOP_Izin_Cuti_Akademik.pdf:0:0",
-    "qa": "Q: Bermasalahologoan dalam proses permohonan izin cuti akademik?\nA: Mahasiswa dapat menghadapi masalah dalam proses permohonan izin cuti akademik, antara lain:\n\n1. Difficulty in downloading and filling out the application form due to technical issues or lack of access to the required documents.\n2. Delay in obtaining approval and signature from the program director due to busy schedules or conflicting priorities.\n3. Difficulty in submitting the completed application form to the dean's office due to misplacing or forgetting the document.\n4. Long processing time by the dean's office in reviewing and approving the application, resulting in delayed issuance of the permit.\n5. Insufficient information or documentation provided by the student, leading to rejection of the application.",
-    "source": "data\\SOP_Izin_Cuti_Akademik.pdf"
+    "id": "data/SOP_Izin_Cuti_Akademik.pdf:0:0",
+    "qa": "Q: Berapa batas waktu pengerjaan pengurusan izin cuti akademik bagi mahasiswa FSM?\nA: Total maksimal waktu pemrosesan izin cuti akademik adalah 3 (tiga) hari kerja.",
+    "source": "data/SOP_Izin_Cuti_Akademik.pdf"
+  },
+  {
+    "id": "data/SOP_Izin_Cuti_Akademik.pdf:0:1",
+    "qa": "Q: Sistem daring apa yang wajib diisi mahasiswa untuk pengajuan cuti akademik?\nA: Mahasiswa wajib mengisi pengajuan secara online melalui sistem SIAP serta melampirkan berkas persyaratan pada formulir cuti.",
+    "source": "data/SOP_Izin_Cuti_Akademik.pdf"
+  },
+  {
+    "id": "data/SOP_Izin_Cuti_Akademik.pdf:0:2",
+    "qa": "Q: Siapa pihak program studi yang dimintai persetujuan berkas cuti oleh mahasiswa?\nA: Mahasiswa meminta persetujuan dan tanda tangan kepada Ketua Program Studi.",
+    "source": "data/SOP_Izin_Cuti_Akademik.pdf"
+  },
+  {
+    "id": "data/SOP_Izin_Cuti_Akademik.pdf:0:3",
+    "qa": "Q: Ke mana form cuti yang telah disetujui Kaprodi diserahkan oleh pemohon?\nA: Formulir diserahkan ke Dekan, kemudian dilakukan disposisi ke Subbag Akademik dan Kemahasiswaan.",
+    "source": "data/SOP_Izin_Cuti_Akademik.pdf"
+  },
+  {
+    "id": "data/SOP_Izin_Cuti_Akademik.pdf:0:4",
+    "qa": "Q: Tindakan apa yang dilakukan staf Subbag Akademik setelah menerima disposisi permohonan cuti?\nA: Petugas Subbag Akademik dan Kemahasiswaan memverifikasi berkas persyaratan dan menyusun konsep Surat Izin Cuti Akademik.",
+    "source": "data/SOP_Izin_Cuti_Akademik.pdf"
+  },
+  {
+    "id": "data/SOP_Izin_Cuti_Akademik.pdf:0:5",
+    "qa": "Q: Siapa pejabat tata usaha yang memeriksa draf surat izin cuti sebelum diajukan ke pimpinan fakultas?\nA: Supervisor Subbag Akademik dan Kemahasiswaan serta Manajer Bagian Tata Usaha memeriksa dan memberi paraf konsep surat.",
+    "source": "data/SOP_Izin_Cuti_Akademik.pdf"
+  },
+  {
+    "id": "data/SOP_Izin_Cuti_Akademik.pdf:0:6",
+    "qa": "Q: Siapa saja pihak yang menerima salinan tembusan Surat Izin Dekan terkait cuti akademik?\nA: Surat Izin Dekan diberikan dengan tembusan kepada Dosen Wali dan Ketua Program Studi mahasiswa.",
+    "source": "data/SOP_Izin_Cuti_Akademik.pdf"
+  },
+  {
+    "id": "data/SOP_Izin_Cuti_Akademik.pdf:0:7",
+    "qa": "Q: Langkah administratif apa yang dilakukan Subbag Akademik setelah Surat Izin Dekan terbit?\nA: Subbag Akademik dan Kemahasiswaan memperbarui status mahasiswa di Sistem Akademik serta mengarsipkan surat izin.",
+    "source": "data/SOP_Izin_Cuti_Akademik.pdf"
+  },
+  {
+    "id": "data/SOP_Izin_Cuti_Akademik.pdf:0:8",
+    "qa": "Q: Di loket mana mahasiswa dapat mengambil fisik surat izin cuti yang telah selesai diproses?\nA: Mahasiswa dapat mengambil fisik Surat Izin Dekan di loket akademik fakultas.",
+    "source": "data/SOP_Izin_Cuti_Akademik.pdf"
   }
 ]

@@ -1,7 +1,32 @@
 [
   {
-    "id": "data\\SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:0:0",
-    "qa": "Q: Baku apa yang dibutuhkan untuk mengajukan beasiswa melalui SOP Surat Pengajuan Rekomendasi Beasiswa?\nA: Mahasiswa mendownload dan mengisi formulir/Surat Rekomendasi Pengajuan Beasiswa ke Subbag Akademik dan Kemahasiswaan (BAK) Fakultas, dengan waktu pemrosesan maksimal 3 hari dan 45 menit. Dokumen yang dibutuhkan adalah Surat Rekomendasi Beasiswa dan KHS yang dilegalisir, dan hasil pemrosesan akan diberikan dalam bentuk Surat Rekomendasi Beasiswa dan KHS yang dilegalisir.",
-    "source": "data\\SOP_Pengajuan_Rekomendasi_Beasiswa.pdf"
+    "id": "data/SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:0:0",
+    "qa": "Q: Berapa rincian waktu kerja yang ditetapkan untuk menyelesaikan permohonan surat rekomendasi beasiswa?\nA: Waktu pemrosesan rekomendasi beasiswa membutuhkan waktu maksimal 3 hari 45 menit waktu kerja.",
+    "source": "data/SOP_Pengajuan_Rekomendasi_Beasiswa.pdf"
+  },
+  {
+    "id": "data/SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:0:1",
+    "qa": "Q: Formulir apa dan berkas nilai apa yang wajib disiapkan pemohon rekomendasi beasiswa fakultas?\nA: Mahasiswa mengunduh dan melengkapi Formulir Surat Rekomendasi Pengajuan Beasiswa serta menyertakan salinan KHS yang telah dilegalisir.",
+    "source": "data/SOP_Pengajuan_Rekomendasi_Beasiswa.pdf"
+  },
+  {
+    "id": "data/SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:0:2",
+    "qa": "Q: Berapa alokasi durasi verifikasi berkas permohonan beasiswa oleh staf BAK Fakultas?\nA: Pemeriksaan dan verifikasi berkas pengajuan beasiswa oleh BAK Fakultas berlangsung sekitar 1 hari kerja.",
+    "source": "data/SOP_Pengajuan_Rekomendasi_Beasiswa.pdf"
+  },
+  {
+    "id": "data/SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:0:3",
+    "qa": "Q: Apa tanda administratif yang dibubuhkan staf BAK pada draf surat rekomendasi beasiswa?\nA: BAK Fakultas membubuhkan paraf pemeriksaan serta memberikan nomor agenda surat resmi.",
+    "source": "data/SOP_Pengajuan_Rekomendasi_Beasiswa.pdf"
+  },
+  {
+    "id": "data/SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:0:4",
+    "qa": "Q: Berapa lama estimasi tahapan penandatanganan rekomendasi beasiswa oleh pimpinan fakultas?\nA: Tahap penandatanganan oleh Wakil Dekan Akademik dan Kemahasiswaan dialokasikan sekitar 2 hari kerja.",
+    "source": "data/SOP_Pengajuan_Rekomendasi_Beasiswa.pdf"
+  },
+  {
+    "id": "data/SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:0:5",
+    "qa": "Q: Prosedur apa yang wajib dilakukan mahasiswa pada saat menerima surat rekomendasi beasiswa dari BAK?\nA: Mahasiswa mengambil dokumen fisik di bagian BAK Fakultas dan mencatat bukti penerimaan berkas.",
+    "source": "data/SOP_Pengajuan_Rekomendasi_Beasiswa.pdf"
   }
 ]

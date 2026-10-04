@@ -1,7 +1,57 @@
 [
   {
-    "id": "data\\SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:0:0",
-    "qa": "Q: Bermacam-macam langkah yang dapat diikuti untuk memperoleh izin keterlambatan pembayaran UKT?\nA: 1. Unduh, mengisi, dan menandatangani Form Permohonan Keterlambatan Pembayaran UKT; 2. Minta tanda tangan dosen wali serta persetujuan dan tanda tangan Ketua Program Studi; 3. Menyerahkan Form Permohonan Keterlambatan UKT yang ditandatangani dan disetujui kepada Supervisor Sumber Daya; 4. Supervisor Sumber Daya menerima, memeriksa, dan meneliti kelengkapan persyaratan form; 5. Wakil Dekan Sumber Daya memproses Surat Permohonan Izin Keterlambatan Pembayaran UKT; 6. Wakil Dekan Sumber Daya menandatangani Surat Permohonan Izin Keterlambatan Pembayaran UKT; 7. Subbag Sumber Daya memproses Surat Permohonan Keterlambatan Pembayaran UKT; 8. Mahasiswa membawa Surat Permohonan Keterlambatan Pembayaran UKT kepada Wakil Rektor II melalui Manajer Akademik; 9. Wakil Rektor II mendisposisikan ke Direktorat Keuangan untuk memproses pembayaran UKT; dan 10. Bendahara Penerimaan UKT membuka sistem pembayaran mahasiswa.",
-    "source": "data\\SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf"
+    "id": "data/SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:0:0",
+    "qa": "Q: Berapa alokasi masa kerja yang disediakan fakultas untuk memproses izin dispensasi keterlambatan UKT?\nA: Total batas waktu pemrosesan permohonan dispensasi keterlambatan UKT adalah maksimal 3 (tiga) hari kerja.",
+    "source": "data/SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf"
+  },
+  {
+    "id": "data/SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:0:1",
+    "qa": "Q: Tindakan awal apa yang harus dikerjakan mahasiswa saat menyusun permohonan dispensasi UKT?\nA: Mahasiswa mengunduh formulir resmi, mengisinya, menandatangani, serta melampirkan dokumen syarat keterlambatan.",
+    "source": "data/SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf"
+  },
+  {
+    "id": "data/SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:0:2",
+    "qa": "Q: Siapa dua pihak akademik di tingkat departemen yang wajib membubuhkan persetujuan pada form dispensasi UKT?\nA: Mahasiswa meminta tanda tangan persetujuan kepada Dosen Wali dan Ketua Program Studi.",
+    "source": "data/SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf"
+  },
+  {
+    "id": "data/SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:0:3",
+    "qa": "Q: Kepada staf pengelola sarana mana berkas dispensasi UKT diserahkan setelah ditandatangani departemen?\nA: Mahasiswa menyerahkan berkas permohonan keterlambatan yang telah lengkap kepada Supervisor Sumber Daya.",
+    "source": "data/SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf"
+  },
+  {
+    "id": "data/SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:0:4",
+    "qa": "Q: Pimpinan dekanat mana yang menangani permohonan dispensasi keterlambatan biaya kuliah di fakultas?\nA: Wakil Dekan Sumber Daya memproses penerbitan Surat Permohonan Izin Keterlambatan Pembayaran UKT.",
+    "source": "data/SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf"
+  },
+  {
+    "id": "data/SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:0:5",
+    "qa": "Q: Siapa pejabat berwenang di FSM yang menandatangani surat rekomendasi keterlambatan UKT untuk universitas?\nA: Wakil Dekan Sumber Daya menandatangani Surat Permohonan Izin Keterlambatan Pembayaran UKT.",
+    "source": "data/SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf"
+  },
+  {
+    "id": "data/SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:0:6",
+    "qa": "Q: Unit kerja mana di fakultas yang menyelesaikan pemrosesan administratif surat dispensasi UKT?\nA: Subbag Sumber Daya memproses penomoran dan administrasi Surat Permohonan Keterlambatan Pembayaran UKT.",
+    "source": "data/SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf"
+  },
+  {
+    "id": "data/SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:0:7",
+    "qa": "Q: Lewat perantara manajer apa berkas izin dispensasi UKT diserahkan ke tingkat universitas?\nA: Mahasiswa membawa surat permohonan kepada Wakil Rektor II melalui Manajer Akademik universitas.",
+    "source": "data/SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf"
+  },
+  {
+    "id": "data/SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:0:8",
+    "qa": "Q: Ke direktorat mana pimpinan universitas mendisposisikan surat permohonan dispensasi pembayaran UKT?\nA: Wakil Rektor II mendisposisikan surat permohonan kepada Direktorat Keuangan universitas.",
+    "source": "data/SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf"
+  },
+  {
+    "id": "data/SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:0:9",
+    "qa": "Q: Petugas keuangan mana yang memiliki otorisasi untuk membuka kembali sistem billing tagihan mahasiswa?\nA: Bendahara Penerimaan UKT universitas membuka portal tagihan sistem pembayaran mahasiswa yang bersangkutan.",
+    "source": "data/SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf"
+  },
+  {
+    "id": "data/SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf:0:10",
+    "qa": "Q: Tindakan penutup apa yang dilakukan mahasiswa setelah portal billing UKT dibuka kembali?\nA: Mahasiswa menyetorkan biaya pembayaran UKT ke bank mitra yang ditunjuk.",
+    "source": "data/SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf"
   }
 ]

@@ -211,9 +211,11 @@ __marimo__/
 .venv/
 
 # Large Model Weights & Vector Database
-indo_finetuned_embedding/*.safetensors
-indo_finetuned_embedding/*.bin
+indo_finetuned_embedding*/*.safetensors
+indo_finetuned_embedding*/*.bin
+indo_finetuned_embedding_temp/
 chroma/
+chroma_*/
 checkpoints/
 
 

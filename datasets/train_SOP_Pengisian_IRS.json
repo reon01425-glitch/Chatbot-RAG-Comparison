@@ -1,7 +1,37 @@
 [
   {
-    "id": "data\\SOP_Pengisian_IRS.pdf:0:0",
-    "qa": "Q: Bagaimana cara mengisi Isian Rencana Studi (IRS) dengan total waktu pemrosesan maksimal 3 (tiga) hari kerja?\nA: Mahasiswa membayar biaya pendidikan pada bank yang bekerja sama dengan Undip, melakukan her-registrasi online melalui SIAP, melakukan pengisian, perbaikan, atau mencetak IRS sementara secara online melalui SIAP, menemui Pembimbing Akademik untuk berkonsultasi mengenai mata kuliah yang akan diambil, dan apabila mata kuliah dan jumlah SKS sudah sesuai, Pembimbing Akademik melakukan persetujuan secara online pada SIAP.",
-    "source": "data\\SOP_Pengisian_IRS.pdf"
+    "id": "data/SOP_Pengisian_IRS.pdf:0:0",
+    "qa": "Q: Berapa hari rentang waktu maksimal yang dialokasikan untuk menyelesaikan seluruh rangkaian IRS mahasiswa?\nA: Total maksimal durasi pemrosesan pengisian Isian Rencana Studi (IRS) adalah 3 (tiga) hari kerja.",
+    "source": "data/SOP_Pengisian_IRS.pdf"
+  },
+  {
+    "id": "data/SOP_Pengisian_IRS.pdf:0:1",
+    "qa": "Q: Apa bukti setor perbankan yang diperoleh mahasiswa setelah menyelesaikan kewajiban biaya semester?\nA: Mahasiswa mendapatkan lembar bukti pembayaran SPP atau UKT dari teller atau kanal pembayaran bank mitra Undip.",
+    "source": "data/SOP_Pengisian_IRS.pdf"
+  },
+  {
+    "id": "data/SOP_Pengisian_IRS.pdf:0:2",
+    "qa": "Q: Apa tahap registrasi ulang yang wajib diselesaikan setelah melunasi biaya pendidikan semesteran?\nA: Mahasiswa wajib menjalankan her-registrasi secara online melalui portal sistem informasi akademik SIAP.",
+    "source": "data/SOP_Pengisian_IRS.pdf"
+  },
+  {
+    "id": "data/SOP_Pengisian_IRS.pdf:0:3",
+    "qa": "Q: Aktivitas penyusunan jadwal kuliah apa saja yang dapat dilakukan mahasiswa pada aplikasi SIAP?\nA: Mahasiswa melakukan pengisian mata kuliah, perbaikan rencana studi, atau mencetak draf IRS sementara secara daring di SIAP.",
+    "source": "data/SOP_Pengisian_IRS.pdf"
+  },
+  {
+    "id": "data/SOP_Pengisian_IRS.pdf:0:4",
+    "qa": "Q: Aspek apa yang dievaluasi Dosen Pembimbing Akademik saat sesi bimbingan rencana studi mahasiswa?\nA: Pembimbing Akademik memberikan konsultasi pemilihan mata kuliah dengan mempertimbangkan pagu beban SKS maksimal semester berjalan.",
+    "source": "data/SOP_Pengisian_IRS.pdf"
+  },
+  {
+    "id": "data/SOP_Pengisian_IRS.pdf:0:5",
+    "qa": "Q: Bagaimana mekanisme persetujuan IRS oleh dosen wali apabila susunan mata kuliah telah dinyatakan valid?\nA: Pembimbing Akademik menyetujui rencana studi secara digital langsung pada sistem SIAP.",
+    "source": "data/SOP_Pengisian_IRS.pdf"
+  },
+  {
+    "id": "data/SOP_Pengisian_IRS.pdf:0:6",
+    "qa": "Q: Bagaimana cara mahasiswa memastikan bahwa IRS semesterannya telah sah dan terekam di pangkalan data?\nA: Mahasiswa dapat memantau status IRS online dan mengunduh berkas IRS pada portal SIAP.",
+    "source": "data/SOP_Pengisian_IRS.pdf"
   }
 ]

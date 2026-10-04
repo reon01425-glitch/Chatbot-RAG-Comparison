@@ -1,7 +1,22 @@
 [
   {
-    "id": "data\\SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf:0:0",
-    "qa": "Q: Bagaimana cara memperoleh izin aktif setelah cuti?\nA: Mahasiswa membawa surat Izin Cuti Akademik melapor kepada Ketua Program Studi dan Subbag Akademik dan Kemahasiswaan, serta mengikuti registrasi online pada SSO masing-masing mahasiswa untuk terdaftar sebagai Peserta Kuliah / Mahasiswa Aktif di Fakuktas.",
-    "source": "data\\SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf"
+    "id": "data/SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf:0:0",
+    "qa": "Q: Apa tujuan utama dari diterbitkannya prosedur resmi permohonan aktif kembali setelah cuti studi?\nA: SOP ini mengatur tata cara bagi mahasiswa yang selesai masa cuti akademik agar memperoleh izin aktif kembali sebagai peserta kuliah.",
+    "source": "data/SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf"
+  },
+  {
+    "id": "data/SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf:0:1",
+    "qa": "Q: Berkas identitas diri apa yang diserahkan bersama lembar persetujuan libur studi sebelumnya kepada Kaprodi?\nA: Mahasiswa melampirkan fotokopi Kartu Tanda Mahasiswa (KTM) bersama surat izin cuti akademik sebelumnya.",
+    "source": "data/SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf"
+  },
+  {
+    "id": "data/SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf:0:2",
+    "qa": "Q: Kanal portal tunggal apa yang diakses mahasiswa untuk aktivasi status perkuliahan secara mandiri?\nA: Mahasiswa mengakses akun Single Sign-On (SSO) masing-masing untuk melakukan pendaftaran online.",
+    "source": "data/SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf"
+  },
+  {
+    "id": "data/SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf:0:3",
+    "qa": "Q: Status kemahasiswaan apa yang diperoleh setelah seluruh alur lapor aktif pasca-cuti terpenuhi?\nA: Mahasiswa resmi terdaftar kembali sebagai Peserta Kuliah dan Mahasiswa Aktif di lingkungan Fakultas Sains dan Matematika.",
+    "source": "data/SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf"
   }
 ]
