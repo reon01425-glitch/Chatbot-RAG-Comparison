@@ -239,3 +239,37 @@ Teks di bawah ini disediakan sebagai pengganti langsung pada slide presentasi bi
   2. Cakupan Korpus: Eksperimen berfokus pada korpus terarah (7 SOP resmi FSM UNDIP, ~1.100 kata), yang memungkinkan perbandingan langsung terhadap batas atas Full-Context LLM.
   3. Validasi Benchmark Human-in-the-Loop: 40 item benchmark telah dirancang komprehensif (prosedural, aktor, dokumen, waktu, cross-SOP, unanswerable) dan siap melalui tahap penelaahan pakar/staf akademik FSM.
 ```
+
+---
+
+## 7. Bagian Koreksi (Addendum & Retraksi Temuan Review)
+
+Bagian ini ditambahkan sebagai tindak lanjut atas audit temuan review (4 Oktober 2026) untuk memastikan integritas akademik dan ketelitian dokumentasi:
+
+### A. Koreksi Hitungan Inferensi LLM
+- **Klaim Sebelumnya (Bagian 5.3)**: Menyebutkan "8 arsitektur × 40 soal = 320 inferensi".
+- **Koreksi Faktual**: Evaluasi lengkap mencakup **10 sistem komparasi** (8 arsitektur RAG: `naive`, `agentic`, `crag`, `graph_sop`, `workflow`, `self_rag`, `htree`, `multimodal` + 2 pembanding batas: `llm_only` dan `full_context`), sehingga total soal evaluasi adalah $10 \times 40 = 400$ soal (atau 440 soal jika mengikutsertakan baseline ablasi `htree_v0`).
+- **Hitungan Panggilan LLM Riil**: Jumlah panggilan LLM (*inference calls*) **jauh melampaui 400 panggilan**, karena:
+  1. `agentic` menjalankan penalaran ReAct loop multi-iterasi ($2 - 4$ panggilan per soal).
+  2. `crag` memanggil LLM untuk query rewrite pada status retrieval `AMBIGUOUS` ($1 - 2$ panggilan per soal).
+  Total pemanggilan LLM pada run penuh 40 soal diperkirakan mencapai 480–560 panggilan riil.
+
+### B. Retraksi dan Penyesuaian Klaim
+- **Klaim "Zero Data Leakage" / "Bebas Kontaminasi" (Bagian 1 & 3.B)**:
+  *Ditarik dan diganti*: Istilah "zero leakage" ditarik karena tidak dapat dibuktikan secara mutlak. Pernyataan objektif yang berlaku adalah: "Data fine-tuning lolos uji leksikal dengan ROUGE-L < 0.50 (maksimum 0.44) dan uji semantik model dasar dengan kemiripan kosinus < 0.85 (maksimum 0.819 terhadap benchmark)."
+- **Klaim "Membuktikan Secara Empiris" (Bagian 2 & Slide 9)**:
+  *Ditarik dan diganti*: Kata "membuktikan" ditarik. Keberadaan baseline ablasi `htree_v0` ditujukan "untuk menguji hipotesis keunggulan retrieval berbasis leaf chunk dibandingkan dokumen kasar pada run evaluasi penuh".
+- **Klaim "Tanpa Fenomena Parent-Orphan Chunking" (Slide 9)**:
+  *Disesuaikan menjadi*: "Mengekspansi konteks ke pohon dokumen induk lengkap untuk memitigasi risiko pemotongan konteks relasional (parent-orphan chunking)."
+
+### C. Koreksi Uraian Perbedaan Graf Alur Cuti Akademik
+- **Klaim Sebelumnya (Bagian 5.1)**: Menyebutkan bahwa "Langkah 2–3 pada graf alur memodelkan interaksi Dosen Wali & Kaprodi, sementara teks PDF memodelkan dari perspektif mahasiswa yang membawa form ke Kaprodi dan Dekan."
+- **Koreksi Faktual**: Penyebutan "Dosen Wali" pada langkah 2–3 keliru (Dosen Wali hanya menerima tembusan di langkah 6). Fakta yang benar pada `SOPWorkflowGraph` (`src/graph_sop/workflow_graph.py`):
+  - Simpul langkah 2 menetapkan `actor: "Ketua Program Studi"`.
+  - Simpul langkah 3 menetapkan `actor: "Dekan"`.
+  Pada teks PDF resmi, subjek / pemohon yang meminta tanda tangan Kaprodi (langkah 2) dan menyerahkan berkas ke Dekan (langkah 3) adalah **Mahasiswa**. Perbedaan ini merupakan abstraksi pemodelan swimlane peran dalam struktur DAG alur.
+
+### D. Catatan Model Embedding pada Uji Asap Pertama (`smoke_fix`)
+- Uji asap `smoke_fix` sebelumnya tercatat menggunakan model embedding v1 (`./indo_finetuned_embedding`) dan `chroma` bawaan, bukan model v2, serta dijalankan dalam kondisi `git_dirty: true`.
+- Evaluasi selanjutnya telah diperbaiki dengan penegakan bendera wajib `--embedding-model`, verifikasi `index_manifest.json`, dan kondisi working tree bersih (`git_dirty: false`).
+
