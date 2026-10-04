@@ -48,6 +48,14 @@ class SOPHierarchicalChunker:
             step_blocks = []
             current_step = None
             
+            ATTR_PATTERNS = [
+                r'^Dokumen yang dibutuhkan\s*:',
+                r'^Output\s*:',
+                r'^Link unduh form\s*:',
+                r'^Waktu\s*:'
+            ]
+            in_attr = False
+
             for line in lines:
                 # Check for numbered step: "1. Mahasiswa ...", "2. Dekan ...", etc.
                 step_match = re.match(r"^(\d+)\.\s+(.*)", line)
@@ -55,15 +63,28 @@ class SOPHierarchicalChunker:
                     if current_step:
                         step_blocks.append(current_step)
                     step_num = int(step_match.group(1))
-                    step_content = step_match.group(2)
+                    step_content = step_match.group(2).strip()
                     current_step = {
                         "step_num": step_num,
                         "header": f"Langkah {step_num}",
                         "text": step_content,
                         "details": []
                     }
+                    in_attr = False
                 elif current_step:
-                    current_step["details"].append(line)
+                    is_attr_label = any(re.match(p, line, re.IGNORECASE) for p in ATTR_PATTERNS)
+                    if is_attr_label:
+                        in_attr = True
+                        current_step["details"].append(line)
+                    elif in_attr:
+                        # Continuation of an attribute line (e.g. url, continuation of required docs)
+                        if current_step["details"]:
+                            current_step["details"][-1] += " " + line
+                        else:
+                            current_step["details"].append(line)
+                    else:
+                        # Continuation of step procedural sentence
+                        current_step["text"] += " " + line
                 else:
                     overview_lines.append(line)
                     

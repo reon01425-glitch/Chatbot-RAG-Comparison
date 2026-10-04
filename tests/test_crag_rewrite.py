@@ -11,10 +11,16 @@ def make_dummy_doc(content: str, source: str = "SOP_Izin_Cuti_Akademik.pdf", doc
 @pytest.fixture
 def crag_engine():
     engine = RAGEngine()
+    orig_db = engine.core.db
+    orig_emb = engine.core.embedding_function
+    orig_call_llm = engine.core.call_llm
     dummy_doc = make_dummy_doc("Ketentuan cuti akademik FSM Universitas Diponegoro.")
     engine.core.db = MagicMock()
     engine.core.db.similarity_search.return_value = [dummy_doc]
-    return engine
+    yield engine
+    engine.core.db = orig_db
+    engine.core.embedding_function = orig_emb
+    engine.core.__dict__.pop("call_llm", None)
 
 
 def test_crag_correct_grade_no_rewrite(crag_engine):

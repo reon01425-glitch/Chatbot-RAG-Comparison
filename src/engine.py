@@ -88,7 +88,8 @@ class RAGCore:
         from src.graph_sop.workflow_graph import SOPWorkflowGraph
         from src.graph_sop.hierarchical_chunker import SOPHierarchicalChunker
         self.workflow_graph = SOPWorkflowGraph()
-        self.hierarchical_chunker = SOPHierarchicalChunker()
+        self.hierarchical_chunker = SOPHierarchicalChunker(data_path=DATA_PATH)
+        self._init_htree_collection()
         print("[RAGCore] Initialization complete.")
 
     @classmethod
@@ -174,6 +175,29 @@ class RAGCore:
         ]
         for u, v, r in relations:
             self.graph.add_edge(u, v, relationship=r)
+
+    def _init_htree_collection(self):
+        """Initializes or connects to the separate 'htree_leaves' collection in Chroma."""
+        try:
+            self.htree_db = Chroma(
+                collection_name="htree_leaves",
+                persist_directory=CHROMA_PATH,
+                embedding_function=self.embedding_function,
+                collection_metadata={"hnsw:space": "cosine"}
+            )
+            existing = self.htree_db.get(include=[])
+            existing_ids = set(existing.get("ids", []))
+            new_leaves = [
+                chunk for chunk in self.hierarchical_chunker.leaf_chunks
+                if chunk.metadata.get("id") not in existing_ids
+            ]
+            if new_leaves:
+                ids = [chunk.metadata["id"] for chunk in new_leaves]
+                print(f"[RAGCore] Indexing {len(new_leaves)} leaf chunks into 'htree_leaves' collection...")
+                self.htree_db.add_documents(new_leaves, ids=ids)
+        except Exception as e:
+            print(f"[RAGCore] Warning: Failed to initialize htree_leaves collection: {e}")
+            self.htree_db = self.db
 
     def is_ollama_available(self) -> bool:
         try:
@@ -1014,8 +1038,8 @@ class RAGEngine:
             "metrics": metrics
         }
 
-    def execute_hierarchical_rag(self, query_text: str, k: int = 3, threshold: float = 0.3) -> Dict[str, Any]:
-        """8. Hierarchical Tree RAG (Parent Document Tree + Child Step Chunking)"""
+    def execute_hierarchical_rag_v0(self, query_text: str, k: int = 3, threshold: float = 0.3) -> Dict[str, Any]:
+        """8a. Hierarchical Tree RAG v0 (Ablation Baseline: Document-level Chunk Retrieval + Parent Tree Expansion)"""
         start_time = time.time()
         trace = []
         
@@ -1032,9 +1056,9 @@ class RAGEngine:
         best_doc, best_score = scored_results[0] if scored_results else (None, 0.0)
         
         trace.append({
-            "step": "1. Leaf Chunk Vector Retrieval",
-            "type": "Bottom-Up Traversal",
-            "detail": f"Retrieved top-{len(docs)} chunks. Best similarity: {best_score:.4f}"
+            "step": "1. Document Chunk Vector Retrieval (v0 Baseline)",
+            "type": "Coarse-Grained Traversal",
+            "detail": f"Retrieved top-{len(docs)} document chunks from standard index. Best similarity: {best_score:.4f}"
         })
         
         if best_score < threshold:
@@ -1074,6 +1098,78 @@ class RAGEngine:
         metrics = self.calculate_metrics(query_text, answer, contexts if best_score >= threshold else [], scores, total_latency)
         
         return {
+            "architecture": "Hierarchical Tree RAG v0 (Doc Chunk Baseline)",
+            "answer": answer,
+            "sources": sources,
+            "contexts": contexts,
+            "scores": scores,
+            "raw_docs": [doc.metadata for doc, _ in scored_results] if scored_results else [],
+            "trace": trace,
+            "metrics": metrics
+        }
+
+    def execute_hierarchical_rag(self, query_text: str, k: int = 3, threshold: float = 0.3) -> Dict[str, Any]:
+        """8. Hierarchical Tree RAG (Bottom-Up Leaf Chunk Retrieval + Top-Down Parent Tree Context Expansion)"""
+        start_time = time.time()
+        trace = []
+        
+        # Dense top-k retrieval over fine-grained leaf chunks (individual steps & overview)
+        htree_store = getattr(self.core, "htree_db", self.core.db)
+        docs = htree_store.similarity_search(query_text, k=k)
+        query_embedding = self.core.embedding_function.embed_query(query_text)
+        
+        scored_results = []
+        for doc in docs:
+            doc_embedding = self.core.embedding_function.embed_query(doc.page_content)
+            sim = float(cosine_similarity([query_embedding], [doc_embedding])[0][0])
+            scored_results.append((doc, sim))
+            
+        scored_results.sort(key=lambda x: x[1], reverse=True)
+        best_doc, best_score = scored_results[0] if scored_results else (None, 0.0)
+        
+        trace.append({
+            "step": "1. Leaf Chunk Vector Retrieval",
+            "type": "Bottom-Up Traversal",
+            "detail": f"Retrieved top-{len(docs)} leaf chunks from 'htree_leaves'. Best similarity: {best_score:.4f}"
+        })
+        
+        if best_score < threshold:
+            answer = "Maaf, rincian hierarki atau informasi terkait pertanyaan Anda tidak ditemukan dalam dokumen SOP resmi."
+            sources = []
+            contexts = []
+            scores = []
+        else:
+            top_doc = scored_results[0][0]
+            source_file = os.path.basename(top_doc.metadata.get("source", ""))
+            
+            tree_context = ""
+            if source_file in self.core.hierarchical_chunker.document_tree:
+                tree_context = self.core.hierarchical_chunker.get_hierarchical_context_for_doc(source_file)
+                trace.append({
+                    "step": "2. Parent Document Tree Expansion",
+                    "type": "Top-Down Context Injection",
+                    "detail": f"Expanded root node: {source_file} from top-1 leaf ({top_doc.metadata.get('id', '')}) with full procedural tree."
+                })
+            else:
+                tree_context = "\n\n---\n\n".join([d.page_content for d, _ in scored_results])
+                
+            sources = [doc.metadata.get("id", source_file) for doc, _ in scored_results]
+            contexts = [doc.page_content for doc, _ in scored_results]
+            scores = [score for _, score in scored_results]
+            
+            prompt = PROMPT_TEMPLATE.format(context=tree_context, question=query_text)
+            answer = self.core.generate_synthesis(prompt, contexts, query_text)
+            
+            trace.append({
+                "step": "3. Tree-Synthesized Response",
+                "type": "Hierarchical Answer",
+                "detail": f"Generated answer retaining complete hierarchical structure and attributes."
+            })
+            
+        total_latency = time.time() - start_time
+        metrics = self.calculate_metrics(query_text, answer, contexts if best_score >= threshold else [], scores, total_latency)
+        
+        return {
             "architecture": "Hierarchical Tree RAG",
             "answer": answer,
             "sources": sources,
@@ -1089,7 +1185,9 @@ class RAGEngine:
         norm_name = arch_name.lower()
         if "workflow" in norm_name or "bpmn" in norm_name:
             result = self.execute_workflow_graph_rag(query_text, k=k, threshold=threshold)
-        elif "hierarchical" in norm_name or "tree" in norm_name:
+        elif "htree_v0" in norm_name or "tree_v0" in norm_name or "hierarchical_v0" in norm_name or ("v0" in norm_name and ("tree" in norm_name or "hierarchical" in norm_name)):
+            result = self.execute_hierarchical_rag_v0(query_text, k=k, threshold=threshold)
+        elif "hierarchical" in norm_name or "tree" in norm_name or "htree" in norm_name:
             result = self.execute_hierarchical_rag(query_text, k=k, threshold=threshold)
         elif "naive" in norm_name:
             result = self.execute_naive_rag(query_text, k=k, threshold=threshold)

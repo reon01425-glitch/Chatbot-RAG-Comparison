@@ -28,6 +28,32 @@ def main():
     documents = load_documents(args.data_path)
     chunks = split_documents(documents)
     add_to_chroma(chunks, chroma_path=args.chroma_path, model_path=args.model_path)
+    add_htree_to_chroma(chroma_path=args.chroma_path, model_path=args.model_path, data_path=args.data_path)
+
+
+def add_htree_to_chroma(chroma_path: str = CHROMA_PATH, model_path: str = EMBEDDING_MODEL_PATH, data_path: str = DATA_PATH):
+    from src.graph_sop.hierarchical_chunker import SOPHierarchicalChunker
+    embedding_function = HuggingFaceEmbeddings(model_name=model_path)
+    htree_chunker = SOPHierarchicalChunker(data_path=data_path)
+
+    db = Chroma(
+        collection_name="htree_leaves",
+        persist_directory=chroma_path,
+        embedding_function=embedding_function,
+        collection_metadata={"hnsw:space": "cosine"}
+    )
+    existing_items = db.get(include=[])
+    existing_ids = set(existing_items.get("ids", []))
+    print(f"Number of existing leaf chunks in DB ({chroma_path} / htree_leaves): {len(existing_ids)}")
+
+    new_chunks = [c for c in htree_chunker.leaf_chunks if c.metadata.get("id") not in existing_ids]
+    if new_chunks:
+        print(f"Adding {len(new_chunks)} leaf chunks to htree_leaves ({chroma_path}) with model {model_path}...")
+        new_ids = [c.metadata["id"] for c in new_chunks]
+        db.add_documents(new_chunks, ids=new_ids)
+        print("Leaf chunks indexed successfully.")
+    else:
+        print("No new leaf chunks to add to htree_leaves.")
 
 
 def load_documents(data_path: str = DATA_PATH):
