@@ -30,6 +30,15 @@ def main():
     add_to_chroma(chunks, chroma_path=args.chroma_path, model_path=args.model_path)
     add_htree_to_chroma(chroma_path=args.chroma_path, model_path=args.model_path, data_path=args.data_path)
 
+    from src.manifest import create_index_manifest, save_index_manifest
+    manifest = create_index_manifest(
+        chroma_path=args.chroma_path,
+        model_id_or_path=args.model_path,
+        data_path=args.data_path,
+    )
+    save_index_manifest(args.chroma_path, manifest)
+    print(f"Index manifest saved to {args.chroma_path}/index_manifest.json")
+
 
 def add_htree_to_chroma(chroma_path: str = CHROMA_PATH, model_path: str = EMBEDDING_MODEL_PATH, data_path: str = DATA_PATH):
     from src.graph_sop.hierarchical_chunker import SOPHierarchicalChunker

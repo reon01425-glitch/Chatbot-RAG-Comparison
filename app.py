@@ -366,12 +366,14 @@ with st.sidebar:
     st.divider()
     
     # Knowledge base stats
+    active_emb = os.getenv("EMBEDDING_MODEL_PATH", "./indo_finetuned_embedding")
+    active_chroma = os.getenv("CHROMA_PATH", "chroma")
     st.markdown("#### 📊 **Status Sistem**")
     st.markdown(f"""
     - **Vector DB:** Chroma (Active)
-    - **Embedding:** `indo_finetuned_embedding`
+    - **Embedding:** `{active_emb}`
     - **Dimensi Vektor:** 384 dimensions
-    - **Chroma Path:** `chroma/`
+    - **Chroma Path:** `{active_chroma}/`
     - **Total SOP:** 7 Dokumen PDF
     """)
     

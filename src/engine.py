@@ -76,9 +76,23 @@ class RAGCore:
     _instance = None
     
     def __init__(self):
-        print("[RAGCore] Loading embeddings and Chroma vector store...")
-        self.embedding_function = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL_PATH)
-        self.db = Chroma(persist_directory=CHROMA_PATH, embedding_function=self.embedding_function)
+        chroma_path = os.getenv("CHROMA_PATH", CHROMA_PATH)
+        emb_path = os.getenv("EMBEDDING_MODEL_PATH", EMBEDDING_MODEL_PATH)
+        
+        # In evaluation mode, verify index manifest strictly
+        from src.manifest import verify_index_manifest, resolve_embedding_model
+        resolved_emb = resolve_embedding_model(emb_path)
+        is_eval_mode = os.getenv("EVALUATION_MODE", "0").lower() in ("1", "true", "yes")
+        
+        manifest_ok, manifest_msg = verify_index_manifest(chroma_path, resolved_emb, strict=is_eval_mode)
+        if is_eval_mode and not manifest_ok:
+            raise RuntimeError(f"[RAGCore] Index manifest validation failed in evaluation mode: {manifest_msg}")
+        elif not manifest_ok:
+            print(f"[RAGCore] WARNING: {manifest_msg}")
+
+        print(f"[RAGCore] Loading embeddings ({resolved_emb}) and Chroma vector store ({chroma_path})...")
+        self.embedding_function = HuggingFaceEmbeddings(model_name=resolved_emb)
+        self.db = Chroma(persist_directory=chroma_path, embedding_function=self.embedding_function)
         
         # Load and chunk documents for BM25 and Multimodal layout indexing
         self._init_bm25_and_layout()
@@ -88,7 +102,7 @@ class RAGCore:
         from src.graph_sop.workflow_graph import SOPWorkflowGraph
         from src.graph_sop.hierarchical_chunker import SOPHierarchicalChunker
         self.workflow_graph = SOPWorkflowGraph()
-        self.hierarchical_chunker = SOPHierarchicalChunker(data_path=DATA_PATH)
+        self.hierarchical_chunker = SOPHierarchicalChunker(data_path=os.getenv("DATA_PATH", DATA_PATH))
         self._init_htree_collection()
         print("[RAGCore] Initialization complete.")
 
@@ -97,6 +111,10 @@ class RAGCore:
         if cls._instance is None:
             cls._instance = RAGCore()
         return cls._instance
+
+    @classmethod
+    def reset_instance(cls):
+        cls._instance = None
 
     def _init_bm25_and_layout(self):
         self.chunks = []
@@ -178,10 +196,16 @@ class RAGCore:
 
     def _init_htree_collection(self):
         """Initializes or connects to the separate 'htree_leaves' collection in Chroma."""
+        chroma_path = os.getenv("CHROMA_PATH", CHROMA_PATH)
+        emb_path = os.getenv("EMBEDDING_MODEL_PATH", EMBEDDING_MODEL_PATH)
         try:
+            from src.manifest import verify_index_manifest, load_index_manifest
+            manifest = load_index_manifest(chroma_path)
+            manifest_ok, msg = verify_index_manifest(chroma_path, emb_path, strict=False)
+
             self.htree_db = Chroma(
                 collection_name="htree_leaves",
-                persist_directory=CHROMA_PATH,
+                persist_directory=chroma_path,
                 embedding_function=self.embedding_function,
                 collection_metadata={"hnsw:space": "cosine"}
             )
@@ -192,10 +216,15 @@ class RAGCore:
                 if chunk.metadata.get("id") not in existing_ids
             ]
             if new_leaves:
-                ids = [chunk.metadata["id"] for chunk in new_leaves]
-                print(f"[RAGCore] Indexing {len(new_leaves)} leaf chunks into 'htree_leaves' collection...")
-                self.htree_db.add_documents(new_leaves, ids=ids)
+                if manifest is not None and not manifest_ok:
+                    print(f"[RAGCore] Skipping indexing new leaves into '{chroma_path}': manifest model mismatch ({msg}).")
+                else:
+                    ids = [chunk.metadata["id"] for chunk in new_leaves]
+                    print(f"[RAGCore] Indexing {len(new_leaves)} leaf chunks into 'htree_leaves' collection...")
+                    self.htree_db.add_documents(new_leaves, ids=ids)
         except Exception as e:
+            if os.getenv("EVALUATION_MODE", "0").lower() in ("1", "true", "yes"):
+                raise
             print(f"[RAGCore] Warning: Failed to initialize htree_leaves collection: {e}")
             self.htree_db = self.db
 
