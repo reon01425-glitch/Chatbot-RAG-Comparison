@@ -756,18 +756,45 @@ class RAGEngine:
         
         # Handle Ambiguous case with query rewrite
         if grade == "AMBIGUOUS":
-            clean_q = re.sub(r'[^a-zA-Z0-9\s]', '', query_text)
-            tokens = [w for w in clean_q.split() if len(w) > 2]
-            rewritten_query = f"SOP prosedur pengajuan {' '.join(tokens)} Fakultas Sains dan Matematika Undip"
+            rewritten_query = None
+            rewrite_prompt = REWRITE_PROMPT_TEMPLATE.format(query=query_text)
             
-            trace.append({
-                "step": "3. Query Rewriting & Correction",
-                "type": "CRAG Query Reformulator",
-                "detail": f"Rewrote query into: '{rewritten_query}'"
-            })
+            try:
+                raw_rewrite = self.core.call_llm(rewrite_prompt)
+                if raw_rewrite and raw_rewrite.strip():
+                    # Clean output: single line, no quotes, no conversational intro
+                    lines = [ln.strip() for ln in raw_rewrite.strip().splitlines() if ln.strip()]
+                    cleaned = lines[0] if lines else ""
+                    cleaned = re.sub(r'^(kueri baru|query baru|rewritten query|hasil rewrite|kueri)\s*:\s*', '', cleaned, flags=re.IGNORECASE)
+                    cleaned = cleaned.strip('\'"`“”«» ')
+                    if cleaned:
+                        rewritten_query = cleaned
+            except Exception as e:
+                if getattr(self.core, "disable_extractive_fallback", False) or os.getenv("RAG_DISABLE_EXTRACTIVE_FALLBACK", "0") == "1":
+                    raise
+                print(f"[CRAG] LLM rewrite failed: {e}")
+
+            if not rewritten_query:
+                if getattr(self.core, "disable_extractive_fallback", False) or os.getenv("RAG_DISABLE_EXTRACTIVE_FALLBACK", "0") == "1":
+                    raise RuntimeError(f"CRAG query rewrite via LLM failed or produced empty output for query: '{query_text}'")
+                else:
+                    clean_q = re.sub(r'[^a-zA-Z0-9\s]', '', query_text)
+                    tokens = [w for w in clean_q.split() if len(w) > 2]
+                    rewritten_query = f"SOP prosedur pengajuan {' '.join(tokens)} Fakultas Sains dan Matematika Undip"
+                    trace.append({
+                        "step": "3. Query Rewriting Fallback (Heuristic)",
+                        "type": "CRAG Heuristic Fallback",
+                        "detail": f"LLM rewrite gagal/kosong. Fallback ke template heuristik: '{rewritten_query}'"
+                    })
+            else:
+                trace.append({
+                    "step": "3. Query Rewriting & Correction",
+                    "type": "CRAG LLM Query Reformulator",
+                    "detail": f"LLM rewrote query into: '{rewritten_query}'"
+                })
             
             # Secondary retrieval
-            new_docs = self.core.db.similarity_search(rewritten_query, k=k)
+            new_docs = self.core.db.similarity_search(rewritten_query, k=k) if self.core.db else []
             new_scored = []
             for doc in new_docs:
                 doc_emb = self.core.embedding_function.embed_query(doc.page_content)
@@ -782,6 +809,12 @@ class RAGEngine:
                     "step": "4. Post-Rewrite Retrieval",
                     "type": "Corrected Vector Search",
                     "detail": f"Successfully re-retrieved documents. New top similarity: {best_score:.4f}"
+                })
+            elif new_scored:
+                trace.append({
+                    "step": "4. Post-Rewrite Retrieval",
+                    "type": "Corrected Vector Search (Low Confidence)",
+                    "detail": f"Re-retrieved documents remained below threshold ({new_scored[0][1]:.4f} < {lower_threshold:.2f})."
                 })
                 
         if grade == "INCORRECT" or best_score < lower_threshold:
