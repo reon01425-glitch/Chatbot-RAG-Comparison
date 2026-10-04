@@ -47,18 +47,21 @@ Chatbot RAG ini membaca dokumen resmi kampus (SOP format PDF pada folder `data/`
 
 ---
 
-## 🏛️ 6 Arsitektur RAG yang Diuji
+## 🏛️ Arsitektur RAG yang Diuji
 
 | No | Arsitektur | File Sumber | Deskripsi Singkat |
 |:---:|:---|:---|:---|
-| 1 | **Naive RAG (Baseline)** | `src/architectures/naive_rag.py` | Pendekatan standar pencarian vektor kosinus tunggal pada Chroma DB. |
-| 2 | **Hybrid RAG (Dense + BM25)** | `src/architectures/hybrid_rag.py` | Penggabungan pencarian semantik (Chroma) dan leksikal (BM25) dengan algoritma **Reciprocal Rank Fusion (RRF)**. |
-| 3 | **GraphRAG (Entity Expansion)** | `src/architectures/graph_rag.py` | Ekspansi kueri semantik berbasis grafik relasi entitas kampus yang dibangun menggunakan **NetworkX**. |
-| 4 | **Agentic RAG (Tools Agent)** | `src/architectures/agentic_rag.py` | Agent pintar berbasis **LangChain ReAct** yang secara dinamis memanggil alat pencarian dokumen (`cari_dokumen_sop`). |
-| 5 | **Corrective RAG (CRAG)** | `src/architectures/corrective_rag.py` | Alur *self-correction* dengan grader skor kemiripan dan *query rewriter* otomatis untuk kueri ambigu. |
-| 6 | **Multimodal RAG (Layout RAG)** | `src/architectures/multimodal_rag.py` | Ekstraksi deskriptor tata letak visual PDF (tabel data, diagram alur, gambar kerja) untuk memperkaya konteks. |
+| 1 | **Naive RAG (Baseline)** | `src/engine.py` | Pendekatan standar pencarian vektor kosinus tunggal pada Chroma DB ($k=3$). |
+| 2 | **Hybrid RAG (Dense + BM25)** | `src/engine.py` | Penggabungan pencarian semantik (Chroma) dan leksikal (BM25) dengan algoritma **Reciprocal Rank Fusion (RRF)**. |
+| 3 | **GraphRAG (Entity Expansion)** | `src/engine.py` | Ekspansi kueri semantik berbasis grafik relasi entitas kampus yang dibangun menggunakan **NetworkX**. |
+| 4 | **Agentic RAG (ReAct Agent)** | `src/engine.py` | Loop **ReAct (Reasoning + Acting)** multi-langkah (`max_steps=3`) yang sepenuhnya dikendalikan LLM via `call_llm`. |
+| 5 | **Corrective RAG (CRAG)** | `src/engine.py` | Alur *self-correction* dengan confidence grader ($0.55 / 0.35$) dan LLM query rewriter untuk status AMBIGUOUS. |
+| 6 | **Multimodal RAG (Layout RAG)** | `src/engine.py` | Ekstraksi deskriptor tata letak visual PDF (tabel data, diagram alur, gambar kerja) untuk memperkaya konteks. |
+| 7 | **Workflow GraphRAG (Usulan)** | `src/graph_sop/workflow_graph.py` | Pemodelan State Machine DAG kronologis dengan swimlane aktor, prasyarat, luaran, dan diagram visual BPMN/Mermaid. |
+| 8 | **Hierarchical Tree RAG (Usulan)** | `src/graph_sop/hierarchical_chunker.py` | Bottom-up dense retrieval pada 51 leaf chunks (`htree_leaves`) dan top-down expansion ke seluruh pohon prosedur dokumen induk. |
+| 8a | **Hierarchical Tree RAG v0 (Ablasi)** | `src/engine.py` | Sistem baseline ablasi yang melakukan retrieval awal pada chunk dokumen 1.700 karakter sebelum perluasan pohon. |
 
-> 📖 *Dokumentasi teknis lengkap dan alur diagram per arsitektur dapat dibaca di [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).*
+> 📖 *Dokumentasi teknis lengkap dan alur diagram per arsitektur dapat dibaca di [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) dan [docs/EVALUATION_PROTOCOL.md](docs/EVALUATION_PROTOCOL.md).*
 
 ---
 

@@ -9,14 +9,26 @@ Numbers from those two scripts should not be put in the same table, and should n
 | Key | System | Notes |
 |---|---|---|
 | `naive` … `multimodal` | The 6 baselines in `src/engine.py` | via `RAGEngine.query_architecture` |
-| `htree` | Hierarchical Tree RAG (proposed) | same engine |
+| `htree` | Hierarchical Tree RAG (proposed) | leaf chunk retrieval (`htree_leaves`) + parent tree expansion |
+| `htree_v0` | Hierarchical Tree RAG v0 (ablation baseline) | document-level chunk retrieval + parent tree expansion |
 | `workflow` | Workflow GraphRAG / Process DAG (proposed) | same engine |
 | `llm_only` | Generator with no retrieval | lower bound; shows what pure-LLM answers look like |
 | `full_context` | All 7 SOPs pasted into the prompt | **the cost comparison**: the whole corpus is ~1,100 words, so this is cheap here. It must be in the paper if the paper argues RAG is cheaper than "pure LLM". |
 
 All systems use the same generator model, temperature 0, seed 42, the same prompt template, k = 3 and threshold 0.3.
-The engine's silent extractive fallback is disabled during evaluation: if the LLM fails, the row is recorded as an
-error and excluded (with a count), never replaced by copied context.
+All LLM generation calls across all systems (final synthesis, ReAct multi-step agent actions, CRAG query rewrites)
+are routed through a single choke point: `RAGCore.call_llm(prompt) -> str`.
+The evaluator monkey-patches `call_llm` to accurately record total LLM calls, prompt tokens, completion tokens,
+latency, and errors per query (crucial for RQ3 efficiency analysis).
+
+The engine's silent extractive fallback is disabled during evaluation (`RAGCore.disable_extractive_fallback = True`):
+if the LLM fails, the row is recorded as an error and excluded (with a count), never replaced by copied context.
+
+### Embedding Model & Index Ablation Options
+- `--embedding-model`: Path or HuggingFace ID of the embedding model (default: `./indo_finetuned_embedding_v2`, or base model `LazarusNLP/all-indo-e5-small-v4`).
+- `--chroma-path`: Chroma persist directory (e.g. `chroma_v2` for the fine-tuned model index, `chroma_base` for the base model index).
+- `--agentic-max-steps`: Maximum ReAct iterations for Agentic RAG (default: 3).
+All options are recorded in `run_config.json`.
 
 ## Test set — `benchmark/sop_benchmark_v1.json`
 

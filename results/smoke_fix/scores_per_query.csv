@@ -1,0 +1,16 @@
+system,system_name,qid,category,answerable,verified,status,latency_s,prompt_tokens,completion_tokens,llm_calls,answer_chars,rouge1,rouge2,rougeL,key_fact_recall,refusal,false_refusal,refusal_correct,step_coverage,tir,amr,actor_accuracy,actor_unattributed_rate,steps_detected,steps_total
+naive,Naive RAG (Baseline),CUTI-P1,procedural,True,False,ok,16.938,1034,1024,1,988,0.5462184873949579,0.3135593220338983,0.3865546218487395,0.6,False,0.0,,0.375,0.0,0.0,1.0,0.0,3.0,8.0
+naive,Naive RAG (Baseline),CUTI-P2,procedural,True,False,ok,17.031,1113,1024,1,1100,0.3946188340807174,0.19004524886877827,0.2690582959641256,0.75,False,0.0,,0.375,0.0,0.0,1.0,0.0,3.0,8.0
+naive,Naive RAG (Baseline),CUTI-A1,actor,True,False,ok,10.784,1270,645,1,486,0.3902439024390244,0.25000000000000006,0.36585365853658536,1.0,False,0.0,,,,,,,,
+agentic,Agentic RAG (Tools Agent),CUTI-P1,procedural,True,False,ok,48.165,2222,3085,4,916,0.5086206896551725,0.28695652173913044,0.3362068965517241,0.4,False,0.0,,0.375,0.0,0.0,1.0,0.0,3.0,8.0
+agentic,Agentic RAG (Tools Agent),CUTI-P2,procedural,True,False,ok,33.761,1698,2155,3,1100,0.3946188340807174,0.19004524886877827,0.2690582959641256,0.75,False,0.0,,0.375,0.0,0.0,1.0,0.0,3.0,8.0
+agentic,Agentic RAG (Tools Agent),CUTI-A1,actor,True,False,ok,43.921,2560,2591,4,486,0.3902439024390244,0.25000000000000006,0.36585365853658536,1.0,False,0.0,,,,,,,,
+crag,Corrective RAG (CRAG),CUTI-P1,procedural,True,False,ok,15.676,1034,1024,1,916,0.5086206896551725,0.28695652173913044,0.3362068965517241,0.4,False,0.0,,0.375,0.0,0.0,1.0,0.0,3.0,8.0
+crag,Corrective RAG (CRAG),CUTI-P2,procedural,True,False,ok,22.822,1307,1426,2,795,0.3459459459459459,0.1202185792349727,0.14054054054054055,0.25,False,0.0,,0.125,,0.0,1.0,0.0,1.0,8.0
+crag,Corrective RAG (CRAG),CUTI-A1,actor,True,False,ok,19.787,1164,1236,2,502,0.3614457831325301,0.22222222222222224,0.3373493975903614,1.0,False,0.0,,,,,,,,
+htree,Hierarchical Tree RAG,CUTI-P1,procedural,True,False,ok,14.061,390,860,1,927,0.28099173553719003,0.09166666666666667,0.16528925619834708,0.2,False,0.0,,0.0,,,,,0.0,8.0
+htree,Hierarchical Tree RAG,CUTI-P2,procedural,True,False,ok,13.443,384,809,1,829,0.21875,0.0736842105263158,0.14583333333333331,0.25,False,0.0,,0.0,,,,,0.0,8.0
+htree,Hierarchical Tree RAG,CUTI-A1,actor,True,False,ok,14.825,680,937,1,707,0.35185185185185186,0.16981132075471697,0.3148148148148149,1.0,False,0.0,,,,,,,,
+htree_v0,Hierarchical Tree RAG v0 (Doc Chunk Baseline),CUTI-P1,procedural,True,False,ok,13.036,390,860,1,927,0.28099173553719003,0.09166666666666667,0.16528925619834708,0.2,False,0.0,,0.0,,,,,0.0,8.0
+htree_v0,Hierarchical Tree RAG v0 (Doc Chunk Baseline),CUTI-P2,procedural,True,False,ok,13.176,384,809,1,829,0.21875,0.0736842105263158,0.14583333333333331,0.25,False,0.0,,0.0,,,,,0.0,8.0
+htree_v0,Hierarchical Tree RAG v0 (Doc Chunk Baseline),CUTI-A1,actor,True,False,ok,15.21,680,937,1,707,0.35185185185185186,0.16981132075471697,0.3148148148148149,1.0,False,0.0,,,,,,,,

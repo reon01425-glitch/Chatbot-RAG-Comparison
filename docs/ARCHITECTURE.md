@@ -115,31 +115,43 @@ flowchart LR
 ---
 
 ### 4. Agentic RAG (LangChain ReAct Tools Agent)
-* **File Sumber**: `src/architectures/agentic_rag.py` | `RAGEngine.execute_agentic_rag`
+* **File Sumber**: `src/engine.py` | `RAGEngine.execute_agentic_rag`
 
 #### Mekanisme Kerja:
-Menggunakan paradigma **ReAct (Reasoning + Acting)** yang memungkinkan model LLM berpikir secara otonom untuk menentukan kapan dan bagaimana memanggil alat retrieval.
+Menggunakan paradigma **ReAct (Reasoning + Acting)** multi-langkah yang sepenuhnya dikendalikan oleh LLM melalui choke point `RAGCore.call_llm`:
 
-1. **Reasoning (Thought)**: Model menganalisis kebutuhan kueri pengguna.
-2. **Action**: Mengeksekusi tool `cari_dokumen_sop(query)`.
-3. **Observation**: Mengamati hasil dokumen yang diperoleh dan mengevaluasi kecukupan informasinya.
-4. **Synthesis (Final Answer)**: Menyusun jawaban terverifikasi berdasarkan observasi aktual.
+1. **ReAct Execution Loop**:
+   - Loop berjalan hingga maksimal `max_steps = 3` (dapat dikonfigurasi via CLI `--agentic-max-steps` dan dicatat di `run_config.json`).
+   - Setiap langkah memanggil LLM dengan ReAct prompt yang menyajikan riwayat penalaran dan aksi sebelumnya.
+   - Format respons LLM diparse secara toleran: `Thought:` / `Action: cari_dokumen_sop` / `Action Input:` / `Final: siap menjawab`.
+   - Aksi diprioritaskan di atas terminasi `Final` pada langkah awal untuk mencegah terminasi prematur tanpa observasi. Format yang tidak terbaca dicatat secara aman dalam trace tanpa menyebabkan crash.
+2. **Dynamic Tool Execution**:
+   - Tool `cari_dokumen_sop(query)` mengeksekusi pencarian vektor dense ke Chroma DB yang sama ($k=3$) dengan kueri hasil penalaran LLM.
+   - Observasi cuplikan dokumen dikembalikan ke LLM untuk pertimbangan di langkah berikutnya.
+3. **Context Fusion & Threshold Check**:
+   - Seluruh chunk unik yang dikumpulkan dari semua observasi ReAct digabungkan.
+   - Threshold kosinus $0.30$ diterapkan pada skor terbaik. Jika di bawah threshold, sistem mengembalikan penolakan jujur (*honest refusal* template) tanpa memicu sintesis halusinatif.
+4. **Grounded Synthesis**:
+   - Jawaban akhir disintesis menggunakan `PROMPT_TEMPLATE` standar yang sama dengan arsitektur lain atas maksimal $k=3$ chunk teratas, menjamin keadilan evaluasi.
 
 ```mermaid
 flowchart TD
-    Input[Query Pengguna] --> Agent["LangChain ReAct Agent"]
-    Agent --> Thought1["Thought: Memerlukan pencarian SOP"]
-    Thought1 --> Action["Action: cari_dokumen_sop(query)"]
-    Action --> ToolExec["Eksekusi Vector Search Chroma"]
-    ToolExec --> Obs["Observation: Cuplikan Dokumen SOP Ditemukan"]
-    Obs --> Thought2["Thought: Informasi terverifikasi"]
-    Thought2 --> FinalOutput["Final Output Response"]
+    Input[Query Pengguna] --> Agent["LLM ReAct Loop (max_steps=3)"]
+    Agent --> LLMCall["RAGCore.call_llm(ReAct Prompt)"]
+    LLMCall --> Parse{Format Terbaca?}
+    Parse -- "Action: cari_dokumen_sop" --> ToolExec["Eksekusi Vector Search Chroma"]
+    ToolExec --> Obs["Observation: Dokumen SOP"] --> Agent
+    Parse -- "Final: siap menjawab" --> Agg[Agregasi Chunk Unik]
+    Parse -- Format Rusak --> Agg
+    Agg --> Check{Best Score >= 0.3?}
+    Check -- Tidak --> Refusal[Honest Refusal Template]
+    Check -- Ya --> Synth["Sintesis Akhir via PROMPT_TEMPLATE"] --> Answer[Output Terverifikasi]
 ```
 
 ---
 
 ### 5. Corrective RAG / CRAG (Self-Correction & Query Rewriting)
-* **File Sumber**: `src/architectures/corrective_rag.py` | `RAGEngine.execute_crag`
+* **File Sumber**: `src/engine.py` | `RAGEngine.execute_crag`
 
 #### Mekanisme Kerja:
 Menambahkan layer evaluator (*grader*) untuk menilai relevansi retrieval awal dan secara adaptif menentukan langkah koreksi:
@@ -149,19 +161,23 @@ Menambahkan layer evaluator (*grader*) untuk menilai relevansi retrieval awal da
   - Lower Threshold = $0.35$
 
 * **Alur Keputusan**:
-  1. **`CORRECT`** ($\text{Score} \ge 0.55$): Konteks sangat relevan, langsung dilanjutkan ke proses generasi.
-  2. **`AMBIGUOUS`** ($0.35 \le \text{Score} < 0.55$): Konteks kurang meyakinkan; sistem mengaktifkan modul **Query Rewriter** untuk mereformulasi kueri dengan kata kunci yang lebih terarah, lalu melakukan pencarian ulang (*secondary retrieval*).
-  3. **`INCORRECT`** ($\text{Score} < 0.35$): Dokumen tidak relevan sama sekali; sistem memicu *honest refusal* untuk menghentikan halusinasi.
+  1. **`CORRECT`** ($\text{Score} \ge 0.55$): Konteks sangat relevan, langsung dilanjutkan ke proses sintesis akhir via `PROMPT_TEMPLATE`.
+  2. **`AMBIGUOUS`** ($0.35 \le \text{Score} < 0.55$): Konteks kurang meyakinkan. Sistem memicu modul **LLM Query Rewriter** menggunakan `REWRITE_PROMPT_TEMPLATE` lewat `RAGCore.call_llm`. Keluaran dibersihkan menjadi satu baris bersih (menghapus tanda kutip dan prefix seperti "Kueri baru:"), lalu dilakukan pencarian ulang (*secondary retrieval*) ke Chroma DB.
+     - *Evaluation Mode*: Jika rewrite LLM gagal, sistem membangkitkan error eksplisit (`RuntimeError`) tanpa fallback ekstraktif diam-diam.
+     - *Application Mode*: Jika rewrite gagal karena gangguan jaringan/Ollama, sistem fallback ke template heuristik dan menandainya secara eksplisit pada trace.
+  3. **`INCORRECT`** ($\text{Score} < 0.35$): Dokumen tidak relevan sama sekali; sistem memicu *honest refusal* untuk menghentikan halusinasi tanpa memanggil LLM sintesis.
 
 ```mermaid
 flowchart TD
-    Q[Query Asli] --> Search1[Pencarian Tahap 1]
+    Q[Query Asli] --> Search1[Pencarian Tahap 1 Chroma]
     Search1 --> Grader{"Confidence Grader"}
-    Grader -- ">= 0.55 (CORRECT)" --> LLM[Generasi Jawaban Langsung]
-    Grader -- "0.35 - 0.55 (AMBIGUOUS)" --> Rewriter["Query Rewriter (Reformulasi)"]
-    Rewriter --> Search2[Pencarian Ulang Tahap 2]
-    Search2 --> LLM
-    Grader -- "< 0.35 (INCORRECT)" --> Refusal["Fallback Honest Refusal"]
+    Grader -- ">= 0.55 (CORRECT)" --> Synth[Sintesis PROMPT_TEMPLATE]
+    Grader -- "0.35 - 0.55 (AMBIGUOUS)" --> Rewriter["LLM Query Rewrite (call_llm)"]
+    Rewriter --> Clean[Pembersihan Prefix & Tanda Kutip]
+    Clean --> Search2[Pencarian Tahap 2 Chroma]
+    Search2 --> Synth
+    Grader -- "< 0.35 (INCORRECT)" --> Refusal["Honest Refusal (0 LLM Calls)"]
+    Synth --> Answer[Output Terverifikasi]
 ```
 
 ---
@@ -216,11 +232,53 @@ flowchart LR
 
 ---
 
-### 8. Hierarchical Tree RAG (Parent Document Tree Chunking)
-* **File Sumber**: `src/architectures/hierarchical_rag.py` | `src/graph_sop/hierarchical_chunker.py` | `RAGEngine.execute_hierarchical_rag`
+### 8. Hierarchical Tree RAG (Parent Document Tree Chunking & Leaf Retrieval)
+* **File Sumber**: `src/engine.py` | `src/graph_sop/hierarchical_chunker.py` | `RAGEngine.execute_hierarchical_rag`
 
 #### Mekanisme Kerja:
-1. **Hierarchical Document Parsing**: Memecah SOP ke dalam struktur pohon relasional: Root (Dokumen) $\to$ Branch (Bagian/Ketentuan Umum) $\to$ Leaf (Sub-Langkah Prosedur).
-2. **Bottom-up Retrieval**: Mencari kemiripan vektor pada leaf chunks.
-3. **Top-down Context Injection**: Menyuntikkan kembali ringkasan dokumen induk dan relasi hierarki ke dalam prompt generasi untuk mencegah *parent-orphan chunking*.
+Mengatasi problem *parent-orphan chunking* dan hilangnya konteks global SOP saat pencarian berbasis potongan kecil:
+
+1. **Hierarchical Tree Parsing (`SOPHierarchicalChunker`)**:
+   - Memetakan setiap SOP ke dalam pohon relasional: Root (Dokumen) $\to$ Section (Ketentuan Umum & Ringkasan) $\to$ Children (Langkah-Langkah Prosedur).
+   - Parser mempertahankan kontinuitas kalimat langkah: baris lanjutan kalimat langkah digabung ke teks prosedur, sedangkan atribut metadata (`Dokumen yang dibutuhkan:`, `Output:`, `Link unduh form:`, `Waktu:`) diisolasi ke atribut detail.
+   - Menghasilkan tepat 44 langkah terverifikasi dari 7 dokumen PDF SOP (Cuti 8, Aktif 3, Legalisir 6, IRS 6, UKT 11, Beasiswa 5, Ormawa 5) dan 51 leaf chunk (7 ringkasan dokumen + 44 langkah terperinci).
+2. **Dedicated Leaf Chunk Indexing (`htree_leaves`)**:
+   - 51 leaf chunk diindeks ke koleksi Chroma terpisah bernama `htree_leaves` menggunakan model embedding yang sama dengan arsitektur lain.
+   - Setiap leaf chunk diperkaya dengan metadata konteks induk (`DOKUMEN INDUK`, `BAGIAN`, `ISI PROSEDUR`, `DETAIL & ATRIBUT`).
+3. **Bottom-Up Retrieval & Top-Down Expansion**:
+   - Kueri pengguna dicari secara *dense top-k* ($k=3$) langsung pada koleksi `htree_leaves`.
+   - Threshold kosinus $0.30$ diterapkan pada skor terbaik. Jika di bawah threshold, sistem menolak jujur (*honest refusal*).
+   - Jika lolos threshold, dokumen induk dari leaf peringkat 1 diidentifikasi (`top_doc.metadata["source"]`).
+   - Sistem memperluas konteks ke seluruh pohon dokumen SOP induk tersebut (`get_hierarchical_context_for_doc`), menyertakan ringkasan umum dan seluruh sub-langkah beserta atribut detailnya.
+4. **Hierarchical Synthesis**:
+   - Konteks pohon lengkap diinjeksikan ke `PROMPT_TEMPLATE` dan disintesis lewat `RAGCore.call_llm`.
+5. **Ablation Baseline (`htree_v0`)**:
+   - Versi lama sebelum perbaikan dipertahankan sebagai sistem pembanding `htree_v0` (`execute_hierarchical_rag_v0`).
+   - `htree_v0` melakukan retrieval awal pada chunk dokumen standar (1.700 karakter) sebelum memperluas pohon, memungkinkan pembuktian empiris mengenai manfaat *leaf-level chunking* vs *document-level chunking*.
+
+```mermaid
+flowchart TD
+    Q[Query Pengguna] --> LeafSearch["1. Bottom-Up Leaf Search (htree_leaves)"]
+    LeafSearch --> Check{Best Score >= 0.3?}
+    Check -- Tidak --> Refusal[Honest Refusal]
+    Check -- Ya --> Top1["Ambil Parent Doc dari Top-1 Leaf"]
+    Top1 --> TreeExp["2. Top-Down Context Expansion (Full Procedural Tree)"]
+    TreeExp --> Prompt["Context Injection ke PROMPT_TEMPLATE"]
+    Prompt --> LLM["RAGCore.call_llm (Gemma 4:e2b)"]
+    LLM --> Answer[Jawaban Berstruktur Lengkap]
+```
+
+---
+
+## 🔒 Centralized LLM Traceability & Zero Silent Fallback
+
+Untuk menjamin keadilan protokol eksperimen dan evaluasi terukur pada RQ3:
+
+1. **LLM Invocation Choke Point (`RAGCore.call_llm(prompt) -> str`)**:
+   - Seluruh pemanggilan LLM pada semua arsitektur—mulai dari sintesis jawaban akhir, loop ReAct pada Agentic RAG, hingga query rewriting pada CRAG—wajib melewati satu metode terpusat `call_llm`.
+   - Di lingkungan evaluasi (`evaluate_benchmark.py`), fungsi ini di-patch untuk mencatat jumlah panggilan LLM, token masukan (*prompt tokens*), token keluaran (*completion tokens*), latensi per panggilan, dan error aktual.
+2. **Zero Silent Extractive Fallback**:
+   - Mode evaluasi mengaktifkan `RAGCore.disable_extractive_fallback = True`.
+   - Jika inferensi LLM gagal (timeout, crash, atau respons kosong), baris evaluasi dicatat sebagai `llm_error` atau error eksplisit dan tidak pernah digantikan secara diam-diam oleh teks salinan konteks retrieval.
+   - Fallback heuristik hanya diizinkan pada aplikasi interaktif Streamlit, dan wajib ditandai secara eksplisit pada trace.
 
