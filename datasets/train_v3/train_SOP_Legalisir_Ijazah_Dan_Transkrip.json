@@ -1,0 +1,51 @@
+[
+  {
+    "id": "data/SOP_Legalisir_Ijazah_Dan_Transkrip.pdf:0:0",
+    "qa": "Q: Berapa lama durasi pemrosesan pengesahan berkas kelulusan alumni pada SOP Fakultas?\nA: Total maksimal durasi pemrosesan pengesahan legalisir ijazah dan transkrip adalah 3 (tiga) hari kerja.",
+    "source": "data/SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+    "evidence": "total maksimal waktu pemrosesan maksimal 3 (tiga) hari kerja.",
+    "verified": false
+  },
+  {
+    "id": "data/SOP_Legalisir_Ijazah_Dan_Transkrip.pdf:0:1",
+    "qa": "Q: Berkas kelengkapan apa yang diserahkan alumni saat mengajukan permohonan legalisir?\nA: Alumni menyerahkan foto copy ijazah/transkrip nilai/sertifikat akreditasi program studi beserta surat aslinya kepada petugas Subbag Akademik dan Kemahasiswaan.",
+    "source": "data/SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+    "evidence": "Alumni menyerahkan foto copy ijazah/transkrip nilai/sertifikat akreditasi program studi beserta surat aslinya kepada petugas Subbag Akademik dan Kemahasiswaan.",
+    "verified": false
+  },
+  {
+    "id": "data/SOP_Legalisir_Ijazah_Dan_Transkrip.pdf:0:2",
+    "qa": "Q: Apa tindakan petugas Subbag Akademik dalam memvalidasi berkas legalisir alumni?\nA: Petugas Subbag Akademik dan Kemahasiswaan memeriksa keabsahan, kesesuaian foto copy ijazah/transkrip nilai/sertifikat akreditasi program studi dengan surat aslinya dan memberikan cap.",
+    "source": "data/SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+    "evidence": "Petugas Subbag Akademik dan Kemahasiswaan memeriksa keabsahan, kesesuaian foto copy ijazah/transkrip nilai/sertifikat akreditasi program studi dengan surat aslinya dan memberikan cap.",
+    "verified": false
+  },
+  {
+    "id": "data/SOP_Legalisir_Ijazah_Dan_Transkrip.pdf:0:3",
+    "qa": "Q: Di sebelah bagian mana Supervisor Akademik membubuhkan paraf verifikasi legalisir?\nA: Supervisor Akademik dan Kemahasiswaan memeriksa dan memberi paraf di samping kanan nama Dekan.",
+    "source": "data/SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+    "evidence": "Supervisor Akademik dan Kemahasiswaan memeriksa dan memberi paraf di samping kanan nama Dekan.",
+    "verified": false
+  },
+  {
+    "id": "data/SOP_Legalisir_Ijazah_Dan_Transkrip.pdf:0:4",
+    "qa": "Q: Rumusan kalimat apa yang tercantum pada pengesahan yang ditandatangani Dekan atau Wakil Dekan?\nA: Dekan/Wakil Dekan Akademik dan Kemahasiswaan menandatangani pada “Pengesahan Telah diperiksa Kebenarannya dan Sesuai dengan Aslinya”.",
+    "source": "data/SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+    "evidence": "menandatangani pada “Pengesahan Telah diperiksa Kebenarannya dan Sesuai dengan Aslinya”.",
+    "verified": false
+  },
+  {
+    "id": "data/SOP_Legalisir_Ijazah_Dan_Transkrip.pdf:0:5",
+    "qa": "Q: Cap stempel apa yang dibubuhkan petugas setelah berkas legalisir ditandatangani Dekan?\nA: Petugas Subbag Akademik dan Kemahasiswaan memberikan stempel Fakultas Sains dan Matematika.",
+    "source": "data/SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+    "evidence": "memberikan stempel Fakultas Sains dan Matematika.",
+    "verified": false
+  },
+  {
+    "id": "data/SOP_Legalisir_Ijazah_Dan_Transkrip.pdf:0:6",
+    "qa": "Q: Prosedur apa yang harus dipenuhi pemohon saat mengambil berkas legalisir yang telah rampung?\nA: Alumni mengambil Legalisir di Subbag Akademik dan Kemahasiswaan dengan membawa aslinya dan menulis di buku pengambilan dan di tanda tangani ybs.",
+    "source": "data/SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
+    "evidence": "Alumni mengambil Legalisir di Subbag Akademik dan Kemahasiswaan dengan membawa aslinya dan menulis di buku pengambilan dan di tanda tangani ybs.",
+    "verified": false
+  }
+]

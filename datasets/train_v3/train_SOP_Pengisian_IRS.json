@@ -1,0 +1,51 @@
+[
+  {
+    "id": "data/SOP_Pengisian_IRS.pdf:0:0",
+    "qa": "Q: Berapa hari rentang waktu maksimal yang dialokasikan untuk menyelesaikan seluruh rangkaian IRS mahasiswa?\nA: Total maksimal waktu pemrosesan pengisian Isian Rencana Studi (IRS) adalah 3 (tiga) hari kerja.",
+    "source": "data/SOP_Pengisian_IRS.pdf",
+    "evidence": "total maksimal waktu pemrosesan maksimal 3 (tiga) hari kerja.",
+    "verified": false
+  },
+  {
+    "id": "data/SOP_Pengisian_IRS.pdf:0:1",
+    "qa": "Q: Apa output bukti pembayaran yang diperoleh mahasiswa pada langkah awal pengisian IRS?\nA: Output yang didapatkan adalah Bukti Pembayaran SPP/UKT.",
+    "source": "data/SOP_Pengisian_IRS.pdf",
+    "evidence": "Output: Bukti Pembayaran SPP/UKT",
+    "verified": false
+  },
+  {
+    "id": "data/SOP_Pengisian_IRS.pdf:0:2",
+    "qa": "Q: Apa tahap registrasi ulang yang wajib diselesaikan setelah melunasi biaya pendidikan semesteran?\nA: Mahasiswa melakukan her-registrasi online melalui SIAP.",
+    "source": "data/SOP_Pengisian_IRS.pdf",
+    "evidence": "Mahasiswa melakukan her-registrasi online melalui SIAP.",
+    "verified": false
+  },
+  {
+    "id": "data/SOP_Pengisian_IRS.pdf:0:3",
+    "qa": "Q: Aktivitas penyusunan jadwal kuliah apa saja yang dapat dilakukan mahasiswa pada aplikasi SIAP?\nA: Mahasiswa melakukan pengisian, perbaikan, atau mencetak IRS sementara secara online melalui SIAP.",
+    "source": "data/SOP_Pengisian_IRS.pdf",
+    "evidence": "Mahasiswa melakukan pengisian, perbaikan, atau mencetak IRS sementara secara online melalui SIAP.",
+    "verified": false
+  },
+  {
+    "id": "data/SOP_Pengisian_IRS.pdf:0:4",
+    "qa": "Q: Aspek apa yang dievaluasi Pembimbing Akademik saat sesi bimbingan konsultasi mata kuliah mahasiswa?\nA: Pembimbing memberikan arahan dengan mempertimbangkan ketentuan jumlah SKS maksimal pada semester terkait.",
+    "source": "data/SOP_Pengisian_IRS.pdf",
+    "evidence": "Pembimbing memberikan arahan dengan mempertimbangkan ketentuan jumlah SKS maksimal pada semester terkait.",
+    "verified": false
+  },
+  {
+    "id": "data/SOP_Pengisian_IRS.pdf:0:5",
+    "qa": "Q: Bagaimana mekanisme persetujuan IRS oleh Pembimbing Akademik apabila susunan mata kuliah telah sesuai?\nA: Pembimbing Akademik melakukan persetujuan secara online pada SIAP.",
+    "source": "data/SOP_Pengisian_IRS.pdf",
+    "evidence": "Pembimbing Akademik melakukan persetujuan secara online pada SIAP.",
+    "verified": false
+  },
+  {
+    "id": "data/SOP_Pengisian_IRS.pdf:0:6",
+    "qa": "Q: Bagaimana cara mahasiswa memastikan bahwa IRS semesterannya telah sah dan terekam di sistem?\nA: Mahasiswa dapat melakukan pengecekan IRS online di sistem SIAP bila diperlukan.",
+    "source": "data/SOP_Pengisian_IRS.pdf",
+    "evidence": "Mahasiswa dapat melakukan pengecekan IRS online di sistem SIAP bila diperlukan.",
+    "verified": false
+  }
+]

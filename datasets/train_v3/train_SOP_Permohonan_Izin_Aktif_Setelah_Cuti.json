@@ -1,0 +1,30 @@
+[
+  {
+    "id": "data/SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf:0:0",
+    "qa": "Q: Apa tujuan utama dari diterbitkannya SOP Permohonan Izin Aktif Setelah Cuti?\nA: Dokumen ini berisi langkah -langkah yang dapat diikuti untuk dapat memperoleh izin aktif setelah cuti.",
+    "source": "data/SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+    "evidence": "Dokumen ini berisi langkah -langkah yang dapat diikuti untuk dapat memperoleh izin aktif setelah cuti.",
+    "verified": false
+  },
+  {
+    "id": "data/SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf:0:1",
+    "qa": "Q: Surat Izin Cuti dan fotokopi KTM diserahkan pemohon kepada pihak mana pada tahapan pelaporan awal kembali kuliah?\nA: Mahasiswa membawa surat izin cuti akademik dan fotokopi KTM melapor kepada Ketua Program Studi dan Subbag Akademik dan Kemahasiswaan.",
+    "source": "data/SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+    "evidence": "Dokumen yang dibutuhkan : Surat Izin Cuti dan Fotokopi Kartu Tanda Mahasiswa (KTM)",
+    "verified": false
+  },
+  {
+    "id": "data/SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf:0:2",
+    "qa": "Q: Sistem portal apa yang digunakan mahasiswa saat melakukan pendaftaran registrasi online pasca masa istirahat studi?\nA: Mahasiswa melakukan registrasi online pada SSO masing-masing mahasiswa.",
+    "source": "data/SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+    "evidence": "Mahasiswa melakukan registrasi online pada SSO masing-masing mahasiswa.",
+    "verified": false
+  },
+  {
+    "id": "data/SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf:0:3",
+    "qa": "Q: Status kemahasiswaan apa yang diperoleh setelah seluruh alur lapor aktif pasca-cuti terpenuhi?\nA: Mahasiswa terdaftar sebagai Peserta Kuliah / Mahasiswa Aktif di Fakuktas.",
+    "source": "data/SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
+    "evidence": "Mahasiswa terdaftar sebagai Peserta Kuliah / Mahasiswa Aktif di Fakuktas.",
+    "verified": false
+  }
+]

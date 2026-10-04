@@ -1,0 +1,44 @@
+[
+  {
+    "id": "data/SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:0:0",
+    "qa": "Q: Berapa estimasi waktu yang dialokasikan bagi mahasiswa untuk mendownload dan mengisi formulir beasiswa?\nA: Waktu untuk mendownload dan mengisi formulir/Surat Rekomendasi Pengajuan Beasiswa adalah ±30 menit.",
+    "source": "data/SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+    "evidence": "Waktu: ±30 menit",
+    "verified": false
+  },
+  {
+    "id": "data/SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:0:1",
+    "qa": "Q: Formulir apa dan berkas nilai apa yang wajib disiapkan pemohon rekomendasi beasiswa fakultas?\nA: Dokumen yang dibutuhkan adalah Surat Rekomendasi Beasiswa dan KHS yang dilegalisir.",
+    "source": "data/SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+    "evidence": "Dokumen yang dibutuhkan: Surat Rekomendasi Beasiswa dan KHS yang dilegalisir",
+    "verified": false
+  },
+  {
+    "id": "data/SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:0:2",
+    "qa": "Q: Berapa alokasi durasi verifikasi berkas permohonan beasiswa oleh staf BAK Fakultas?\nA: BAK Fakultas meneliti dan memverifikasi Surat Rekomendasi Pengajuan Beasiswa dalam waktu ±1 hari.",
+    "source": "data/SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+    "evidence": "BAK Fakultas meneliti dan memverifikasi Surat Rekomendasi Pengajuan Beasiswa. Waktu: ±1 hari",
+    "verified": false
+  },
+  {
+    "id": "data/SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:0:3",
+    "qa": "Q: Apa tanda administratif yang dibubuhkan staf BAK pada draf surat rekomendasi beasiswa?\nA: BAK Fakultas memberikan paraf dan nomor surat pada Surat Rekomendasi Pengajuan Beasiswa tersebut.",
+    "source": "data/SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+    "evidence": "BAK Fakultas memberikan paraf dan nomor surat pada Surat Rekomendasi Pengajuan Beasiswa tersebut.",
+    "verified": false
+  },
+  {
+    "id": "data/SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:0:4",
+    "qa": "Q: Siapakah pejabat dekanat yang berwenang membubuhkan tanda tangan pada Surat Rekomendasi Pengajuan Beasiswa?\nA: Wakil Dekan Akademik dan Kemahasiswaan memberikan tanda tangan pada Surat Rekomendasi Pengajuan Beasiswa tersebut.",
+    "source": "data/SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+    "evidence": "Wakil Dekan Akademik dan Kemahasiswaan memberikan tanda tangan pada Surat Rekomendasi Pengajuan Beasiswa tersebut.",
+    "verified": false
+  },
+  {
+    "id": "data/SOP_Pengajuan_Rekomendasi_Beasiswa.pdf:0:5",
+    "qa": "Q: Prosedur apa yang wajib dilakukan mahasiswa pada saat menerima surat rekomendasi beasiswa dari BAK?\nA: Mahasiswa mengambil surat tersebut di BAK Fakultas dan mencatat bukti pengambilan.",
+    "source": "data/SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
+    "evidence": "Mahasiswa mengambil surat tersebut di BAK Fakultas dan mencatat bukti pengambilan.",
+    "verified": false
+  }
+]
