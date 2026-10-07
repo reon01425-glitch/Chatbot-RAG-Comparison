@@ -128,8 +128,11 @@ python evaluate_benchmark.py check-leakage --train-dir datasets/train_v3 --seman
 * Judge model must be **distinct from the generator** (e.g. generator `gemma4:e2b`, judge `llama3.1:8b`).
 
 ### Statistical Significance:
-* 95% bootstrap confidence intervals (10,000 resamples) per system.
-* Paired Wilcoxon signed-rank tests against Naive RAG with Holm correction (`significance.csv`).
+* 95% bootstrap confidence intervals (10,000 resamples, seed 42) per system.
+* Paired Wilcoxon signed-rank tests (`zero_method="zsplit"`, only when a pair has $\ge 6$ questions with a non-zero difference) against one or more **reference systems**: `score --reference naive` (default) or `score --reference naive,graph`.
+* **Holm family (definition).** One family = one *(reference, metric)* pair: the p-values of all non-reference systems in the run for that metric against that reference are Holm-corrected together. Metrics tested: KFR, ROUGE-L, BERTScore-F1, Faithfulness, Answer Relevancy, Step Coverage, TIR, AMR (those present). Different metrics and different references are separate families. A second reference therefore adds a second block of families and never changes the adjusted p-values of the first block. This is the same family definition the single-reference version used; it does not correct across metrics or across references.
+* `significance.csv`: one row per (reference, metric, system) with `n_pairs`, `mean_diff` (system $-$ reference, paired), `median_diff`, `p_wilcoxon`, `p_holm`, and the 95% bootstrap CI of the paired mean difference (`mean_diff_ci_lo`, `mean_diff_ci_hi`; 10,000 resamples of the per-question differences, seed 42). The CI columns are appended last, so with the default `--reference naive` every pre-existing column keeps the same order and values as before (tested in `tests/test_significance_multi_ref.py`).
+* `significance_table.tex`: paired mean differences with CI, one block per reference; $^{*}$ marks $p_{Holm} < 0.05$ within that block. For the paper: `--reference naive,graph` gives Workflow vs Naive and Workflow vs GraphRAG as separately corrected comparisons.
 
 ---
 
@@ -152,8 +155,10 @@ python evaluate_benchmark.py generate --run-name smoke_check --embedding-model v
 python evaluate_benchmark.py score --run-name smoke_check
 
 # 5. Full evaluation run (40 questions, all 10 systems + htree_v0)
-python evaluate_benchmark.py generate --run-name gemma4_v3 --embedding-model v3 --systems naive,agentic,crag,graph_sop,workflow,self_rag,htree,htree_v0,llm_only,full_context
-python evaluate_benchmark.py score --run-name gemma4_v3 --ragas --judge-model llama3.1:8b --bertscore
+# (system keys must be from SYSTEMS in evaluate_benchmark.py: naive, hybrid, graph, agentic, crag, multimodal,
+#  htree, htree_v0, workflow, llm_only, full_context)
+python evaluate_benchmark.py generate --run-name gemma4_v3 --embedding-model v3 --systems naive,hybrid,graph,agentic,crag,multimodal,workflow,llm_only,full_context --require-verified
+python evaluate_benchmark.py score --run-name gemma4_v3 --reference naive,graph --ragas --judge-model llama3.1:8b --bertscore --require-verified
 ```
 
 Outputs are persisted in `results/<run-name>/` with full runtime configuration (`run_config.json`), model weights SHA256, index manifest, and generations for complete auditability.
