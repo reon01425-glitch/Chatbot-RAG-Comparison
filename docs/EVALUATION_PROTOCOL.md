@@ -107,6 +107,11 @@ python evaluate_benchmark.py check-leakage --train-dir datasets/train_v3 --seman
 
 **Verification Requirement**: Before reporting final figures in publications, verify every item against the source PDF, set `"verified": true`, and execute with `--require-verified`.
 
+**Verification workflow** (Goal A, Tugas 3):
+1. `python scripts/make_verification_sheet.py` → `benchmark/verification_sheet_v1.csv` (UTF-8 with BOM). One row per item with question, reference, `must_include`, gold steps and actors, the PDF subject of each step, relevant PDF quotes, and `auto_flags` (mechanical hints, not verdicts).
+2. A human fills `verified (y/n)`, `perlu_koreksi`, `catatan`, `verifikator`. Corrections to item content are made by hand in the JSON. Then regenerate with `--merge`, which keeps the filled columns and clears `verified` for edited items.
+3. `python scripts/apply_verification.py [--dry-run]` sets `"verified": true` plus `verified_by` / `verified_at`, only for rows with `y` and an empty `perlu_koreksi`. It refuses to write anything if a `y` row also needs correction, has no verifier, or the item changed since the sheet was made.
+
 ---
 
 ## 7. Metrics
