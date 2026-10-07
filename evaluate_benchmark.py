@@ -905,6 +905,7 @@ def _run_ragas(rows: List[Dict[str, Any]], args, cache_path: Path) -> Dict[Tuple
         from ragas.run_config import RunConfig
 
         judge = LangchainLLMWrapper(ChatOllama(model=args.judge_model, temperature=0.0, seed=args.seed,
+                                               num_ctx=args.judge_num_ctx,
                                                client_kwargs={"timeout": args.judge_timeout}))
         emb = LangchainEmbeddingsWrapper(HuggingFaceEmbeddings(model_name=args.judge_embedding))
         by_system: Dict[str, List[Dict[str, Any]]] = {}
@@ -1098,6 +1099,7 @@ def cmd_score(args) -> int:
                  "judge_model": args.judge_model if args.ragas else None,
                  "judge_model_info": _ollama_model_info([args.judge_model]).get(args.judge_model) if args.ragas else None,
                  "judge_embedding": args.judge_embedding if args.ragas else None,
+                 "judge_num_ctx": args.judge_num_ctx if args.ragas else None,
                  "bertscore": args.bertscore, "bertscore_model": args.bertscore_model or "lang=id default",
                  "reference_system": ",".join(references),
                  "holm_family": "per (reference, metric): all non-reference systems compared with that reference",
@@ -1165,6 +1167,9 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--judge-embedding", default="LazarusNLP/all-indo-e5-small-v4",
                    help="embedding model for answer relevancy (base model, not the fine-tuned one)")
     s.add_argument("--judge-timeout", type=float, default=600.0)
+    s.add_argument("--judge-num-ctx", type=int, default=8192,
+                   help="Ollama context window for the Ragas judge (without this, Ollama allocates the "
+                        "judge model's full context, e.g. 131072 for llama3.1:8b, which can exhaust RAM)")
     s.add_argument("--bertscore", action="store_true")
     s.add_argument("--bertscore-model", default=None, help="e.g. cahya/bert-base-indonesian-522M")
     s.add_argument("--bertscore-layers", type=int, default=9)
