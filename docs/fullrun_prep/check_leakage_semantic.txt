@@ -1,0 +1,56 @@
+Loading base embedding model for semantic check: LazarusNLP/all-indo-e5-small-v4...
+Encoding 40 benchmark questions and 70 candidate questions...
+
+Comparing 40 benchmark questions with 70 candidate questions (Semantic Cosine)
+Alert threshold: >= 0.85
+---------------------------------------------------------------------------
+CUTI-P1  max=0.730  (train_SOP_Izin_Cuti_Akademik.json)
+CUTI-P2  max=0.472  (dev_htree_v1.json)
+CUTI-A1  max=0.645  (train_SOP_Izin_Cuti_Akademik.json)
+CUTI-D1  max=0.661  (dev_htree_v1.json)
+CUTI-T1  max=0.720  (train_SOP_Izin_Cuti_Akademik.json)
+LEG-P1   max=0.568  (dev_htree_v1.json)
+LEG-P2   max=0.647  (train_SOP_Legalisir_Ijazah_Dan_Transkrip.json)
+LEG-A1   max=0.580  (train_SOP_Legalisir_Ijazah_Dan_Transkrip.json)
+LEG-D1   max=0.722  (train_SOP_Legalisir_Ijazah_Dan_Transkrip.json)
+LEG-T1   max=0.530  (train_SOP_Legalisir_Ijazah_Dan_Transkrip.json)
+PROP-P1  max=0.583  (train_SOP_Pengisian_IRS.json)
+PROP-A1  max=0.735  (dev_htree_v1.json)
+PROP-D1  max=0.462  (train_SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.json)
+PROP-T1  max=0.721  (train_SOP_Pengisian_IRS.json)
+BEA-P1   max=0.744  (train_SOP_Pengajuan_Rekomendasi_Beasiswa.json)
+BEA-A1   max=0.696  (dev_htree_v1.json)
+BEA-D1   max=0.796  (train_SOP_Pengajuan_Rekomendasi_Beasiswa.json)
+BEA-T1   max=0.752  (train_SOP_Pengajuan_Rekomendasi_Beasiswa.json)
+IRS-P1   max=0.594  (train_SOP_Pengisian_IRS.json)
+IRS-P2   max=0.591  (train_SOP_Pengisian_IRS.json)
+IRS-A1   max=0.624  (train_SOP_Pengisian_IRS.json)
+IRS-D1   max=0.615  (train_SOP_Pengisian_IRS.json)
+IRS-T1   max=0.681  (train_SOP_Pengisian_IRS.json)
+AKT-P1   max=0.622  (dev_htree_v1.json)
+AKT-A1   max=0.592  (train_SOP_Izin_Cuti_Akademik.json)
+AKT-D1   max=0.570  (train_SOP_Izin_Cuti_Akademik.json)
+AKT-T1   max=0.658  (train_SOP_Izin_Cuti_Akademik.json)
+UKT-P1   max=0.677  (train_SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.json)
+UKT-P2   max=0.414  (train_SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.json)
+UKT-A1   max=0.819  (train_SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.json)
+UKT-D1   max=0.600  (train_SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.json)
+UKT-T1   max=0.792  (train_SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.json)
+X-1      max=0.693  (dev_htree_v1.json)
+X-2      max=0.750  (train_SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.json)
+X-3      max=0.381  (dev_htree_v1.json)
+NA-1     max=0.536  (dev_htree_v1.json)
+NA-2     max=0.681  (train_SOP_Izin_Cuti_Akademik.json)
+NA-3     max=0.672  (train_SOP_Pengajuan_Rekomendasi_Beasiswa.json)
+NA-4     max=0.672  (dev_htree_v1.json)
+NA-5     max=0.392  (train_SOP_Pengajuan_Rekomendasi_Beasiswa.json)
+
+Distribution of max similarity to benchmark per question:
+  Min:    0.381
+  25%:    0.582
+  Median: 0.653
+  75%:    0.720
+  90%:    0.750
+  Max:    0.819
+
+0 item(s) at or above threshold 0.85.
