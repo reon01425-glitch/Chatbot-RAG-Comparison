@@ -405,13 +405,83 @@ def _ollama_up(host: str = "127.0.0.1", port: int = 11434) -> bool:
         return False
 
 
-def _ollama_version() -> str:
+def _ollama_version() -> Optional[str]:
     try:
         import urllib.request
         with urllib.request.urlopen("http://127.0.0.1:11434/api/version", timeout=2) as r:
-            return json.loads(r.read().decode()).get("version", "unknown")
+            return json.loads(r.read().decode()).get("version")
     except Exception:
-        return "unknown"
+        return None
+
+
+def _cmd_out(cmd: List[str]) -> Optional[str]:
+    """stdout of a short system command, or None if it is unavailable or fails."""
+    try:
+        out = subprocess.run(cmd, capture_output=True, text=True, timeout=5)
+        return out.stdout.strip() if out.returncode == 0 and out.stdout.strip() else None
+    except Exception:
+        return None
+
+
+def _host_info() -> Dict[str, Any]:
+    """Hardware / OS facts for the paper. Every field is None when it cannot be read; never raises."""
+    mem = _cmd_out(["sysctl", "-n", "hw.memsize"])
+    ncpu = _cmd_out(["sysctl", "-n", "hw.ncpu"])
+    batt = _cmd_out(["pmset", "-g", "batt"])
+    power = None
+    if batt:
+        m = re.search(r"drawing from '([^']+)'", batt)
+        power = m.group(1) if m else None
+    os_name = _cmd_out(["sw_vers", "-productName"])
+    os_ver = _cmd_out(["sw_vers", "-productVersion"])
+    return {
+        "cpu": _cmd_out(["sysctl", "-n", "machdep.cpu.brand_string"]) or (platform.processor() or None),
+        "cpu_logical_cores": int(ncpu) if ncpu and ncpu.isdigit() else None,
+        "ram_bytes": int(mem) if mem and mem.isdigit() else None,
+        "ram_gb": round(int(mem) / 2 ** 30, 1) if mem and mem.isdigit() else None,
+        "os": f"{os_name} {os_ver}" if os_name and os_ver else None,
+        "os_build": _cmd_out(["sw_vers", "-buildVersion"]),
+        "machine": platform.machine() or None,
+        "python": sys.version.split()[0],
+        "python_executable": sys.executable,
+        "power_source": power,   # 'AC Power' / 'Battery Power' on macOS
+    }
+
+
+def _parse_ollama_list(text: str) -> Dict[str, Dict[str, Any]]:
+    """`ollama list` table -> {name: {"digest": short id, "size": "7.2 GB"}}."""
+    out = {}
+    for line in (text or "").splitlines()[1:]:
+        parts = re.split(r"\s{2,}", line.strip())
+        if len(parts) >= 3:
+            out[parts[0]] = {"digest": parts[1], "size": parts[2]}
+    return out
+
+
+def _ollama_model_info(names: Sequence[str]) -> Dict[str, Optional[Dict[str, Any]]]:
+    """Digest of each named Ollama model: full sha256 from /api/tags, else the short id from `ollama list`."""
+    tags = {}
+    try:
+        import urllib.request
+        with urllib.request.urlopen("http://127.0.0.1:11434/api/tags", timeout=3) as r:
+            for m in json.loads(r.read().decode()).get("models", []):
+                tags[m.get("name")] = {"digest": m.get("digest"), "size_bytes": m.get("size"),
+                                       "modified_at": m.get("modified_at"),
+                                       "quantization": (m.get("details") or {}).get("quantization_level"),
+                                       "parameter_size": (m.get("details") or {}).get("parameter_size"),
+                                       "source": "api/tags"}
+    except Exception:
+        pass
+    listed = _parse_ollama_list(_cmd_out(["ollama", "list"]) or "")
+    out: Dict[str, Optional[Dict[str, Any]]] = {}
+    for n in dict.fromkeys(names):
+        if n in tags:
+            out[n] = tags[n]
+        elif n in listed:
+            out[n] = {**listed[n], "source": "ollama list"}
+        else:
+            out[n] = None
+    return out
 
 
 def _make_llm(model: str, args):
@@ -542,6 +612,9 @@ def cmd_generate(args) -> int:
         "workflow_graph_sha256": workflow_graph_sha256,
         "htree_variant": htree_variant,
         "ollama_version": _ollama_version(),
+        "ollama_cli_version": _cmd_out(["ollama", "--version"]),
+        "ollama_models": _ollama_model_info([model, os.getenv("JUDGE_MODEL", "llama3.1:8b")]),
+        "host": _host_info(),
         "temperature": 0.0,
         "seed": args.seed,
         "max_tokens": args.max_tokens,
@@ -1023,6 +1096,7 @@ def cmd_score(args) -> int:
 
     score_cfg = {"scored": _dt.datetime.now().isoformat(timespec="seconds"), "ragas": args.ragas,
                  "judge_model": args.judge_model if args.ragas else None,
+                 "judge_model_info": _ollama_model_info([args.judge_model]).get(args.judge_model) if args.ragas else None,
                  "judge_embedding": args.judge_embedding if args.ragas else None,
                  "bertscore": args.bertscore, "bertscore_model": args.bertscore_model or "lang=id default",
                  "reference_system": ",".join(references),
