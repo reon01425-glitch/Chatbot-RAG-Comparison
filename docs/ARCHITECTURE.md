@@ -218,6 +218,8 @@ Mengatasi batasan graf entitas biasa yang tidak memiliki arah kronologis. Memeta
 3. **Swimlane Actor & Artifact Extraction**: Mengekstrak aktor pelaksana, dokumen prasyarat, dan dokumen luaran per tahap.
 4. **Automated BPMN / Mermaid Generation**: Menghasilkan sintaks bagan alur Mermaid yang dapat dirender visual interaktif pada UI.
 
+**Isi graf (sejak Goal A, Tugas 1):** 44 simpul langkah, satu per langkah bernomor di PDF (Cuti 8, Legalisir 6, IRS 6, UKT 11, Aktif 3, Beasiswa 5, Ormawa 5), masing-masing dengan kutipan `evidence` verbatim dari PDF. `actor` = subjek kalimat PDF; `inputs`/`output`/`duration` hanya diisi dari baris *Dokumen yang dibutuhkan* / *Output:* / *Waktu:* PDF. Rincian dan versi lama (42 simpul): `docs/GRAPH_PDF_RECONCILIATION.md`, `docs/workflow_graph_v1.json`. Sidik graf (`workflow_graph_sha256`) dicatat di `run_config.json`.
+
 ```mermaid
 flowchart LR
     Q[Query Pengguna] --> Match[Process SOP Matcher]

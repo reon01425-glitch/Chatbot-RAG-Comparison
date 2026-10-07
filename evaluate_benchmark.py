@@ -517,6 +517,10 @@ def cmd_generate(args) -> int:
     htree_variant = getattr(args, "htree_variant", "top1")
     os.environ["HTREE_VARIANT"] = htree_variant
 
+    sys.path.insert(0, str(ROOT))
+    from src.graph_sop.workflow_graph import SOPWorkflowGraph
+    workflow_graph_sha256 = SOPWorkflowGraph().graph_sha256()
+
     cfg_path = run_dir / "run_config.json"
     cfg = {
         "run_name": args.run_name,
@@ -535,6 +539,7 @@ def cmd_generate(args) -> int:
         "embedding_weights_sha256": get_model_weights_sha256(emb_model),
         "chroma_path": str(chroma_dir),
         "index_manifest": manifest,
+        "workflow_graph_sha256": workflow_graph_sha256,
         "htree_variant": htree_variant,
         "ollama_version": _ollama_version(),
         "temperature": 0.0,
@@ -560,6 +565,10 @@ def cmd_generate(args) -> int:
             if old.get(key) != cfg.get(key):
                 raise SystemExit(f"run_config mismatch on '{key}' ({old.get(key)} vs {cfg.get(key)}). "
                                  "Use a new --run-name instead of mixing settings in one run.")
+        # Runs created before the graph fingerprint existed have no such key; only compare when present.
+        if "workflow_graph_sha256" in old and old["workflow_graph_sha256"] != workflow_graph_sha256:
+            raise SystemExit(f"run_config mismatch on 'workflow_graph_sha256' ({old['workflow_graph_sha256']} vs "
+                             f"{workflow_graph_sha256}). Use a new --run-name instead of mixing graph versions in one run.")
         cfg["created"] = old.get("created", cfg["created"])
         cfg["resumed"] = _dt.datetime.now().isoformat(timespec="seconds")
     json.dump(cfg, open(cfg_path, "w", encoding="utf-8"), ensure_ascii=False, indent=2)

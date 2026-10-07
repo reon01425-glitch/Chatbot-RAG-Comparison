@@ -1,5 +1,7 @@
 import os
 import re
+import json
+import hashlib
 import networkx as nx
 from typing import Dict, List, Any, Optional, Tuple
 
@@ -18,377 +20,458 @@ class SOPWorkflowGraph:
         Populate the workflow directed graph with procedural step sequences,
         actor assignments, durations, and output artifacts from SOP documents.
         """
+        # Every step mirrors one numbered step in the SOP PDF (data/<source_pdf>):
+        #   actor    = the party that PERFORMS the step (grammatical subject of the PDF sentence);
+        #              officials who are only addressed (e.g. "meminta tanda tangan Kaprodi") stay in `action`.
+        #   inputs   = only the PDF's "Dokumen yang dibutuhkan" list for that step (else empty).
+        #   output   = only the PDF's "Output:" line for that step (else empty).
+        #   duration = only the PDF's "Waktu:" line for that step (else absent).
+        #   evidence = verbatim quote from the PDF (whitespace-normalised), checked by tests.
+        # See docs/GRAPH_PDF_RECONCILIATION.md; the pre-reconciliation graph is in docs/workflow_graph_v1.json.
         sop_definitions = [
             {
                 "id": "SOP_CUTI_AKADEMIK",
                 "title": "Permohonan Izin Cuti Akademik",
+                "source_pdf": "SOP_Izin_Cuti_Akademik.pdf",
                 "aliases": ["cuti akademik", "izin cuti", "berhenti sementara kuliah", "cuti kuliah"],
                 "max_duration": "3 hari kerja",
+                "max_duration_evidence": "total maksimal waktu pemrosesan maksimal 3 (tiga) hari kerja",
                 "steps": [
                     {
                         "step_num": 1,
                         "actor": "Mahasiswa",
-                        "action": "Mengunduh, mengisi, dan menandatangani Form Cuti Akademik serta mengisi online via SIAP",
-                        "inputs": ["Form Cuti Akademik", "Transkrip Akademik", "Bukti Bayar SPP/UKT Terakhir", "Fotokopi KTM"],
-                        "output": "Form Cuti Terisi & Berkas Persyaratan",
-                        "link": "https://drive.google.com/file/d/1miPHNvRj6XO6LEhFCiC_QXcMtynCPWR2/edit"
+                        "action": "Mengunduh, mengisi, dan menandatangani Form Cuti Akademik dengan melampirkan persyaratan, serta wajib mengisi secara online melalui SIAP",
+                        "inputs": ["Form Cuti Akademik", "Transkrip Akademik", "Bukti bayar SPP/UKT terakhir", "Fotokopi KTM", "Dokumen pendukung lain"],
+                        "output": "",
+                        "link": "https://drive.google.com/file/d/1miPHNvRj6XO6LEhFCiC_QXcMtynCPWR2/edit",
+                        "evidence": "Mahasiswa mengunduh, mengisi, dan menandatangani Form Cuti Akademik dengan melampirkan persyaratan."
                     },
                     {
                         "step_num": 2,
-                        "actor": "Ketua Program Studi",
-                        "action": "Meminta persetujuan dan tanda tangan persetujuan cuti akademik dari Kaprodi",
-                        "inputs": ["Form Cuti Terisi & Berkas"],
-                        "output": "Form Cuti Ditandatangani Kaprodi"
+                        "actor": "Mahasiswa",
+                        "action": "Meminta persetujuan dan tanda tangan Ketua Program Studi",
+                        "inputs": [],
+                        "output": "",
+                        "evidence": "Mahasiswa meminta persetujuan dan tanda tangan Ketua Program Studi."
                     },
                     {
                         "step_num": 3,
-                        "actor": "Dekan",
-                        "action": "Menyerahkan Form Cuti yang telah ditandatangani Kaprodi ke Dekan, lalu didisposisikan ke Subbag Akademik",
-                        "inputs": ["Form Cuti Rekomendasi Kaprodi"],
-                        "output": "Disposisi Dekan ke Subbag Akademik"
+                        "actor": "Mahasiswa",
+                        "action": "Menyerahkan Form Cuti Akademik yang telah ditandatangani Ketua Program Studi ke Dekan; kemudian dilakukan disposisi ke Subbag Akademik dan Kemahasiswaan",
+                        "inputs": [],
+                        "output": "",
+                        "evidence": "Mahasiswa menyerahkan Form Cuti Akademik yang telah ditandatangani Ketua Program Studi ke Dekan."
                     },
                     {
                         "step_num": 4,
                         "actor": "Subbag Akademik dan Kemahasiswaan",
-                        "action": "Menerima, memeriksa, dan meneliti kelengkapan persyaratan berkas cuti. Memberi paraf jika lengkap",
-                        "inputs": ["Form Cuti & Persyaratan"],
-                        "output": "Paraf Subbag Akademik"
+                        "action": "Menerima, memeriksa, dan meneliti kelengkapan persyaratan form cuti akademik; jika lengkap, form diberi paraf dan diproses lebih lanjut",
+                        "inputs": [],
+                        "output": "",
+                        "evidence": "Subbag Akademik dan Kemahasiswaan menerima, memeriksa, dan meneliti kelengkapan persyaratan form cuti akademik."
                     },
                     {
                         "step_num": 5,
                         "actor": "Dekan",
-                        "action": "Dekan menandatangani Surat Izin Dekan perihal cuti akademik",
-                        "inputs": ["Berkas Lengkap Berparaf"],
-                        "output": "Surat Izin Dekan (SK Cuti)"
+                        "action": "Menandatangani Surat Izin Dekan",
+                        "inputs": [],
+                        "output": "Surat Izin Dekan",
+                        "evidence": "Dekan menandatangani Surat Izin Dekan."
                     },
                     {
                         "step_num": 6,
                         "actor": "Subbag Sumber Daya",
-                        "action": "Memberi nomor surat dan mengirimkan ke Subbag Akademik dengan tembusan Dosen Wali & Kaprodi",
-                        "inputs": ["Surat Izin Dekan"],
-                        "output": "Surat Izin Dekan Bernomor Resmi"
+                        "action": "Memberi nomor surat dan mengirimkannya ke Subbag Akademik dan Kemahasiswaan dengan tembusan ke Dosen Wali dan Ketua Program Studi",
+                        "inputs": [],
+                        "output": "Surat Izin Dekan",
+                        "evidence": "Subbag Sumber Daya memberi nomor surat dan mengirimkannya ke Subbag Akademik dan Kemahasiswaan dengan tembusan ke Dosen Wali dan Ketua Program Studi."
                     },
                     {
                         "step_num": 7,
                         "actor": "Subbag Akademik dan Kemahasiswaan",
-                        "action": "Mengupdate status mahasiswa di Sistem Informasi Akademik, mengarsipkan surat, dan meneruskan ke loket",
-                        "inputs": ["Surat Izin Dekan Bernomor"],
-                        "output": "Status Cuti Terupdate di Sistem Akademik"
+                        "action": "Mengupdate status mahasiswa di Sistem Akademik, mengarsipkan Surat Izin Dekan, dan mengirimkan kepada mahasiswa",
+                        "inputs": [],
+                        "output": "Surat Izin Dekan",
+                        "evidence": "Subbag Akademik dan Kemahasiswaan mengupdate status mahasiswa di Sistem Akademik, mengarsipkan Surat Izin Dekan, dan mengirimkan kepada mahasiswa."
                     },
                     {
                         "step_num": 8,
                         "actor": "Mahasiswa",
-                        "action": "Mahasiswa mengambil Surat Izin Dekan di loket akademik",
-                        "inputs": ["Bukti Identitas Diri"],
-                        "output": "Surat Izin Dekan Resmi Diterima Mahasiswa"
+                        "action": "Mengambil Surat Izin Dekan di loket akademik",
+                        "inputs": [],
+                        "output": "Surat Izin Dekan",
+                        "evidence": "Mahasiswa dapat mengambil Surat Izin Dekan di loket akademik."
                     }
                 ]
             },
             {
                 "id": "SOP_LEGALISIR",
                 "title": "Legalisir Ijazah Dan Transkrip",
+                "source_pdf": "SOP_Legalisir_Ijazah_Dan_Transkrip.pdf",
                 "aliases": ["legalisir", "legalisir ijazah", "legalisir transkrip", "akreditasi program studi"],
                 "max_duration": "3 hari kerja",
+                "max_duration_evidence": "total maksimal waktu pemrosesan maksimal 3 (tiga) hari kerja",
                 "steps": [
                     {
                         "step_num": 1,
                         "actor": "Alumni",
-                        "action": "Menyerahkan fotokopi ijazah/transkrip/sertifikat akreditasi beserta dokumen asli ke loket Subbag Akademik",
-                        "inputs": ["Fotokopi Ijazah / Transkrip", "Dokumen Asli"],
+                        "action": "Menyerahkan foto copy ijazah/transkrip nilai/sertifikat akreditasi program studi beserta surat aslinya kepada petugas Subbag Akademik dan Kemahasiswaan",
+                        "inputs": ["Berkas Pengajuan Legalisir"],
                         "output": "Berkas Pengajuan Legalisir",
-                        "duration": "±5 menit"
+                        "duration": "±5 menit",
+                        "evidence": "Alumni menyerahkan foto copy ijazah/transkrip nilai/sertifikat akreditasi program studi beserta surat aslinya kepada petugas Subbag Akademik dan Kemahasiswaan."
                     },
                     {
                         "step_num": 2,
-                        "actor": "Petugas Subbag Akademik",
-                        "action": "Memeriksa keabsahan dan kesesuaian fotokopi dengan dokumen asli, serta memberikan cap legalisir",
-                        "inputs": ["Berkas Pengajuan & Asli"],
-                        "output": "Persetujuan Legalisir & Cap Dokumen",
-                        "duration": "±10 menit"
+                        "actor": "Petugas Subbag Akademik dan Kemahasiswaan",
+                        "action": "Memeriksa keabsahan, kesesuaian foto copy ijazah/transkrip nilai/sertifikat akreditasi program studi dengan surat aslinya dan memberikan cap",
+                        "inputs": [],
+                        "output": "Persetujuan Legalisir",
+                        "duration": "±10 menit",
+                        "evidence": "Petugas Subbag Akademik dan Kemahasiswaan memeriksa keabsahan, kesesuaian foto copy ijazah/transkrip nilai/sertifikat akreditasi program studi dengan surat aslinya dan memberikan cap."
                     },
                     {
                         "step_num": 3,
-                        "actor": "Supervisor Akademik",
-                        "action": "Memeriksa dokumen dan memberi paraf pengesahan di samping kanan nama Dekan",
-                        "inputs": ["Dokumen Ber-cap"],
-                        "output": "Paraf Supervisor Akademik",
-                        "duration": "±15 menit"
+                        "actor": "Supervisor Akademik dan Kemahasiswaan",
+                        "action": "Memeriksa dan memberi paraf di samping kanan nama Dekan",
+                        "inputs": [],
+                        "output": "Paraf Supervisor Akademik dan Kemahasiswaan",
+                        "duration": "±15 menit",
+                        "evidence": "Supervisor Akademik dan Kemahasiswaan memeriksa dan memberi paraf di samping kanan nama Dekan."
                     },
                     {
                         "step_num": 4,
-                        "actor": "Dekan / Wakil Dekan I",
-                        "action": "Menandatangani lembar pengesahan kebenaran dan kesesuaian dokumen dengan aslinya",
-                        "inputs": ["Dokumen Berparaf"],
-                        "output": "Tanda Tangan Pengesahan Dekan/WD I",
-                        "duration": "±1 hari"
+                        "actor": "Dekan/Wakil Dekan Akademik dan Kemahasiswaan",
+                        "action": "Menandatangani pada 'Pengesahan Telah diperiksa Kebenarannya dan Sesuai dengan Aslinya'",
+                        "inputs": [],
+                        "output": "TTD Dekan/Wakil Dekan Akademik dan Kemahasiswaan",
+                        "duration": "±1 hari",
+                        "evidence": "Dekan/Wakil Dekan Akademik dan Kemahasiswaan menandatangani pada"
                     },
                     {
                         "step_num": 5,
-                        "actor": "Petugas Subbag Akademik",
-                        "action": "Mengambil dokumen bertandatangan Dekan/WD I dan membubuhkan stempel resmi Fakultas Sains dan Matematika",
-                        "inputs": ["Dokumen Bertanda Tangan"],
-                        "output": "Stempel Fakultas Sains dan Matematika (FSM)",
-                        "duration": "±5 menit"
+                        "actor": "Petugas Subbag Akademik dan Kemahasiswaan",
+                        "action": "Mengambil kembali Legalisir yang sudah ditandatangani Dekan/Wakil Dekan Akademik dan Kemahasiswaan dan memberikan stempel Fakultas Sains dan Matematika",
+                        "inputs": [],
+                        "output": "Stempel Fakultas Sains dan Matematika",
+                        "duration": "±5 menit",
+                        "evidence": "Petugas Subbag Akademik dan Kemahasiswaan mengambil kembali Legalisir yang sudah ditanda tangani Dekan / Wakil Dekan Akademik dan Kemahasiswaan dan memberikan stempel Fakultas Sains dan Matematika."
                     },
                     {
                         "step_num": 6,
                         "actor": "Alumni",
-                        "action": "Mengambil dokumen legalisir di Subbag Akademik dengan memperlihatkan dokumen asli dan menandatangani buku ekspedisi",
-                        "inputs": ["Dokumen Asli", "Tanda Tangan Buku Ambil"],
-                        "output": "Legalisir Ijazah / Transkrip Selesai",
-                        "duration": "±15 menit"
+                        "action": "Mengambil Legalisir di Subbag Akademik dan Kemahasiswaan dengan membawa aslinya, menulis di buku pengambilan, dan menandatanganinya",
+                        "inputs": [],
+                        "output": "Legalisir Ijazah/transkrip nilai/sertifikat akreditasi",
+                        "duration": "±15 menit",
+                        "evidence": "Alumni mengambil Legalisir di Subbag Akademik dan Kemahasiswaan dengan membawa aslinya dan menulis di buku pengambilan dan di tanda tangani ybs."
                     }
                 ]
             },
             {
                 "id": "SOP_PENGISIAN_IRS",
                 "title": "Pengisian Isian Rencana Studi (IRS)",
+                "source_pdf": "SOP_Pengisian_IRS.pdf",
                 "aliases": ["pengisian irs", "isi irs", "rencana studi", "konsultasi dosen wali", "her-registrasi"],
                 "max_duration": "3 hari kerja",
+                "max_duration_evidence": "total maksimal waktu pemrosesan maksimal 3 (tiga) hari kerja",
                 "steps": [
                     {
                         "step_num": 1,
                         "actor": "Mahasiswa",
-                        "action": "Membayar biaya pendidikan (SPP/UKT) melalui bank mitra resmi Undip (BNI, Mandiri, BTN, BRI)",
-                        "inputs": ["Nomor Tagihan Pembayaran"],
+                        "action": "Membayar biaya pendidikan pada bank yang bekerja sama dengan Undip (BNI, Mandiri, BTN, dan BRI)",
+                        "inputs": [],
                         "output": "Bukti Pembayaran SPP/UKT",
-                        "duration": "±10 menit"
+                        "duration": "±10 menit",
+                        "evidence": "Mahasiswa membayar biaya pendidikan pada bank yang bekerja sama dengan Undip (BNI, Mandiri, BTN, dan BRI)."
                     },
                     {
                         "step_num": 2,
                         "actor": "Mahasiswa",
-                        "action": "Melakukan her-registrasi online melalui portal SIAP Undip",
-                        "inputs": ["Bukti Bayar Bank"],
-                        "output": "Status Mahasiswa Aktif di SIAP",
-                        "duration": "±10 menit"
+                        "action": "Melakukan her-registrasi online melalui SIAP",
+                        "inputs": [],
+                        "output": "",
+                        "duration": "±10 menit",
+                        "evidence": "Mahasiswa melakukan her-registrasi online melalui SIAP."
                     },
                     {
                         "step_num": 3,
                         "actor": "Mahasiswa",
-                        "action": "Melakukan pemilihan mata kuliah, perbaikan rencana studi, atau mencetak draf IRS sementara melalui SIAP",
-                        "inputs": ["Jadwal Kuliah & Kuota Kelas"],
-                        "output": "Draf IRS Sementara",
-                        "duration": "±10 menit"
+                        "action": "Melakukan pengisian, perbaikan, atau mencetak IRS sementara secara online melalui SIAP",
+                        "inputs": [],
+                        "output": "",
+                        "duration": "±10 menit",
+                        "evidence": "Mahasiswa melakukan pengisian, perbaikan, atau mencetak IRS sementara secara online melalui SIAP."
                     },
                     {
                         "step_num": 4,
-                        "actor": "Pembimbing Akademik (Dosen Wali)",
-                        "action": "Konsultasi pengambilan mata kuliah dan jumlah SKS sesuai ketentuan IPK semester sebelumnya",
-                        "inputs": ["Draf IRS Sementara & KHS"],
-                        "output": "Catatan Arahan Dosen Wali",
-                        "duration": "±10 menit"
+                        "actor": "Mahasiswa",
+                        "action": "Menemui Pembimbing Akademik untuk berkonsultasi mengenai mata kuliah yang akan diambil; Pembimbing Akademik memberikan arahan dengan mempertimbangkan ketentuan jumlah SKS maksimal pada semester terkait",
+                        "inputs": [],
+                        "output": "Print out IRS / Online IRS",
+                        "duration": "±10 menit",
+                        "evidence": "Mahasiswa menemui Pembimbing Akademik untuk berkonsultasi mengenai mata kuliah yang akan diambil."
                     },
                     {
                         "step_num": 5,
-                        "actor": "Pembimbing Akademik (Dosen Wali)",
-                        "action": "Melakukan persetujuan (approval) online IRS mahasiswa pada sistem SIAP",
-                        "inputs": ["Draf IRS yang Disepakati"],
-                        "output": "Persetujuan Online (Approved SIAP)",
-                        "duration": "±10 menit"
+                        "actor": "Pembimbing Akademik",
+                        "action": "Apabila mata kuliah dan jumlah SKS sudah sesuai, melakukan persetujuan secara online pada SIAP",
+                        "inputs": [],
+                        "output": "Persetujuan Pembimbing Akademik melalui SIAP",
+                        "duration": "±10 menit",
+                        "evidence": "Apabila mata kuliah dan jumlah SKS sudah sesuai, Pembimbing Akademik melakukan persetujuan secara online pada SIAP."
                     },
                     {
                         "step_num": 6,
                         "actor": "Mahasiswa",
-                        "action": "Melakukan pengecekan akhir status persetujuan IRS dan mencetak dokumen IRS resmi bila diperlukan",
-                        "inputs": ["Akun SIAP"],
-                        "output": "File IRS Resmi Approved",
-                        "duration": "±10 menit"
+                        "action": "Melakukan pengecekan IRS online di sistem SIAP bila diperlukan",
+                        "inputs": [],
+                        "output": "File IRS SIAP",
+                        "duration": "±10 menit",
+                        "evidence": "Mahasiswa dapat melakukan pengecekan IRS online di sistem SIAP bila diperlukan."
                     }
                 ]
             },
             {
                 "id": "SOP_KETERLAMBATAN_UKT",
                 "title": "Permohonan Izin Keterlambatan Pembayaran UKT",
+                "source_pdf": "SOP_Permohonan_Izin_Keterlambatan_Pembayaran_UKT.pdf",
                 "aliases": ["keterlambatan ukt", "izin terlambat ukt", "dispensasi ukt", "tenggang ukt"],
                 "max_duration": "3 hari kerja",
+                "max_duration_evidence": "3 (tiga) hari kerja",
                 "steps": [
                     {
                         "step_num": 1,
                         "actor": "Mahasiswa",
-                        "action": "Mengunduh, mengisi, dan menandatangani Form Permohonan Keterlambatan Pembayaran UKT serta melampirkan berkas alasan",
-                        "inputs": ["Form Permohonan", "Surat Pernyataan / Bukti Kendala"],
-                        "output": "Form Permohonan Terisi",
-                        "link": "https://drive.google.com/file/d/1o7hogihjZsFTB_V27JU1OfNGBuI2Sr55/"
+                        "action": "Mengunduh, mengisi, dan menandatangani Form Permohonan Keterlambatan Pembayaran UKT serta melampirkan persyaratan",
+                        "inputs": [],
+                        "output": "",
+                        "link": "https://drive.google.com/file/d/1o7hogihjZsFTB_V27JU1OfNGBuI2Sr55/",
+                        "evidence": "Mahasiswa mengunduh, mengisi, dan menandatangani Form Permohonan Keterlambatan Pembayaran UKT serta melampirkan persyaratan."
                     },
                     {
                         "step_num": 2,
-                        "actor": "Dosen Wali & Kaprodi",
-                        "action": "Meminta tanda tangan persetujuan dari Dosen Wali dan Ketua Program Studi",
-                        "inputs": ["Form Permohonan Terisi"],
-                        "output": "Persetujuan Dosen Wali & Kaprodi"
+                        "actor": "Mahasiswa",
+                        "action": "Meminta tanda tangan dosen wali serta persetujuan dan tanda tangan Ketua Program Studi",
+                        "inputs": [],
+                        "output": "",
+                        "evidence": "Mahasiswa meminta tanda tangan dosen wali serta persetujuan dan tanda tangan Ketua Program Studi."
                     },
                     {
                         "step_num": 3,
-                        "actor": "Supervisor Sumber Daya",
-                        "action": "Menyerahkan formulir kepada Supervisor Sumber Daya untuk diperiksa kelengkapannya dan diberi paraf",
-                        "inputs": ["Formulir Lengkap"],
-                        "output": "Paraf Supervisor Sumber Daya"
+                        "actor": "Mahasiswa",
+                        "action": "Menyerahkan Form Permohonan Keterlambatan UKT yang telah ditandatangani dan disetujui kepada Supervisor Sumber Daya",
+                        "inputs": [],
+                        "output": "",
+                        "evidence": "Mahasiswa menyerahkan Form Permohonan Keterlambatan UKT yang telah ditandatangani dan disetujui kepada Supervisor Sumber Daya."
                     },
                     {
                         "step_num": 4,
-                        "actor": "Wakil Dekan Sumber Daya (WD II)",
-                        "action": "Wakil Dekan Sumber Daya memproses dan menandatangani Surat Permohonan Izin Keterlambatan Pembayaran UKT",
-                        "inputs": ["Berkas Berparaf"],
-                        "output": "Surat Permohonan Bertanda Tangan WD II"
+                        "actor": "Supervisor Sumber Daya",
+                        "action": "Menerima, memeriksa, dan meneliti kelengkapan persyaratan form, serta memberikan paraf",
+                        "inputs": [],
+                        "output": "",
+                        "evidence": "Supervisor Sumber Daya menerima, memeriksa, dan meneliti kelengkapan persyaratan form, serta memberikan paraf."
                     },
                     {
                         "step_num": 5,
-                        "actor": "Subbag Sumber Daya",
-                        "action": "Memproses penomoran surat permohonan keterlambatan UKT",
-                        "inputs": ["Surat WD II"],
-                        "output": "Surat Permohonan Bernomor Resmi"
+                        "actor": "Wakil Dekan Sumber Daya",
+                        "action": "Memproses Surat Permohonan Izin Keterlambatan Pembayaran UKT",
+                        "inputs": [],
+                        "output": "",
+                        "evidence": "Wakil Dekan Sumber Daya memproses Surat Permohonan Izin Keterlambatan Pembayaran UKT."
                     },
                     {
                         "step_num": 6,
-                        "actor": "Mahasiswa",
-                        "action": "Membawa Surat Permohonan ke Wakil Rektor II Universitas Diponegoro melalui Manajer Akademik",
-                        "inputs": ["Surat Permohonan Resmi"],
-                        "output": "Penyerahan ke WR II Undip"
+                        "actor": "Wakil Dekan Sumber Daya",
+                        "action": "Menandatangani Surat Permohonan Izin Keterlambatan Pembayaran UKT",
+                        "inputs": [],
+                        "output": "",
+                        "evidence": "Wakil Dekan Sumber Daya menandatangani Surat Permohonan Izin Keterlambatan Pembayaran UKT."
                     },
                     {
                         "step_num": 7,
-                        "actor": "Wakil Rektor II",
-                        "action": "Mendisposisikan persetujuan dispensasi ke Direktorat Keuangan Undip untuk membuka tagihan",
-                        "inputs": ["Surat Permohonan"],
-                        "output": "Disposisi WR II ke Ditkeu"
+                        "actor": "Subbag Sumber Daya",
+                        "action": "Memproses Surat Permohonan Keterlambatan Pembayaran UKT",
+                        "inputs": [],
+                        "output": "",
+                        "evidence": "Subbag Sumber Daya memproses Surat Permohonan Keterlambatan Pembayaran UKT."
                     },
                     {
                         "step_num": 8,
-                        "actor": "Bendahara Penerimaan UKT",
-                        "action": "Membuka sistem pembayaran tagihan UKT mahasiswa yang bersangkutan",
-                        "inputs": ["Disposisi Ditkeu"],
-                        "output": "Tagihan Pembayaran Terbuka di Sistem Bank"
+                        "actor": "Mahasiswa",
+                        "action": "Membawa Surat Permohonan Keterlambatan Pembayaran UKT kepada Wakil Rektor II melalui Manajer Akademik",
+                        "inputs": [],
+                        "output": "",
+                        "evidence": "Mahasiswa membawa Surat Permohonan Keterlambatan Pembayaran UKT kepada Wakil Rektor II melalui Manajer Akademik."
                     },
                     {
                         "step_num": 9,
+                        "actor": "Wakil Rektor II",
+                        "action": "Mendisposisikan ke Direktorat Keuangan untuk memproses pembayaran UKT",
+                        "inputs": [],
+                        "output": "",
+                        "evidence": "Wakil Rektor II mendisposisikan ke Direktorat Keuangan untuk memproses pembayaran UKT."
+                    },
+                    {
+                        "step_num": 10,
+                        "actor": "Bendahara Penerimaan UKT",
+                        "action": "Membuka sistem pembayaran mahasiswa",
+                        "inputs": [],
+                        "output": "",
+                        "evidence": "Bendahara Penerimaan UKT membuka sistem pembayaran mahasiswa."
+                    },
+                    {
+                        "step_num": 11,
                         "actor": "Mahasiswa",
-                        "action": "Membayar biaya UKT ke bank mitra sebelum batas akhir perpanjangan waktu dispensasi",
-                        "inputs": ["Tagihan Bank Terbuka"],
-                        "output": "Bukti Lunas UKT & Status Aktif"
+                        "action": "Membayar biaya UKT ke bank",
+                        "inputs": [],
+                        "output": "",
+                        "evidence": "Mahasiswa membayar biaya UKT ke bank."
                     }
                 ]
             },
             {
                 "id": "SOP_AKTIF_SETELAH_CUTI",
-                "title": "Permohonan Izin Aktif Kuliah Setelah Cuti",
+                "title": "Permohonan Izin Aktif Setelah Cuti",
+                "source_pdf": "SOP_Permohonan_Izin_Aktif_Setelah_Cuti.pdf",
                 "aliases": ["aktif setelah cuti", "aktif kembali", "selesai cuti", "lapor aktif"],
-                "max_duration": "1 hari kerja",
+                # The PDF states no overall processing limit for this SOP.
+                "max_duration": None,
+                "max_duration_evidence": None,
                 "steps": [
                     {
                         "step_num": 1,
                         "actor": "Mahasiswa",
-                        "action": "Membawa Surat Izin Cuti Akademik semester sebelumnya dan fotokopi KTM, melapor ke Kaprodi dan Subbag Akademik",
-                        "inputs": ["Surat Izin Cuti Akademik", "Fotokopi KTM"],
-                        "output": "Laporan Status Cuti Berakhir",
-                        "duration": "±5 menit"
+                        "action": "Membawa surat izin cuti akademik semester dan melapor kepada Ketua Program Studi dan Subbag Akademik dan Kemahasiswaan",
+                        "inputs": ["Surat Izin Cuti", "Fotokopi Kartu Tanda Mahasiswa (KTM)"],
+                        "output": "",
+                        "duration": "±5 menit",
+                        "evidence": "Mahasiswa membawa surat izin cuti akademik semester melapor kepada Ketua Program Studi dan Subbag Akademik dan Kemahasiswaan."
                     },
                     {
                         "step_num": 2,
                         "actor": "Mahasiswa",
-                        "action": "Melakukan registrasi online aktivasi pada Single Sign On (SSO) masing-masing mahasiswa",
-                        "inputs": ["Akun SSO Mahasiswa"],
-                        "output": "Aktivasi Akun di SSO",
-                        "duration": "±5 menit"
+                        "action": "Melakukan registrasi online pada SSO masing-masing mahasiswa",
+                        "inputs": [],
+                        "output": "",
+                        "duration": "±5 menit",
+                        "evidence": "Mahasiswa melakukan registrasi online pada SSO masing-masing mahasiswa."
                     },
                     {
                         "step_num": 3,
-                        "actor": "Subbag Akademik",
-                        "action": "Memperbarui status mahasiswa sehingga terdaftar kembali sebagai Peserta Kuliah / Mahasiswa Aktif FSM",
-                        "inputs": ["Konfirmasi SSO & Laporan"],
-                        "output": "Status Resmi Mahasiswa Aktif Kembali",
-                        "duration": "±5 menit"
+                        "actor": "Mahasiswa",
+                        "action": "Terdaftar sebagai Peserta Kuliah / Mahasiswa Aktif di Fakultas",
+                        "inputs": [],
+                        "output": "",
+                        "duration": "±5 menit",
+                        "evidence": "Mahasiswa terdaftar sebagai Peserta Kuliah / Mahasiswa Aktif di Fakuktas."
                     }
                 ]
             },
             {
                 "id": "SOP_REKOMENDASI_BEASISWA",
                 "title": "Surat Pengajuan Rekomendasi Beasiswa",
+                "source_pdf": "SOP_Pengajuan_Rekomendasi_Beasiswa.pdf",
                 "aliases": ["rekomendasi beasiswa", "surat beasiswa", "syarat beasiswa", "pengajuan beasiswa"],
-                "max_duration": "3 hari 45 menit",
+                "max_duration": "3 hari, 45 menit waktu kerja",
+                "max_duration_evidence": "3 (tiga) hari, 45 menit waktu kerja",
                 "steps": [
                     {
                         "step_num": 1,
                         "actor": "Mahasiswa",
-                        "action": "Mengunduh dan mengisi formulir permohonan rekomendasi beasiswa serta melampirkan KHS berlegalisir ke BAK Fakultas",
-                        "inputs": ["Form Rekomendasi Beasiswa", "KHS Dilegalisir"],
-                        "output": "Berkas Pengajuan Rekomendasi",
+                        "action": "Mendownload dan mengisi formulir/Surat Rekomendasi Pengajuan Beasiswa ke Subbag Akademik dan Kemahasiswaan (BAK) Fakultas",
+                        "inputs": ["Surat Rekomendasi Beasiswa", "KHS yang dilegalisir"],
+                        "output": "Surat Rekomendasi Beasiswa dan KHS yang dilegalisir",
                         "duration": "±30 menit",
-                        "link": "https://drive.google.com/file/d/18f_nbPXHbElgRNoplDFQVNYGGDkFxBTT/view?usp=sharing"
+                        "link": "https://drive.google.com/file/d/18f_nbPXHbElgRNoplDFQVNYGGDkFxBTT/view?usp=sharing",
+                        "evidence": "Mahasiswa mendownload dan mengisi formulir/ Surat Rekomendasi Pengajuan Beasiswa ke Subbag Akademik dan Kemahasiswaan (BAK) Fakultas."
                     },
                     {
                         "step_num": 2,
                         "actor": "BAK Fakultas",
-                        "action": "Meneliti dan memverifikasi kesesuaian dokumen permohonan beasiswa dan keabsahan KHS",
-                        "inputs": ["Berkas Pengajuan"],
-                        "output": "Hasil Verifikasi Berkas",
-                        "duration": "±1 hari"
+                        "action": "Meneliti dan memverifikasi Surat Rekomendasi Pengajuan Beasiswa",
+                        "inputs": [],
+                        "output": "",
+                        "duration": "±1 hari",
+                        "evidence": "BAK Fakultas meneliti dan memverifikasi Surat Rekomendasi Pengajuan Beasiswa."
                     },
                     {
                         "step_num": 3,
                         "actor": "BAK Fakultas",
-                        "action": "Memberikan paraf dan nomor surat resmi pada Surat Rekomendasi Pengajuan Beasiswa",
-                        "inputs": ["Surat Terverifikasi"],
-                        "output": "Surat Bernomor & Berparaf",
-                        "duration": "±10 menit"
+                        "action": "Memberikan paraf dan nomor surat pada Surat Rekomendasi Pengajuan Beasiswa tersebut",
+                        "inputs": [],
+                        "output": "",
+                        "duration": "±10 menit",
+                        "evidence": "BAK Fakultas memberikan paraf dan nomor surat pada Surat Rekomendasi Pengajuan Beasiswa tersebut."
                     },
                     {
                         "step_num": 4,
-                        "actor": "Wakil Dekan I (Akademik & Kemahasiswaan)",
-                        "action": "Membubuhkan tanda tangan persetujuan resmi pada Surat Rekomendasi Beasiswa",
-                        "inputs": ["Surat Berparaf"],
-                        "output": "Tanda Tangan Surat Rekomendasi",
-                        "duration": "±2 hari"
+                        "actor": "Wakil Dekan Akademik dan Kemahasiswaan",
+                        "action": "Memberikan tanda tangan pada Surat Rekomendasi Pengajuan Beasiswa tersebut",
+                        "inputs": [],
+                        "output": "",
+                        "duration": "±2 hari",
+                        "evidence": "Wakil Dekan Akademik dan Kemahasiswaan memberikan tanda tangan pada Surat Rekomendasi Pengajuan Beasiswa tersebut."
                     },
                     {
                         "step_num": 5,
                         "actor": "Mahasiswa",
-                        "action": "Mengambil Surat Rekomendasi di loket BAK Fakultas dan menandatangani bukti pengambilan dokumen",
-                        "inputs": ["KTM", "Tanda Tangan Buku Ambil"],
-                        "output": "Surat Rekomendasi Beasiswa Sah",
-                        "duration": "±5 menit"
+                        "action": "Mengambil surat tersebut di BAK Fakultas dan mencatat bukti pengambilan",
+                        "inputs": [],
+                        "output": "",
+                        "duration": "±5 menit",
+                        "evidence": "Mahasiswa mengambil surat tersebut di BAK Fakultas dan mencatat bukti pengambilan."
                     }
                 ]
             },
             {
                 "id": "SOP_PROPOSAL_ORMAWA",
                 "title": "Pengajuan Proposal Kegiatan Organisasi Mahasiswa",
+                "source_pdf": "SOP_Pengajuan_Proposal_Kegiatan_Organisasi_Mahasiswa.pdf",
                 "aliases": ["proposal ormawa", "proposal kegiatan", "organisasi mahasiswa", "izin kegiatan"],
                 "max_duration": "3 hari kerja",
+                "max_duration_evidence": "maksimal waktu pemrosesan maksimal 3 (tiga) hari kerja",
                 "steps": [
                     {
                         "step_num": 1,
-                        "actor": "Mahasiswa (Pengurus Ormawa)",
-                        "action": "Menyerahkan berkas proposal kegiatan ke petugas kemahasiswaan dan Supervisor Akademik untuk registrasi & alokasi ruang FSM",
-                        "inputs": ["Proposal Kegiatan Organisasi"],
-                        "output": "Registrasi Proposal Masuk"
+                        "actor": "Mahasiswa",
+                        "action": "Menyerahkan proposal ke petugas kemahasiswaan dan Supervisor Akademik untuk registrasi dan alokasi ruang (jika kegiatan di FSM)",
+                        "inputs": ["Proposal kegiatan organisasi"],
+                        "output": "",
+                        "evidence": "Mahasiswa menyerahkan proposal ke petugas kemahasiswaan dan Supervisor Akademik untuk registrasi dan alokasi ruang (jika kegiatan di FSM)."
                     },
                     {
                         "step_num": 2,
                         "actor": "Supervisor Akademik dan Kemahasiswaan",
-                        "action": "Meneliti, memeriksa kesesuaian proposal dengan regulasi fakultas, dan memberikan paraf pengesahan",
-                        "inputs": ["Proposal Registrasi"],
-                        "output": "Paraf Supervisor Akademik"
+                        "action": "Meneliti dan memverifikasi proposal kegiatan yang diajukan agar sesuai peraturan dan memberikan paraf",
+                        "inputs": [],
+                        "output": "Paraf Supervisor Akademik dan Kemahasiswaan",
+                        "evidence": "Supervisor Akademik dan Kemahasiswaan meneliti dan memverifikasi proposal kegiatan yang diajukan agar sesuai peraturan dan memberikan paraf."
                     },
                     {
                         "step_num": 3,
-                        "actor": "Wakil Dekan I",
-                        "action": "Mengevaluasi kelayakan substansi, anggaran, dan relevansi akademis proposal kegiatan",
-                        "inputs": ["Proposal Berparaf"],
-                        "output": "Persetujuan Substansi WD I"
+                        "actor": "Wakil Dekan Akademik dan Kemahasiswaan",
+                        "action": "Mengevaluasi substansi proposal kegiatan",
+                        "inputs": [],
+                        "output": "Persetujuan Wakil Dekan Akademik dan Kemahasiswaan",
+                        "evidence": "Wakil Dekan Akademik dan Kemahasiswaan mengevaluasi substansi proposal kegiatan."
                     },
                     {
                         "step_num": 4,
-                        "actor": "Wakil Dekan I",
-                        "action": "Pengesahan resmi dan tanda tangan persetujuan kegiatan oleh Wakil Dekan I",
-                        "inputs": ["Lembar Pengesahan"],
-                        "output": "Proposal Disahkan"
+                        "actor": "Wakil Dekan Akademik dan Kemahasiswaan",
+                        "action": "Pengesahan oleh Wakil Dekan Akademik dan Kemahasiswaan",
+                        "inputs": [],
+                        "output": "",
+                        "evidence": "Pengesahan Wakil Dekan Akademik dan Kemahasiswaan."
                     },
                     {
                         "step_num": 5,
-                        "actor": "Mahasiswa (Pengurus Ormawa)",
-                        "action": "Mengambil proposal yang telah disahkan untuk pelaksanaan kegiatan ormawa",
-                        "inputs": ["Tanda Terima Pengambilan"],
-                        "output": "Proposal Kegiatan Resmi Disetujui"
+                        "actor": "Mahasiswa",
+                        "action": "Mengambil proposal yang telah disetujui",
+                        "inputs": [],
+                        "output": "Proposal kegiatan organisasi yang telah disetujui",
+                        "evidence": "Mahasiswa mengambil proposal yang telah disetujui."
                     }
                 ]
             }
@@ -405,7 +488,9 @@ class SOPWorkflowGraph:
                 type="SOP_ROOT",
                 title=sop["title"],
                 aliases=sop["aliases"],
-                max_duration=sop["max_duration"]
+                source_pdf=sop["source_pdf"],
+                max_duration=sop["max_duration"],
+                max_duration_evidence=sop["max_duration_evidence"]
             )
             
             prev_step_node = None
@@ -422,7 +507,8 @@ class SOPWorkflowGraph:
                     inputs=s.get("inputs", []),
                     output=s.get("output", ""),
                     duration=s.get("duration", "-"),
-                    link=s.get("link", "")
+                    link=s.get("link", ""),
+                    evidence=s["evidence"]
                 )
                 
                 # Hierarchy Edge from Root to Step
@@ -438,6 +524,25 @@ class SOPWorkflowGraph:
                 if not self.graph.has_node(actor_node_id):
                     self.graph.add_node(actor_node_id, type="ACTOR", name=s["actor"])
                 self.graph.add_edge(actor_node_id, step_node_id, relation="PERFORMS")
+
+    def to_serializable(self) -> Dict[str, Any]:
+        """
+        Deterministic, JSON-serialisable view of the graph: SOP definitions plus
+        every node and edge (sorted), so two graphs with the same content always
+        serialise to the same string.
+        """
+        nodes = [[n, dict(sorted(attrs.items()))] for n, attrs in sorted(self.graph.nodes(data=True))]
+        edges = [[u, v, dict(sorted(attrs.items()))] for u, v, attrs in sorted(self.graph.edges(data=True))]
+        return {
+            "sops": [self.sop_metadata[k] for k in sorted(self.sop_metadata)],
+            "nodes": nodes,
+            "edges": edges,
+        }
+
+    def graph_sha256(self) -> str:
+        """SHA-256 of the canonical JSON serialisation (fingerprint for run_config.json)."""
+        canonical = json.dumps(self.to_serializable(), sort_keys=True, ensure_ascii=False, separators=(",", ":"))
+        return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
     def match_sop(self, query: str) -> Optional[Dict[str, Any]]:
         """
@@ -534,7 +639,8 @@ class SOPWorkflowGraph:
                 
             mermaid.append(f'    {s_id}["{node_label}"]')
 
-        mermaid.append(f'    Finish(["✅ Selesai ({sop["max_duration"]})"])')
+        finish_label = f'✅ Selesai ({sop["max_duration"]})' if sop.get("max_duration") else "✅ Selesai"
+        mermaid.append(f'    Finish(["{finish_label}"])')
         
         # Connect sequential edges
         mermaid.append(f"    Start --> {step_nodes[0]}")
@@ -585,7 +691,8 @@ class SOPWorkflowGraph:
                     mermaid.append(f'        {s_id}["<b>Langkah {s["step_num"]}</b><br>{snippet}"]')
             mermaid.append('    end')
             
-        mermaid.append(f'    Finish(["✅ Selesai ({sop["max_duration"]})"])')
+        finish_label = f'✅ Selesai ({sop["max_duration"]})' if sop.get("max_duration") else "✅ Selesai"
+        mermaid.append(f'    Finish(["{finish_label}"])')
         
         # Connect sequential edges across swimlanes
         mermaid.append(f"    Start --> Step_1")
@@ -616,7 +723,8 @@ class SOPWorkflowGraph:
         """
         steps = sop["steps"]
         mermaid = ["flowchart TD"]
-        mermaid.append(f'    Start(["🚀 Alur Lengkap: {sop["title"]}<br><i>Total Batas Waktu: {sop["max_duration"]}</i>"])')
+        limit = sop.get("max_duration") or "tidak disebutkan dalam SOP"
+        mermaid.append(f'    Start(["🚀 Alur Lengkap: {sop["title"]}<br><i>Total Batas Waktu: {limit}</i>"])')
         
         step_nodes = []
         for s in steps:
@@ -672,7 +780,7 @@ class SOPWorkflowGraph:
             
         lines = []
         lines.append(f"=== STRUKTUR WORKFLOW ALUR RESMI: {sop['title'].upper()} ===")
-        lines.append(f"Maksimal Waktu Pemrosesan: {sop['max_duration']}")
+        lines.append(f"Maksimal Waktu Pemrosesan: {sop['max_duration'] or 'tidak disebutkan dalam dokumen SOP'}")
         lines.append("\nTahapan Prosedural Berurutan:")
         
         for s in sop["steps"]:

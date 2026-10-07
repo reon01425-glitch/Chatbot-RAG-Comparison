@@ -1,0 +1,2324 @@
+{
+ "description": "Snapshot of SOPWorkflowGraph BEFORE PDF reconciliation (Goal A Tugas 1). Base commit d421b93.",
+ "graph_sha256": "e02511ffb90fc8086f7061581818da1c327a76ee2d47c003c0b62caf3c6f64b0",
+ "n_steps": {
+  "SOP_AKTIF_SETELAH_CUTI": 3,
+  "SOP_CUTI_AKADEMIK": 8,
+  "SOP_KETERLAMBATAN_UKT": 9,
+  "SOP_LEGALISIR": 6,
+  "SOP_PENGISIAN_IRS": 6,
+  "SOP_PROPOSAL_ORMAWA": 5,
+  "SOP_REKOMENDASI_BEASISWA": 5
+ },
+ "n_steps_total": 42,
+ "sops": [
+  {
+   "id": "SOP_AKTIF_SETELAH_CUTI",
+   "title": "Permohonan Izin Aktif Kuliah Setelah Cuti",
+   "aliases": [
+    "aktif setelah cuti",
+    "aktif kembali",
+    "selesai cuti",
+    "lapor aktif"
+   ],
+   "max_duration": "1 hari kerja",
+   "steps": [
+    {
+     "step_num": 1,
+     "actor": "Mahasiswa",
+     "action": "Membawa Surat Izin Cuti Akademik semester sebelumnya dan fotokopi KTM, melapor ke Kaprodi dan Subbag Akademik",
+     "inputs": [
+      "Surat Izin Cuti Akademik",
+      "Fotokopi KTM"
+     ],
+     "output": "Laporan Status Cuti Berakhir",
+     "duration": "±5 menit"
+    },
+    {
+     "step_num": 2,
+     "actor": "Mahasiswa",
+     "action": "Melakukan registrasi online aktivasi pada Single Sign On (SSO) masing-masing mahasiswa",
+     "inputs": [
+      "Akun SSO Mahasiswa"
+     ],
+     "output": "Aktivasi Akun di SSO",
+     "duration": "±5 menit"
+    },
+    {
+     "step_num": 3,
+     "actor": "Subbag Akademik",
+     "action": "Memperbarui status mahasiswa sehingga terdaftar kembali sebagai Peserta Kuliah / Mahasiswa Aktif FSM",
+     "inputs": [
+      "Konfirmasi SSO & Laporan"
+     ],
+     "output": "Status Resmi Mahasiswa Aktif Kembali",
+     "duration": "±5 menit"
+    }
+   ]
+  },
+  {
+   "id": "SOP_CUTI_AKADEMIK",
+   "title": "Permohonan Izin Cuti Akademik",
+   "aliases": [
+    "cuti akademik",
+    "izin cuti",
+    "berhenti sementara kuliah",
+    "cuti kuliah"
+   ],
+   "max_duration": "3 hari kerja",
+   "steps": [
+    {
+     "step_num": 1,
+     "actor": "Mahasiswa",
+     "action": "Mengunduh, mengisi, dan menandatangani Form Cuti Akademik serta mengisi online via SIAP",
+     "inputs": [
+      "Form Cuti Akademik",
+      "Transkrip Akademik",
+      "Bukti Bayar SPP/UKT Terakhir",
+      "Fotokopi KTM"
+     ],
+     "output": "Form Cuti Terisi & Berkas Persyaratan",
+     "link": "https://drive.google.com/file/d/1miPHNvRj6XO6LEhFCiC_QXcMtynCPWR2/edit"
+    },
+    {
+     "step_num": 2,
+     "actor": "Ketua Program Studi",
+     "action": "Meminta persetujuan dan tanda tangan persetujuan cuti akademik dari Kaprodi",
+     "inputs": [
+      "Form Cuti Terisi & Berkas"
+     ],
+     "output": "Form Cuti Ditandatangani Kaprodi"
+    },
+    {
+     "step_num": 3,
+     "actor": "Dekan",
+     "action": "Menyerahkan Form Cuti yang telah ditandatangani Kaprodi ke Dekan, lalu didisposisikan ke Subbag Akademik",
+     "inputs": [
+      "Form Cuti Rekomendasi Kaprodi"
+     ],
+     "output": "Disposisi Dekan ke Subbag Akademik"
+    },
+    {
+     "step_num": 4,
+     "actor": "Subbag Akademik dan Kemahasiswaan",
+     "action": "Menerima, memeriksa, dan meneliti kelengkapan persyaratan berkas cuti. Memberi paraf jika lengkap",
+     "inputs": [
+      "Form Cuti & Persyaratan"
+     ],
+     "output": "Paraf Subbag Akademik"
+    },
+    {
+     "step_num": 5,
+     "actor": "Dekan",
+     "action": "Dekan menandatangani Surat Izin Dekan perihal cuti akademik",
+     "inputs": [
+      "Berkas Lengkap Berparaf"
+     ],
+     "output": "Surat Izin Dekan (SK Cuti)"
+    },
+    {
+     "step_num": 6,
+     "actor": "Subbag Sumber Daya",
+     "action": "Memberi nomor surat dan mengirimkan ke Subbag Akademik dengan tembusan Dosen Wali & Kaprodi",
+     "inputs": [
+      "Surat Izin Dekan"
+     ],
+     "output": "Surat Izin Dekan Bernomor Resmi"
+    },
+    {
+     "step_num": 7,
+     "actor": "Subbag Akademik dan Kemahasiswaan",
+     "action": "Mengupdate status mahasiswa di Sistem Informasi Akademik, mengarsipkan surat, dan meneruskan ke loket",
+     "inputs": [
+      "Surat Izin Dekan Bernomor"
+     ],
+     "output": "Status Cuti Terupdate di Sistem Akademik"
+    },
+    {
+     "step_num": 8,
+     "actor": "Mahasiswa",
+     "action": "Mahasiswa mengambil Surat Izin Dekan di loket akademik",
+     "inputs": [
+      "Bukti Identitas Diri"
+     ],
+     "output": "Surat Izin Dekan Resmi Diterima Mahasiswa"
+    }
+   ]
+  },
+  {
+   "id": "SOP_KETERLAMBATAN_UKT",
+   "title": "Permohonan Izin Keterlambatan Pembayaran UKT",
+   "aliases": [
+    "keterlambatan ukt",
+    "izin terlambat ukt",
+    "dispensasi ukt",
+    "tenggang ukt"
+   ],
+   "max_duration": "3 hari kerja",
+   "steps": [
+    {
+     "step_num": 1,
+     "actor": "Mahasiswa",
+     "action": "Mengunduh, mengisi, dan menandatangani Form Permohonan Keterlambatan Pembayaran UKT serta melampirkan berkas alasan",
+     "inputs": [
+      "Form Permohonan",
+      "Surat Pernyataan / Bukti Kendala"
+     ],
+     "output": "Form Permohonan Terisi",
+     "link": "https://drive.google.com/file/d/1o7hogihjZsFTB_V27JU1OfNGBuI2Sr55/"
+    },
+    {
+     "step_num": 2,
+     "actor": "Dosen Wali & Kaprodi",
+     "action": "Meminta tanda tangan persetujuan dari Dosen Wali dan Ketua Program Studi",
+     "inputs": [
+      "Form Permohonan Terisi"
+     ],
+     "output": "Persetujuan Dosen Wali & Kaprodi"
+    },
+    {
+     "step_num": 3,
+     "actor": "Supervisor Sumber Daya",
+     "action": "Menyerahkan formulir kepada Supervisor Sumber Daya untuk diperiksa kelengkapannya dan diberi paraf",
+     "inputs": [
+      "Formulir Lengkap"
+     ],
+     "output": "Paraf Supervisor Sumber Daya"
+    },
+    {
+     "step_num": 4,
+     "actor": "Wakil Dekan Sumber Daya (WD II)",
+     "action": "Wakil Dekan Sumber Daya memproses dan menandatangani Surat Permohonan Izin Keterlambatan Pembayaran UKT",
+     "inputs": [
+      "Berkas Berparaf"
+     ],
+     "output": "Surat Permohonan Bertanda Tangan WD II"
+    },
+    {
+     "step_num": 5,
+     "actor": "Subbag Sumber Daya",
+     "action": "Memproses penomoran surat permohonan keterlambatan UKT",
+     "inputs": [
+      "Surat WD II"
+     ],
+     "output": "Surat Permohonan Bernomor Resmi"
+    },
+    {
+     "step_num": 6,
+     "actor": "Mahasiswa",
+     "action": "Membawa Surat Permohonan ke Wakil Rektor II Universitas Diponegoro melalui Manajer Akademik",
+     "inputs": [
+      "Surat Permohonan Resmi"
+     ],
+     "output": "Penyerahan ke WR II Undip"
+    },
+    {
+     "step_num": 7,
+     "actor": "Wakil Rektor II",
+     "action": "Mendisposisikan persetujuan dispensasi ke Direktorat Keuangan Undip untuk membuka tagihan",
+     "inputs": [
+      "Surat Permohonan"
+     ],
+     "output": "Disposisi WR II ke Ditkeu"
+    },
+    {
+     "step_num": 8,
+     "actor": "Bendahara Penerimaan UKT",
+     "action": "Membuka sistem pembayaran tagihan UKT mahasiswa yang bersangkutan",
+     "inputs": [
+      "Disposisi Ditkeu"
+     ],
+     "output": "Tagihan Pembayaran Terbuka di Sistem Bank"
+    },
+    {
+     "step_num": 9,
+     "actor": "Mahasiswa",
+     "action": "Membayar biaya UKT ke bank mitra sebelum batas akhir perpanjangan waktu dispensasi",
+     "inputs": [
+      "Tagihan Bank Terbuka"
+     ],
+     "output": "Bukti Lunas UKT & Status Aktif"
+    }
+   ]
+  },
+  {
+   "id": "SOP_LEGALISIR",
+   "title": "Legalisir Ijazah Dan Transkrip",
+   "aliases": [
+    "legalisir",
+    "legalisir ijazah",
+    "legalisir transkrip",
+    "akreditasi program studi"
+   ],
+   "max_duration": "3 hari kerja",
+   "steps": [
+    {
+     "step_num": 1,
+     "actor": "Alumni",
+     "action": "Menyerahkan fotokopi ijazah/transkrip/sertifikat akreditasi beserta dokumen asli ke loket Subbag Akademik",
+     "inputs": [
+      "Fotokopi Ijazah / Transkrip",
+      "Dokumen Asli"
+     ],
+     "output": "Berkas Pengajuan Legalisir",
+     "duration": "±5 menit"
+    },
+    {
+     "step_num": 2,
+     "actor": "Petugas Subbag Akademik",
+     "action": "Memeriksa keabsahan dan kesesuaian fotokopi dengan dokumen asli, serta memberikan cap legalisir",
+     "inputs": [
+      "Berkas Pengajuan & Asli"
+     ],
+     "output": "Persetujuan Legalisir & Cap Dokumen",
+     "duration": "±10 menit"
+    },
+    {
+     "step_num": 3,
+     "actor": "Supervisor Akademik",
+     "action": "Memeriksa dokumen dan memberi paraf pengesahan di samping kanan nama Dekan",
+     "inputs": [
+      "Dokumen Ber-cap"
+     ],
+     "output": "Paraf Supervisor Akademik",
+     "duration": "±15 menit"
+    },
+    {
+     "step_num": 4,
+     "actor": "Dekan / Wakil Dekan I",
+     "action": "Menandatangani lembar pengesahan kebenaran dan kesesuaian dokumen dengan aslinya",
+     "inputs": [
+      "Dokumen Berparaf"
+     ],
+     "output": "Tanda Tangan Pengesahan Dekan/WD I",
+     "duration": "±1 hari"
+    },
+    {
+     "step_num": 5,
+     "actor": "Petugas Subbag Akademik",
+     "action": "Mengambil dokumen bertandatangan Dekan/WD I dan membubuhkan stempel resmi Fakultas Sains dan Matematika",
+     "inputs": [
+      "Dokumen Bertanda Tangan"
+     ],
+     "output": "Stempel Fakultas Sains dan Matematika (FSM)",
+     "duration": "±5 menit"
+    },
+    {
+     "step_num": 6,
+     "actor": "Alumni",
+     "action": "Mengambil dokumen legalisir di Subbag Akademik dengan memperlihatkan dokumen asli dan menandatangani buku ekspedisi",
+     "inputs": [
+      "Dokumen Asli",
+      "Tanda Tangan Buku Ambil"
+     ],
+     "output": "Legalisir Ijazah / Transkrip Selesai",
+     "duration": "±15 menit"
+    }
+   ]
+  },
+  {
+   "id": "SOP_PENGISIAN_IRS",
+   "title": "Pengisian Isian Rencana Studi (IRS)",
+   "aliases": [
+    "pengisian irs",
+    "isi irs",
+    "rencana studi",
+    "konsultasi dosen wali",
+    "her-registrasi"
+   ],
+   "max_duration": "3 hari kerja",
+   "steps": [
+    {
+     "step_num": 1,
+     "actor": "Mahasiswa",
+     "action": "Membayar biaya pendidikan (SPP/UKT) melalui bank mitra resmi Undip (BNI, Mandiri, BTN, BRI)",
+     "inputs": [
+      "Nomor Tagihan Pembayaran"
+     ],
+     "output": "Bukti Pembayaran SPP/UKT",
+     "duration": "±10 menit"
+    },
+    {
+     "step_num": 2,
+     "actor": "Mahasiswa",
+     "action": "Melakukan her-registrasi online melalui portal SIAP Undip",
+     "inputs": [
+      "Bukti Bayar Bank"
+     ],
+     "output": "Status Mahasiswa Aktif di SIAP",
+     "duration": "±10 menit"
+    },
+    {
+     "step_num": 3,
+     "actor": "Mahasiswa",
+     "action": "Melakukan pemilihan mata kuliah, perbaikan rencana studi, atau mencetak draf IRS sementara melalui SIAP",
+     "inputs": [
+      "Jadwal Kuliah & Kuota Kelas"
+     ],
+     "output": "Draf IRS Sementara",
+     "duration": "±10 menit"
+    },
+    {
+     "step_num": 4,
+     "actor": "Pembimbing Akademik (Dosen Wali)",
+     "action": "Konsultasi pengambilan mata kuliah dan jumlah SKS sesuai ketentuan IPK semester sebelumnya",
+     "inputs": [
+      "Draf IRS Sementara & KHS"
+     ],
+     "output": "Catatan Arahan Dosen Wali",
+     "duration": "±10 menit"
+    },
+    {
+     "step_num": 5,
+     "actor": "Pembimbing Akademik (Dosen Wali)",
+     "action": "Melakukan persetujuan (approval) online IRS mahasiswa pada sistem SIAP",
+     "inputs": [
+      "Draf IRS yang Disepakati"
+     ],
+     "output": "Persetujuan Online (Approved SIAP)",
+     "duration": "±10 menit"
+    },
+    {
+     "step_num": 6,
+     "actor": "Mahasiswa",
+     "action": "Melakukan pengecekan akhir status persetujuan IRS dan mencetak dokumen IRS resmi bila diperlukan",
+     "inputs": [
+      "Akun SIAP"
+     ],
+     "output": "File IRS Resmi Approved",
+     "duration": "±10 menit"
+    }
+   ]
+  },
+  {
+   "id": "SOP_PROPOSAL_ORMAWA",
+   "title": "Pengajuan Proposal Kegiatan Organisasi Mahasiswa",
+   "aliases": [
+    "proposal ormawa",
+    "proposal kegiatan",
+    "organisasi mahasiswa",
+    "izin kegiatan"
+   ],
+   "max_duration": "3 hari kerja",
+   "steps": [
+    {
+     "step_num": 1,
+     "actor": "Mahasiswa (Pengurus Ormawa)",
+     "action": "Menyerahkan berkas proposal kegiatan ke petugas kemahasiswaan dan Supervisor Akademik untuk registrasi & alokasi ruang FSM",
+     "inputs": [
+      "Proposal Kegiatan Organisasi"
+     ],
+     "output": "Registrasi Proposal Masuk"
+    },
+    {
+     "step_num": 2,
+     "actor": "Supervisor Akademik dan Kemahasiswaan",
+     "action": "Meneliti, memeriksa kesesuaian proposal dengan regulasi fakultas, dan memberikan paraf pengesahan",
+     "inputs": [
+      "Proposal Registrasi"
+     ],
+     "output": "Paraf Supervisor Akademik"
+    },
+    {
+     "step_num": 3,
+     "actor": "Wakil Dekan I",
+     "action": "Mengevaluasi kelayakan substansi, anggaran, dan relevansi akademis proposal kegiatan",
+     "inputs": [
+      "Proposal Berparaf"
+     ],
+     "output": "Persetujuan Substansi WD I"
+    },
+    {
+     "step_num": 4,
+     "actor": "Wakil Dekan I",
+     "action": "Pengesahan resmi dan tanda tangan persetujuan kegiatan oleh Wakil Dekan I",
+     "inputs": [
+      "Lembar Pengesahan"
+     ],
+     "output": "Proposal Disahkan"
+    },
+    {
+     "step_num": 5,
+     "actor": "Mahasiswa (Pengurus Ormawa)",
+     "action": "Mengambil proposal yang telah disahkan untuk pelaksanaan kegiatan ormawa",
+     "inputs": [
+      "Tanda Terima Pengambilan"
+     ],
+     "output": "Proposal Kegiatan Resmi Disetujui"
+    }
+   ]
+  },
+  {
+   "id": "SOP_REKOMENDASI_BEASISWA",
+   "title": "Surat Pengajuan Rekomendasi Beasiswa",
+   "aliases": [
+    "rekomendasi beasiswa",
+    "surat beasiswa",
+    "syarat beasiswa",
+    "pengajuan beasiswa"
+   ],
+   "max_duration": "3 hari 45 menit",
+   "steps": [
+    {
+     "step_num": 1,
+     "actor": "Mahasiswa",
+     "action": "Mengunduh dan mengisi formulir permohonan rekomendasi beasiswa serta melampirkan KHS berlegalisir ke BAK Fakultas",
+     "inputs": [
+      "Form Rekomendasi Beasiswa",
+      "KHS Dilegalisir"
+     ],
+     "output": "Berkas Pengajuan Rekomendasi",
+     "duration": "±30 menit",
+     "link": "https://drive.google.com/file/d/18f_nbPXHbElgRNoplDFQVNYGGDkFxBTT/view?usp=sharing"
+    },
+    {
+     "step_num": 2,
+     "actor": "BAK Fakultas",
+     "action": "Meneliti dan memverifikasi kesesuaian dokumen permohonan beasiswa dan keabsahan KHS",
+     "inputs": [
+      "Berkas Pengajuan"
+     ],
+     "output": "Hasil Verifikasi Berkas",
+     "duration": "±1 hari"
+    },
+    {
+     "step_num": 3,
+     "actor": "BAK Fakultas",
+     "action": "Memberikan paraf dan nomor surat resmi pada Surat Rekomendasi Pengajuan Beasiswa",
+     "inputs": [
+      "Surat Terverifikasi"
+     ],
+     "output": "Surat Bernomor & Berparaf",
+     "duration": "±10 menit"
+    },
+    {
+     "step_num": 4,
+     "actor": "Wakil Dekan I (Akademik & Kemahasiswaan)",
+     "action": "Membubuhkan tanda tangan persetujuan resmi pada Surat Rekomendasi Beasiswa",
+     "inputs": [
+      "Surat Berparaf"
+     ],
+     "output": "Tanda Tangan Surat Rekomendasi",
+     "duration": "±2 hari"
+    },
+    {
+     "step_num": 5,
+     "actor": "Mahasiswa",
+     "action": "Mengambil Surat Rekomendasi di loket BAK Fakultas dan menandatangani bukti pengambilan dokumen",
+     "inputs": [
+      "KTM",
+      "Tanda Tangan Buku Ambil"
+     ],
+     "output": "Surat Rekomendasi Beasiswa Sah",
+     "duration": "±5 menit"
+    }
+   ]
+  }
+ ],
+ "nodes": [
+  [
+   "ACTOR_ALUMNI",
+   {
+    "name": "Alumni",
+    "type": "ACTOR"
+   }
+  ],
+  [
+   "ACTOR_BAK_FAKULTAS",
+   {
+    "name": "BAK Fakultas",
+    "type": "ACTOR"
+   }
+  ],
+  [
+   "ACTOR_BENDAHARA_PENERIMAAN_UKT",
+   {
+    "name": "Bendahara Penerimaan UKT",
+    "type": "ACTOR"
+   }
+  ],
+  [
+   "ACTOR_DEKAN",
+   {
+    "name": "Dekan",
+    "type": "ACTOR"
+   }
+  ],
+  [
+   "ACTOR_DEKAN_/_WAKIL_DEKAN_I",
+   {
+    "name": "Dekan / Wakil Dekan I",
+    "type": "ACTOR"
+   }
+  ],
+  [
+   "ACTOR_DOSEN_WALI_&_KAPRODI",
+   {
+    "name": "Dosen Wali & Kaprodi",
+    "type": "ACTOR"
+   }
+  ],
+  [
+   "ACTOR_KETUA_PROGRAM_STUDI",
+   {
+    "name": "Ketua Program Studi",
+    "type": "ACTOR"
+   }
+  ],
+  [
+   "ACTOR_MAHASISWA",
+   {
+    "name": "Mahasiswa",
+    "type": "ACTOR"
+   }
+  ],
+  [
+   "ACTOR_MAHASISWA_(PENGURUS_ORMAWA)",
+   {
+    "name": "Mahasiswa (Pengurus Ormawa)",
+    "type": "ACTOR"
+   }
+  ],
+  [
+   "ACTOR_PEMBIMBING_AKADEMIK_(DOSEN_WALI)",
+   {
+    "name": "Pembimbing Akademik (Dosen Wali)",
+    "type": "ACTOR"
+   }
+  ],
+  [
+   "ACTOR_PETUGAS_SUBBAG_AKADEMIK",
+   {
+    "name": "Petugas Subbag Akademik",
+    "type": "ACTOR"
+   }
+  ],
+  [
+   "ACTOR_SUBBAG_AKADEMIK",
+   {
+    "name": "Subbag Akademik",
+    "type": "ACTOR"
+   }
+  ],
+  [
+   "ACTOR_SUBBAG_AKADEMIK_DAN_KEMAHASISWAAN",
+   {
+    "name": "Subbag Akademik dan Kemahasiswaan",
+    "type": "ACTOR"
+   }
+  ],
+  [
+   "ACTOR_SUBBAG_SUMBER_DAYA",
+   {
+    "name": "Subbag Sumber Daya",
+    "type": "ACTOR"
+   }
+  ],
+  [
+   "ACTOR_SUPERVISOR_AKADEMIK",
+   {
+    "name": "Supervisor Akademik",
+    "type": "ACTOR"
+   }
+  ],
+  [
+   "ACTOR_SUPERVISOR_AKADEMIK_DAN_KEMAHASISWAAN",
+   {
+    "name": "Supervisor Akademik dan Kemahasiswaan",
+    "type": "ACTOR"
+   }
+  ],
+  [
+   "ACTOR_SUPERVISOR_SUMBER_DAYA",
+   {
+    "name": "Supervisor Sumber Daya",
+    "type": "ACTOR"
+   }
+  ],
+  [
+   "ACTOR_WAKIL_DEKAN_I",
+   {
+    "name": "Wakil Dekan I",
+    "type": "ACTOR"
+   }
+  ],
+  [
+   "ACTOR_WAKIL_DEKAN_I_(AKADEMIK_&_KEMAHASISWAAN)",
+   {
+    "name": "Wakil Dekan I (Akademik & Kemahasiswaan)",
+    "type": "ACTOR"
+   }
+  ],
+  [
+   "ACTOR_WAKIL_DEKAN_SUMBER_DAYA_(WD_II)",
+   {
+    "name": "Wakil Dekan Sumber Daya (WD II)",
+    "type": "ACTOR"
+   }
+  ],
+  [
+   "ACTOR_WAKIL_REKTOR_II",
+   {
+    "name": "Wakil Rektor II",
+    "type": "ACTOR"
+   }
+  ],
+  [
+   "SOP_AKTIF_SETELAH_CUTI",
+   {
+    "aliases": [
+     "aktif setelah cuti",
+     "aktif kembali",
+     "selesai cuti",
+     "lapor aktif"
+    ],
+    "max_duration": "1 hari kerja",
+    "title": "Permohonan Izin Aktif Kuliah Setelah Cuti",
+    "type": "SOP_ROOT"
+   }
+  ],
+  [
+   "SOP_AKTIF_SETELAH_CUTI_STEP_1",
+   {
+    "action": "Membawa Surat Izin Cuti Akademik semester sebelumnya dan fotokopi KTM, melapor ke Kaprodi dan Subbag Akademik",
+    "actor": "Mahasiswa",
+    "duration": "±5 menit",
+    "inputs": [
+     "Surat Izin Cuti Akademik",
+     "Fotokopi KTM"
+    ],
+    "link": "",
+    "output": "Laporan Status Cuti Berakhir",
+    "sop_id": "SOP_AKTIF_SETELAH_CUTI",
+    "sop_title": "Permohonan Izin Aktif Kuliah Setelah Cuti",
+    "step_num": 1,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_AKTIF_SETELAH_CUTI_STEP_2",
+   {
+    "action": "Melakukan registrasi online aktivasi pada Single Sign On (SSO) masing-masing mahasiswa",
+    "actor": "Mahasiswa",
+    "duration": "±5 menit",
+    "inputs": [
+     "Akun SSO Mahasiswa"
+    ],
+    "link": "",
+    "output": "Aktivasi Akun di SSO",
+    "sop_id": "SOP_AKTIF_SETELAH_CUTI",
+    "sop_title": "Permohonan Izin Aktif Kuliah Setelah Cuti",
+    "step_num": 2,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_AKTIF_SETELAH_CUTI_STEP_3",
+   {
+    "action": "Memperbarui status mahasiswa sehingga terdaftar kembali sebagai Peserta Kuliah / Mahasiswa Aktif FSM",
+    "actor": "Subbag Akademik",
+    "duration": "±5 menit",
+    "inputs": [
+     "Konfirmasi SSO & Laporan"
+    ],
+    "link": "",
+    "output": "Status Resmi Mahasiswa Aktif Kembali",
+    "sop_id": "SOP_AKTIF_SETELAH_CUTI",
+    "sop_title": "Permohonan Izin Aktif Kuliah Setelah Cuti",
+    "step_num": 3,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_CUTI_AKADEMIK",
+   {
+    "aliases": [
+     "cuti akademik",
+     "izin cuti",
+     "berhenti sementara kuliah",
+     "cuti kuliah"
+    ],
+    "max_duration": "3 hari kerja",
+    "title": "Permohonan Izin Cuti Akademik",
+    "type": "SOP_ROOT"
+   }
+  ],
+  [
+   "SOP_CUTI_AKADEMIK_STEP_1",
+   {
+    "action": "Mengunduh, mengisi, dan menandatangani Form Cuti Akademik serta mengisi online via SIAP",
+    "actor": "Mahasiswa",
+    "duration": "-",
+    "inputs": [
+     "Form Cuti Akademik",
+     "Transkrip Akademik",
+     "Bukti Bayar SPP/UKT Terakhir",
+     "Fotokopi KTM"
+    ],
+    "link": "https://drive.google.com/file/d/1miPHNvRj6XO6LEhFCiC_QXcMtynCPWR2/edit",
+    "output": "Form Cuti Terisi & Berkas Persyaratan",
+    "sop_id": "SOP_CUTI_AKADEMIK",
+    "sop_title": "Permohonan Izin Cuti Akademik",
+    "step_num": 1,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_CUTI_AKADEMIK_STEP_2",
+   {
+    "action": "Meminta persetujuan dan tanda tangan persetujuan cuti akademik dari Kaprodi",
+    "actor": "Ketua Program Studi",
+    "duration": "-",
+    "inputs": [
+     "Form Cuti Terisi & Berkas"
+    ],
+    "link": "",
+    "output": "Form Cuti Ditandatangani Kaprodi",
+    "sop_id": "SOP_CUTI_AKADEMIK",
+    "sop_title": "Permohonan Izin Cuti Akademik",
+    "step_num": 2,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_CUTI_AKADEMIK_STEP_3",
+   {
+    "action": "Menyerahkan Form Cuti yang telah ditandatangani Kaprodi ke Dekan, lalu didisposisikan ke Subbag Akademik",
+    "actor": "Dekan",
+    "duration": "-",
+    "inputs": [
+     "Form Cuti Rekomendasi Kaprodi"
+    ],
+    "link": "",
+    "output": "Disposisi Dekan ke Subbag Akademik",
+    "sop_id": "SOP_CUTI_AKADEMIK",
+    "sop_title": "Permohonan Izin Cuti Akademik",
+    "step_num": 3,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_CUTI_AKADEMIK_STEP_4",
+   {
+    "action": "Menerima, memeriksa, dan meneliti kelengkapan persyaratan berkas cuti. Memberi paraf jika lengkap",
+    "actor": "Subbag Akademik dan Kemahasiswaan",
+    "duration": "-",
+    "inputs": [
+     "Form Cuti & Persyaratan"
+    ],
+    "link": "",
+    "output": "Paraf Subbag Akademik",
+    "sop_id": "SOP_CUTI_AKADEMIK",
+    "sop_title": "Permohonan Izin Cuti Akademik",
+    "step_num": 4,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_CUTI_AKADEMIK_STEP_5",
+   {
+    "action": "Dekan menandatangani Surat Izin Dekan perihal cuti akademik",
+    "actor": "Dekan",
+    "duration": "-",
+    "inputs": [
+     "Berkas Lengkap Berparaf"
+    ],
+    "link": "",
+    "output": "Surat Izin Dekan (SK Cuti)",
+    "sop_id": "SOP_CUTI_AKADEMIK",
+    "sop_title": "Permohonan Izin Cuti Akademik",
+    "step_num": 5,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_CUTI_AKADEMIK_STEP_6",
+   {
+    "action": "Memberi nomor surat dan mengirimkan ke Subbag Akademik dengan tembusan Dosen Wali & Kaprodi",
+    "actor": "Subbag Sumber Daya",
+    "duration": "-",
+    "inputs": [
+     "Surat Izin Dekan"
+    ],
+    "link": "",
+    "output": "Surat Izin Dekan Bernomor Resmi",
+    "sop_id": "SOP_CUTI_AKADEMIK",
+    "sop_title": "Permohonan Izin Cuti Akademik",
+    "step_num": 6,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_CUTI_AKADEMIK_STEP_7",
+   {
+    "action": "Mengupdate status mahasiswa di Sistem Informasi Akademik, mengarsipkan surat, dan meneruskan ke loket",
+    "actor": "Subbag Akademik dan Kemahasiswaan",
+    "duration": "-",
+    "inputs": [
+     "Surat Izin Dekan Bernomor"
+    ],
+    "link": "",
+    "output": "Status Cuti Terupdate di Sistem Akademik",
+    "sop_id": "SOP_CUTI_AKADEMIK",
+    "sop_title": "Permohonan Izin Cuti Akademik",
+    "step_num": 7,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_CUTI_AKADEMIK_STEP_8",
+   {
+    "action": "Mahasiswa mengambil Surat Izin Dekan di loket akademik",
+    "actor": "Mahasiswa",
+    "duration": "-",
+    "inputs": [
+     "Bukti Identitas Diri"
+    ],
+    "link": "",
+    "output": "Surat Izin Dekan Resmi Diterima Mahasiswa",
+    "sop_id": "SOP_CUTI_AKADEMIK",
+    "sop_title": "Permohonan Izin Cuti Akademik",
+    "step_num": 8,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_KETERLAMBATAN_UKT",
+   {
+    "aliases": [
+     "keterlambatan ukt",
+     "izin terlambat ukt",
+     "dispensasi ukt",
+     "tenggang ukt"
+    ],
+    "max_duration": "3 hari kerja",
+    "title": "Permohonan Izin Keterlambatan Pembayaran UKT",
+    "type": "SOP_ROOT"
+   }
+  ],
+  [
+   "SOP_KETERLAMBATAN_UKT_STEP_1",
+   {
+    "action": "Mengunduh, mengisi, dan menandatangani Form Permohonan Keterlambatan Pembayaran UKT serta melampirkan berkas alasan",
+    "actor": "Mahasiswa",
+    "duration": "-",
+    "inputs": [
+     "Form Permohonan",
+     "Surat Pernyataan / Bukti Kendala"
+    ],
+    "link": "https://drive.google.com/file/d/1o7hogihjZsFTB_V27JU1OfNGBuI2Sr55/",
+    "output": "Form Permohonan Terisi",
+    "sop_id": "SOP_KETERLAMBATAN_UKT",
+    "sop_title": "Permohonan Izin Keterlambatan Pembayaran UKT",
+    "step_num": 1,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_KETERLAMBATAN_UKT_STEP_2",
+   {
+    "action": "Meminta tanda tangan persetujuan dari Dosen Wali dan Ketua Program Studi",
+    "actor": "Dosen Wali & Kaprodi",
+    "duration": "-",
+    "inputs": [
+     "Form Permohonan Terisi"
+    ],
+    "link": "",
+    "output": "Persetujuan Dosen Wali & Kaprodi",
+    "sop_id": "SOP_KETERLAMBATAN_UKT",
+    "sop_title": "Permohonan Izin Keterlambatan Pembayaran UKT",
+    "step_num": 2,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_KETERLAMBATAN_UKT_STEP_3",
+   {
+    "action": "Menyerahkan formulir kepada Supervisor Sumber Daya untuk diperiksa kelengkapannya dan diberi paraf",
+    "actor": "Supervisor Sumber Daya",
+    "duration": "-",
+    "inputs": [
+     "Formulir Lengkap"
+    ],
+    "link": "",
+    "output": "Paraf Supervisor Sumber Daya",
+    "sop_id": "SOP_KETERLAMBATAN_UKT",
+    "sop_title": "Permohonan Izin Keterlambatan Pembayaran UKT",
+    "step_num": 3,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_KETERLAMBATAN_UKT_STEP_4",
+   {
+    "action": "Wakil Dekan Sumber Daya memproses dan menandatangani Surat Permohonan Izin Keterlambatan Pembayaran UKT",
+    "actor": "Wakil Dekan Sumber Daya (WD II)",
+    "duration": "-",
+    "inputs": [
+     "Berkas Berparaf"
+    ],
+    "link": "",
+    "output": "Surat Permohonan Bertanda Tangan WD II",
+    "sop_id": "SOP_KETERLAMBATAN_UKT",
+    "sop_title": "Permohonan Izin Keterlambatan Pembayaran UKT",
+    "step_num": 4,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_KETERLAMBATAN_UKT_STEP_5",
+   {
+    "action": "Memproses penomoran surat permohonan keterlambatan UKT",
+    "actor": "Subbag Sumber Daya",
+    "duration": "-",
+    "inputs": [
+     "Surat WD II"
+    ],
+    "link": "",
+    "output": "Surat Permohonan Bernomor Resmi",
+    "sop_id": "SOP_KETERLAMBATAN_UKT",
+    "sop_title": "Permohonan Izin Keterlambatan Pembayaran UKT",
+    "step_num": 5,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_KETERLAMBATAN_UKT_STEP_6",
+   {
+    "action": "Membawa Surat Permohonan ke Wakil Rektor II Universitas Diponegoro melalui Manajer Akademik",
+    "actor": "Mahasiswa",
+    "duration": "-",
+    "inputs": [
+     "Surat Permohonan Resmi"
+    ],
+    "link": "",
+    "output": "Penyerahan ke WR II Undip",
+    "sop_id": "SOP_KETERLAMBATAN_UKT",
+    "sop_title": "Permohonan Izin Keterlambatan Pembayaran UKT",
+    "step_num": 6,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_KETERLAMBATAN_UKT_STEP_7",
+   {
+    "action": "Mendisposisikan persetujuan dispensasi ke Direktorat Keuangan Undip untuk membuka tagihan",
+    "actor": "Wakil Rektor II",
+    "duration": "-",
+    "inputs": [
+     "Surat Permohonan"
+    ],
+    "link": "",
+    "output": "Disposisi WR II ke Ditkeu",
+    "sop_id": "SOP_KETERLAMBATAN_UKT",
+    "sop_title": "Permohonan Izin Keterlambatan Pembayaran UKT",
+    "step_num": 7,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_KETERLAMBATAN_UKT_STEP_8",
+   {
+    "action": "Membuka sistem pembayaran tagihan UKT mahasiswa yang bersangkutan",
+    "actor": "Bendahara Penerimaan UKT",
+    "duration": "-",
+    "inputs": [
+     "Disposisi Ditkeu"
+    ],
+    "link": "",
+    "output": "Tagihan Pembayaran Terbuka di Sistem Bank",
+    "sop_id": "SOP_KETERLAMBATAN_UKT",
+    "sop_title": "Permohonan Izin Keterlambatan Pembayaran UKT",
+    "step_num": 8,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_KETERLAMBATAN_UKT_STEP_9",
+   {
+    "action": "Membayar biaya UKT ke bank mitra sebelum batas akhir perpanjangan waktu dispensasi",
+    "actor": "Mahasiswa",
+    "duration": "-",
+    "inputs": [
+     "Tagihan Bank Terbuka"
+    ],
+    "link": "",
+    "output": "Bukti Lunas UKT & Status Aktif",
+    "sop_id": "SOP_KETERLAMBATAN_UKT",
+    "sop_title": "Permohonan Izin Keterlambatan Pembayaran UKT",
+    "step_num": 9,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_LEGALISIR",
+   {
+    "aliases": [
+     "legalisir",
+     "legalisir ijazah",
+     "legalisir transkrip",
+     "akreditasi program studi"
+    ],
+    "max_duration": "3 hari kerja",
+    "title": "Legalisir Ijazah Dan Transkrip",
+    "type": "SOP_ROOT"
+   }
+  ],
+  [
+   "SOP_LEGALISIR_STEP_1",
+   {
+    "action": "Menyerahkan fotokopi ijazah/transkrip/sertifikat akreditasi beserta dokumen asli ke loket Subbag Akademik",
+    "actor": "Alumni",
+    "duration": "±5 menit",
+    "inputs": [
+     "Fotokopi Ijazah / Transkrip",
+     "Dokumen Asli"
+    ],
+    "link": "",
+    "output": "Berkas Pengajuan Legalisir",
+    "sop_id": "SOP_LEGALISIR",
+    "sop_title": "Legalisir Ijazah Dan Transkrip",
+    "step_num": 1,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_LEGALISIR_STEP_2",
+   {
+    "action": "Memeriksa keabsahan dan kesesuaian fotokopi dengan dokumen asli, serta memberikan cap legalisir",
+    "actor": "Petugas Subbag Akademik",
+    "duration": "±10 menit",
+    "inputs": [
+     "Berkas Pengajuan & Asli"
+    ],
+    "link": "",
+    "output": "Persetujuan Legalisir & Cap Dokumen",
+    "sop_id": "SOP_LEGALISIR",
+    "sop_title": "Legalisir Ijazah Dan Transkrip",
+    "step_num": 2,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_LEGALISIR_STEP_3",
+   {
+    "action": "Memeriksa dokumen dan memberi paraf pengesahan di samping kanan nama Dekan",
+    "actor": "Supervisor Akademik",
+    "duration": "±15 menit",
+    "inputs": [
+     "Dokumen Ber-cap"
+    ],
+    "link": "",
+    "output": "Paraf Supervisor Akademik",
+    "sop_id": "SOP_LEGALISIR",
+    "sop_title": "Legalisir Ijazah Dan Transkrip",
+    "step_num": 3,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_LEGALISIR_STEP_4",
+   {
+    "action": "Menandatangani lembar pengesahan kebenaran dan kesesuaian dokumen dengan aslinya",
+    "actor": "Dekan / Wakil Dekan I",
+    "duration": "±1 hari",
+    "inputs": [
+     "Dokumen Berparaf"
+    ],
+    "link": "",
+    "output": "Tanda Tangan Pengesahan Dekan/WD I",
+    "sop_id": "SOP_LEGALISIR",
+    "sop_title": "Legalisir Ijazah Dan Transkrip",
+    "step_num": 4,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_LEGALISIR_STEP_5",
+   {
+    "action": "Mengambil dokumen bertandatangan Dekan/WD I dan membubuhkan stempel resmi Fakultas Sains dan Matematika",
+    "actor": "Petugas Subbag Akademik",
+    "duration": "±5 menit",
+    "inputs": [
+     "Dokumen Bertanda Tangan"
+    ],
+    "link": "",
+    "output": "Stempel Fakultas Sains dan Matematika (FSM)",
+    "sop_id": "SOP_LEGALISIR",
+    "sop_title": "Legalisir Ijazah Dan Transkrip",
+    "step_num": 5,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_LEGALISIR_STEP_6",
+   {
+    "action": "Mengambil dokumen legalisir di Subbag Akademik dengan memperlihatkan dokumen asli dan menandatangani buku ekspedisi",
+    "actor": "Alumni",
+    "duration": "±15 menit",
+    "inputs": [
+     "Dokumen Asli",
+     "Tanda Tangan Buku Ambil"
+    ],
+    "link": "",
+    "output": "Legalisir Ijazah / Transkrip Selesai",
+    "sop_id": "SOP_LEGALISIR",
+    "sop_title": "Legalisir Ijazah Dan Transkrip",
+    "step_num": 6,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_PENGISIAN_IRS",
+   {
+    "aliases": [
+     "pengisian irs",
+     "isi irs",
+     "rencana studi",
+     "konsultasi dosen wali",
+     "her-registrasi"
+    ],
+    "max_duration": "3 hari kerja",
+    "title": "Pengisian Isian Rencana Studi (IRS)",
+    "type": "SOP_ROOT"
+   }
+  ],
+  [
+   "SOP_PENGISIAN_IRS_STEP_1",
+   {
+    "action": "Membayar biaya pendidikan (SPP/UKT) melalui bank mitra resmi Undip (BNI, Mandiri, BTN, BRI)",
+    "actor": "Mahasiswa",
+    "duration": "±10 menit",
+    "inputs": [
+     "Nomor Tagihan Pembayaran"
+    ],
+    "link": "",
+    "output": "Bukti Pembayaran SPP/UKT",
+    "sop_id": "SOP_PENGISIAN_IRS",
+    "sop_title": "Pengisian Isian Rencana Studi (IRS)",
+    "step_num": 1,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_PENGISIAN_IRS_STEP_2",
+   {
+    "action": "Melakukan her-registrasi online melalui portal SIAP Undip",
+    "actor": "Mahasiswa",
+    "duration": "±10 menit",
+    "inputs": [
+     "Bukti Bayar Bank"
+    ],
+    "link": "",
+    "output": "Status Mahasiswa Aktif di SIAP",
+    "sop_id": "SOP_PENGISIAN_IRS",
+    "sop_title": "Pengisian Isian Rencana Studi (IRS)",
+    "step_num": 2,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_PENGISIAN_IRS_STEP_3",
+   {
+    "action": "Melakukan pemilihan mata kuliah, perbaikan rencana studi, atau mencetak draf IRS sementara melalui SIAP",
+    "actor": "Mahasiswa",
+    "duration": "±10 menit",
+    "inputs": [
+     "Jadwal Kuliah & Kuota Kelas"
+    ],
+    "link": "",
+    "output": "Draf IRS Sementara",
+    "sop_id": "SOP_PENGISIAN_IRS",
+    "sop_title": "Pengisian Isian Rencana Studi (IRS)",
+    "step_num": 3,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_PENGISIAN_IRS_STEP_4",
+   {
+    "action": "Konsultasi pengambilan mata kuliah dan jumlah SKS sesuai ketentuan IPK semester sebelumnya",
+    "actor": "Pembimbing Akademik (Dosen Wali)",
+    "duration": "±10 menit",
+    "inputs": [
+     "Draf IRS Sementara & KHS"
+    ],
+    "link": "",
+    "output": "Catatan Arahan Dosen Wali",
+    "sop_id": "SOP_PENGISIAN_IRS",
+    "sop_title": "Pengisian Isian Rencana Studi (IRS)",
+    "step_num": 4,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_PENGISIAN_IRS_STEP_5",
+   {
+    "action": "Melakukan persetujuan (approval) online IRS mahasiswa pada sistem SIAP",
+    "actor": "Pembimbing Akademik (Dosen Wali)",
+    "duration": "±10 menit",
+    "inputs": [
+     "Draf IRS yang Disepakati"
+    ],
+    "link": "",
+    "output": "Persetujuan Online (Approved SIAP)",
+    "sop_id": "SOP_PENGISIAN_IRS",
+    "sop_title": "Pengisian Isian Rencana Studi (IRS)",
+    "step_num": 5,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_PENGISIAN_IRS_STEP_6",
+   {
+    "action": "Melakukan pengecekan akhir status persetujuan IRS dan mencetak dokumen IRS resmi bila diperlukan",
+    "actor": "Mahasiswa",
+    "duration": "±10 menit",
+    "inputs": [
+     "Akun SIAP"
+    ],
+    "link": "",
+    "output": "File IRS Resmi Approved",
+    "sop_id": "SOP_PENGISIAN_IRS",
+    "sop_title": "Pengisian Isian Rencana Studi (IRS)",
+    "step_num": 6,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_PROPOSAL_ORMAWA",
+   {
+    "aliases": [
+     "proposal ormawa",
+     "proposal kegiatan",
+     "organisasi mahasiswa",
+     "izin kegiatan"
+    ],
+    "max_duration": "3 hari kerja",
+    "title": "Pengajuan Proposal Kegiatan Organisasi Mahasiswa",
+    "type": "SOP_ROOT"
+   }
+  ],
+  [
+   "SOP_PROPOSAL_ORMAWA_STEP_1",
+   {
+    "action": "Menyerahkan berkas proposal kegiatan ke petugas kemahasiswaan dan Supervisor Akademik untuk registrasi & alokasi ruang FSM",
+    "actor": "Mahasiswa (Pengurus Ormawa)",
+    "duration": "-",
+    "inputs": [
+     "Proposal Kegiatan Organisasi"
+    ],
+    "link": "",
+    "output": "Registrasi Proposal Masuk",
+    "sop_id": "SOP_PROPOSAL_ORMAWA",
+    "sop_title": "Pengajuan Proposal Kegiatan Organisasi Mahasiswa",
+    "step_num": 1,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_PROPOSAL_ORMAWA_STEP_2",
+   {
+    "action": "Meneliti, memeriksa kesesuaian proposal dengan regulasi fakultas, dan memberikan paraf pengesahan",
+    "actor": "Supervisor Akademik dan Kemahasiswaan",
+    "duration": "-",
+    "inputs": [
+     "Proposal Registrasi"
+    ],
+    "link": "",
+    "output": "Paraf Supervisor Akademik",
+    "sop_id": "SOP_PROPOSAL_ORMAWA",
+    "sop_title": "Pengajuan Proposal Kegiatan Organisasi Mahasiswa",
+    "step_num": 2,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_PROPOSAL_ORMAWA_STEP_3",
+   {
+    "action": "Mengevaluasi kelayakan substansi, anggaran, dan relevansi akademis proposal kegiatan",
+    "actor": "Wakil Dekan I",
+    "duration": "-",
+    "inputs": [
+     "Proposal Berparaf"
+    ],
+    "link": "",
+    "output": "Persetujuan Substansi WD I",
+    "sop_id": "SOP_PROPOSAL_ORMAWA",
+    "sop_title": "Pengajuan Proposal Kegiatan Organisasi Mahasiswa",
+    "step_num": 3,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_PROPOSAL_ORMAWA_STEP_4",
+   {
+    "action": "Pengesahan resmi dan tanda tangan persetujuan kegiatan oleh Wakil Dekan I",
+    "actor": "Wakil Dekan I",
+    "duration": "-",
+    "inputs": [
+     "Lembar Pengesahan"
+    ],
+    "link": "",
+    "output": "Proposal Disahkan",
+    "sop_id": "SOP_PROPOSAL_ORMAWA",
+    "sop_title": "Pengajuan Proposal Kegiatan Organisasi Mahasiswa",
+    "step_num": 4,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_PROPOSAL_ORMAWA_STEP_5",
+   {
+    "action": "Mengambil proposal yang telah disahkan untuk pelaksanaan kegiatan ormawa",
+    "actor": "Mahasiswa (Pengurus Ormawa)",
+    "duration": "-",
+    "inputs": [
+     "Tanda Terima Pengambilan"
+    ],
+    "link": "",
+    "output": "Proposal Kegiatan Resmi Disetujui",
+    "sop_id": "SOP_PROPOSAL_ORMAWA",
+    "sop_title": "Pengajuan Proposal Kegiatan Organisasi Mahasiswa",
+    "step_num": 5,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_REKOMENDASI_BEASISWA",
+   {
+    "aliases": [
+     "rekomendasi beasiswa",
+     "surat beasiswa",
+     "syarat beasiswa",
+     "pengajuan beasiswa"
+    ],
+    "max_duration": "3 hari 45 menit",
+    "title": "Surat Pengajuan Rekomendasi Beasiswa",
+    "type": "SOP_ROOT"
+   }
+  ],
+  [
+   "SOP_REKOMENDASI_BEASISWA_STEP_1",
+   {
+    "action": "Mengunduh dan mengisi formulir permohonan rekomendasi beasiswa serta melampirkan KHS berlegalisir ke BAK Fakultas",
+    "actor": "Mahasiswa",
+    "duration": "±30 menit",
+    "inputs": [
+     "Form Rekomendasi Beasiswa",
+     "KHS Dilegalisir"
+    ],
+    "link": "https://drive.google.com/file/d/18f_nbPXHbElgRNoplDFQVNYGGDkFxBTT/view?usp=sharing",
+    "output": "Berkas Pengajuan Rekomendasi",
+    "sop_id": "SOP_REKOMENDASI_BEASISWA",
+    "sop_title": "Surat Pengajuan Rekomendasi Beasiswa",
+    "step_num": 1,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_REKOMENDASI_BEASISWA_STEP_2",
+   {
+    "action": "Meneliti dan memverifikasi kesesuaian dokumen permohonan beasiswa dan keabsahan KHS",
+    "actor": "BAK Fakultas",
+    "duration": "±1 hari",
+    "inputs": [
+     "Berkas Pengajuan"
+    ],
+    "link": "",
+    "output": "Hasil Verifikasi Berkas",
+    "sop_id": "SOP_REKOMENDASI_BEASISWA",
+    "sop_title": "Surat Pengajuan Rekomendasi Beasiswa",
+    "step_num": 2,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_REKOMENDASI_BEASISWA_STEP_3",
+   {
+    "action": "Memberikan paraf dan nomor surat resmi pada Surat Rekomendasi Pengajuan Beasiswa",
+    "actor": "BAK Fakultas",
+    "duration": "±10 menit",
+    "inputs": [
+     "Surat Terverifikasi"
+    ],
+    "link": "",
+    "output": "Surat Bernomor & Berparaf",
+    "sop_id": "SOP_REKOMENDASI_BEASISWA",
+    "sop_title": "Surat Pengajuan Rekomendasi Beasiswa",
+    "step_num": 3,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_REKOMENDASI_BEASISWA_STEP_4",
+   {
+    "action": "Membubuhkan tanda tangan persetujuan resmi pada Surat Rekomendasi Beasiswa",
+    "actor": "Wakil Dekan I (Akademik & Kemahasiswaan)",
+    "duration": "±2 hari",
+    "inputs": [
+     "Surat Berparaf"
+    ],
+    "link": "",
+    "output": "Tanda Tangan Surat Rekomendasi",
+    "sop_id": "SOP_REKOMENDASI_BEASISWA",
+    "sop_title": "Surat Pengajuan Rekomendasi Beasiswa",
+    "step_num": 4,
+    "type": "SOP_STEP"
+   }
+  ],
+  [
+   "SOP_REKOMENDASI_BEASISWA_STEP_5",
+   {
+    "action": "Mengambil Surat Rekomendasi di loket BAK Fakultas dan menandatangani bukti pengambilan dokumen",
+    "actor": "Mahasiswa",
+    "duration": "±5 menit",
+    "inputs": [
+     "KTM",
+     "Tanda Tangan Buku Ambil"
+    ],
+    "link": "",
+    "output": "Surat Rekomendasi Beasiswa Sah",
+    "sop_id": "SOP_REKOMENDASI_BEASISWA",
+    "sop_title": "Surat Pengajuan Rekomendasi Beasiswa",
+    "step_num": 5,
+    "type": "SOP_STEP"
+   }
+  ]
+ ],
+ "edges": [
+  [
+   "ACTOR_ALUMNI",
+   "SOP_LEGALISIR_STEP_1",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_ALUMNI",
+   "SOP_LEGALISIR_STEP_6",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_BAK_FAKULTAS",
+   "SOP_REKOMENDASI_BEASISWA_STEP_2",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_BAK_FAKULTAS",
+   "SOP_REKOMENDASI_BEASISWA_STEP_3",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_BENDAHARA_PENERIMAAN_UKT",
+   "SOP_KETERLAMBATAN_UKT_STEP_8",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_DEKAN",
+   "SOP_CUTI_AKADEMIK_STEP_3",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_DEKAN",
+   "SOP_CUTI_AKADEMIK_STEP_5",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_DEKAN_/_WAKIL_DEKAN_I",
+   "SOP_LEGALISIR_STEP_4",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_DOSEN_WALI_&_KAPRODI",
+   "SOP_KETERLAMBATAN_UKT_STEP_2",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_KETUA_PROGRAM_STUDI",
+   "SOP_CUTI_AKADEMIK_STEP_2",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_MAHASISWA",
+   "SOP_AKTIF_SETELAH_CUTI_STEP_1",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_MAHASISWA",
+   "SOP_AKTIF_SETELAH_CUTI_STEP_2",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_MAHASISWA",
+   "SOP_CUTI_AKADEMIK_STEP_1",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_MAHASISWA",
+   "SOP_CUTI_AKADEMIK_STEP_8",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_MAHASISWA",
+   "SOP_KETERLAMBATAN_UKT_STEP_1",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_MAHASISWA",
+   "SOP_KETERLAMBATAN_UKT_STEP_6",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_MAHASISWA",
+   "SOP_KETERLAMBATAN_UKT_STEP_9",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_MAHASISWA",
+   "SOP_PENGISIAN_IRS_STEP_1",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_MAHASISWA",
+   "SOP_PENGISIAN_IRS_STEP_2",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_MAHASISWA",
+   "SOP_PENGISIAN_IRS_STEP_3",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_MAHASISWA",
+   "SOP_PENGISIAN_IRS_STEP_6",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_MAHASISWA",
+   "SOP_REKOMENDASI_BEASISWA_STEP_1",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_MAHASISWA",
+   "SOP_REKOMENDASI_BEASISWA_STEP_5",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_MAHASISWA_(PENGURUS_ORMAWA)",
+   "SOP_PROPOSAL_ORMAWA_STEP_1",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_MAHASISWA_(PENGURUS_ORMAWA)",
+   "SOP_PROPOSAL_ORMAWA_STEP_5",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_PEMBIMBING_AKADEMIK_(DOSEN_WALI)",
+   "SOP_PENGISIAN_IRS_STEP_4",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_PEMBIMBING_AKADEMIK_(DOSEN_WALI)",
+   "SOP_PENGISIAN_IRS_STEP_5",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_PETUGAS_SUBBAG_AKADEMIK",
+   "SOP_LEGALISIR_STEP_2",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_PETUGAS_SUBBAG_AKADEMIK",
+   "SOP_LEGALISIR_STEP_5",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_SUBBAG_AKADEMIK",
+   "SOP_AKTIF_SETELAH_CUTI_STEP_3",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_SUBBAG_AKADEMIK_DAN_KEMAHASISWAAN",
+   "SOP_CUTI_AKADEMIK_STEP_4",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_SUBBAG_AKADEMIK_DAN_KEMAHASISWAAN",
+   "SOP_CUTI_AKADEMIK_STEP_7",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_SUBBAG_SUMBER_DAYA",
+   "SOP_CUTI_AKADEMIK_STEP_6",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_SUBBAG_SUMBER_DAYA",
+   "SOP_KETERLAMBATAN_UKT_STEP_5",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_SUPERVISOR_AKADEMIK",
+   "SOP_LEGALISIR_STEP_3",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_SUPERVISOR_AKADEMIK_DAN_KEMAHASISWAAN",
+   "SOP_PROPOSAL_ORMAWA_STEP_2",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_SUPERVISOR_SUMBER_DAYA",
+   "SOP_KETERLAMBATAN_UKT_STEP_3",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_WAKIL_DEKAN_I",
+   "SOP_PROPOSAL_ORMAWA_STEP_3",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_WAKIL_DEKAN_I",
+   "SOP_PROPOSAL_ORMAWA_STEP_4",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_WAKIL_DEKAN_I_(AKADEMIK_&_KEMAHASISWAAN)",
+   "SOP_REKOMENDASI_BEASISWA_STEP_4",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_WAKIL_DEKAN_SUMBER_DAYA_(WD_II)",
+   "SOP_KETERLAMBATAN_UKT_STEP_4",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "ACTOR_WAKIL_REKTOR_II",
+   "SOP_KETERLAMBATAN_UKT_STEP_7",
+   {
+    "relation": "PERFORMS"
+   }
+  ],
+  [
+   "SOP_AKTIF_SETELAH_CUTI",
+   "SOP_AKTIF_SETELAH_CUTI_STEP_1",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_AKTIF_SETELAH_CUTI",
+   "SOP_AKTIF_SETELAH_CUTI_STEP_2",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_AKTIF_SETELAH_CUTI",
+   "SOP_AKTIF_SETELAH_CUTI_STEP_3",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_AKTIF_SETELAH_CUTI_STEP_1",
+   "SOP_AKTIF_SETELAH_CUTI_STEP_2",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_AKTIF_SETELAH_CUTI_STEP_2",
+   "SOP_AKTIF_SETELAH_CUTI_STEP_3",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_CUTI_AKADEMIK",
+   "SOP_CUTI_AKADEMIK_STEP_1",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_CUTI_AKADEMIK",
+   "SOP_CUTI_AKADEMIK_STEP_2",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_CUTI_AKADEMIK",
+   "SOP_CUTI_AKADEMIK_STEP_3",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_CUTI_AKADEMIK",
+   "SOP_CUTI_AKADEMIK_STEP_4",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_CUTI_AKADEMIK",
+   "SOP_CUTI_AKADEMIK_STEP_5",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_CUTI_AKADEMIK",
+   "SOP_CUTI_AKADEMIK_STEP_6",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_CUTI_AKADEMIK",
+   "SOP_CUTI_AKADEMIK_STEP_7",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_CUTI_AKADEMIK",
+   "SOP_CUTI_AKADEMIK_STEP_8",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_CUTI_AKADEMIK_STEP_1",
+   "SOP_CUTI_AKADEMIK_STEP_2",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_CUTI_AKADEMIK_STEP_2",
+   "SOP_CUTI_AKADEMIK_STEP_3",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_CUTI_AKADEMIK_STEP_3",
+   "SOP_CUTI_AKADEMIK_STEP_4",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_CUTI_AKADEMIK_STEP_4",
+   "SOP_CUTI_AKADEMIK_STEP_5",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_CUTI_AKADEMIK_STEP_5",
+   "SOP_CUTI_AKADEMIK_STEP_6",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_CUTI_AKADEMIK_STEP_6",
+   "SOP_CUTI_AKADEMIK_STEP_7",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_CUTI_AKADEMIK_STEP_7",
+   "SOP_CUTI_AKADEMIK_STEP_8",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_KETERLAMBATAN_UKT",
+   "SOP_KETERLAMBATAN_UKT_STEP_1",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_KETERLAMBATAN_UKT",
+   "SOP_KETERLAMBATAN_UKT_STEP_2",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_KETERLAMBATAN_UKT",
+   "SOP_KETERLAMBATAN_UKT_STEP_3",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_KETERLAMBATAN_UKT",
+   "SOP_KETERLAMBATAN_UKT_STEP_4",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_KETERLAMBATAN_UKT",
+   "SOP_KETERLAMBATAN_UKT_STEP_5",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_KETERLAMBATAN_UKT",
+   "SOP_KETERLAMBATAN_UKT_STEP_6",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_KETERLAMBATAN_UKT",
+   "SOP_KETERLAMBATAN_UKT_STEP_7",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_KETERLAMBATAN_UKT",
+   "SOP_KETERLAMBATAN_UKT_STEP_8",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_KETERLAMBATAN_UKT",
+   "SOP_KETERLAMBATAN_UKT_STEP_9",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_KETERLAMBATAN_UKT_STEP_1",
+   "SOP_KETERLAMBATAN_UKT_STEP_2",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_KETERLAMBATAN_UKT_STEP_2",
+   "SOP_KETERLAMBATAN_UKT_STEP_3",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_KETERLAMBATAN_UKT_STEP_3",
+   "SOP_KETERLAMBATAN_UKT_STEP_4",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_KETERLAMBATAN_UKT_STEP_4",
+   "SOP_KETERLAMBATAN_UKT_STEP_5",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_KETERLAMBATAN_UKT_STEP_5",
+   "SOP_KETERLAMBATAN_UKT_STEP_6",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_KETERLAMBATAN_UKT_STEP_6",
+   "SOP_KETERLAMBATAN_UKT_STEP_7",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_KETERLAMBATAN_UKT_STEP_7",
+   "SOP_KETERLAMBATAN_UKT_STEP_8",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_KETERLAMBATAN_UKT_STEP_8",
+   "SOP_KETERLAMBATAN_UKT_STEP_9",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_LEGALISIR",
+   "SOP_LEGALISIR_STEP_1",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_LEGALISIR",
+   "SOP_LEGALISIR_STEP_2",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_LEGALISIR",
+   "SOP_LEGALISIR_STEP_3",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_LEGALISIR",
+   "SOP_LEGALISIR_STEP_4",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_LEGALISIR",
+   "SOP_LEGALISIR_STEP_5",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_LEGALISIR",
+   "SOP_LEGALISIR_STEP_6",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_LEGALISIR_STEP_1",
+   "SOP_LEGALISIR_STEP_2",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_LEGALISIR_STEP_2",
+   "SOP_LEGALISIR_STEP_3",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_LEGALISIR_STEP_3",
+   "SOP_LEGALISIR_STEP_4",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_LEGALISIR_STEP_4",
+   "SOP_LEGALISIR_STEP_5",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_LEGALISIR_STEP_5",
+   "SOP_LEGALISIR_STEP_6",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_PENGISIAN_IRS",
+   "SOP_PENGISIAN_IRS_STEP_1",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_PENGISIAN_IRS",
+   "SOP_PENGISIAN_IRS_STEP_2",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_PENGISIAN_IRS",
+   "SOP_PENGISIAN_IRS_STEP_3",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_PENGISIAN_IRS",
+   "SOP_PENGISIAN_IRS_STEP_4",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_PENGISIAN_IRS",
+   "SOP_PENGISIAN_IRS_STEP_5",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_PENGISIAN_IRS",
+   "SOP_PENGISIAN_IRS_STEP_6",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_PENGISIAN_IRS_STEP_1",
+   "SOP_PENGISIAN_IRS_STEP_2",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_PENGISIAN_IRS_STEP_2",
+   "SOP_PENGISIAN_IRS_STEP_3",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_PENGISIAN_IRS_STEP_3",
+   "SOP_PENGISIAN_IRS_STEP_4",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_PENGISIAN_IRS_STEP_4",
+   "SOP_PENGISIAN_IRS_STEP_5",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_PENGISIAN_IRS_STEP_5",
+   "SOP_PENGISIAN_IRS_STEP_6",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_PROPOSAL_ORMAWA",
+   "SOP_PROPOSAL_ORMAWA_STEP_1",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_PROPOSAL_ORMAWA",
+   "SOP_PROPOSAL_ORMAWA_STEP_2",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_PROPOSAL_ORMAWA",
+   "SOP_PROPOSAL_ORMAWA_STEP_3",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_PROPOSAL_ORMAWA",
+   "SOP_PROPOSAL_ORMAWA_STEP_4",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_PROPOSAL_ORMAWA",
+   "SOP_PROPOSAL_ORMAWA_STEP_5",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_PROPOSAL_ORMAWA_STEP_1",
+   "SOP_PROPOSAL_ORMAWA_STEP_2",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_PROPOSAL_ORMAWA_STEP_2",
+   "SOP_PROPOSAL_ORMAWA_STEP_3",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_PROPOSAL_ORMAWA_STEP_3",
+   "SOP_PROPOSAL_ORMAWA_STEP_4",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_PROPOSAL_ORMAWA_STEP_4",
+   "SOP_PROPOSAL_ORMAWA_STEP_5",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_REKOMENDASI_BEASISWA",
+   "SOP_REKOMENDASI_BEASISWA_STEP_1",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_REKOMENDASI_BEASISWA",
+   "SOP_REKOMENDASI_BEASISWA_STEP_2",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_REKOMENDASI_BEASISWA",
+   "SOP_REKOMENDASI_BEASISWA_STEP_3",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_REKOMENDASI_BEASISWA",
+   "SOP_REKOMENDASI_BEASISWA_STEP_4",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_REKOMENDASI_BEASISWA",
+   "SOP_REKOMENDASI_BEASISWA_STEP_5",
+   {
+    "relation": "HAS_STEP"
+   }
+  ],
+  [
+   "SOP_REKOMENDASI_BEASISWA_STEP_1",
+   "SOP_REKOMENDASI_BEASISWA_STEP_2",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_REKOMENDASI_BEASISWA_STEP_2",
+   "SOP_REKOMENDASI_BEASISWA_STEP_3",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_REKOMENDASI_BEASISWA_STEP_3",
+   "SOP_REKOMENDASI_BEASISWA_STEP_4",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ],
+  [
+   "SOP_REKOMENDASI_BEASISWA_STEP_4",
+   "SOP_REKOMENDASI_BEASISWA_STEP_5",
+   {
+    "relation": "NEXT_STEP"
+   }
+  ]
+ ]
+}

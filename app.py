@@ -764,7 +764,7 @@ with tab_workflow:
     col_w1, col_w2 = st.columns([1, 1])
     with col_w1:
         st.markdown(f"#### 📋 **Rincian Alur: {sel_sop['title']}**")
-        st.markdown(f"- **Maksimal Waktu Pelayanan:** `{sel_sop['max_duration']}`")
+        st.markdown(f"- **Maksimal Waktu Pelayanan:** `{sel_sop['max_duration'] or 'tidak disebutkan dalam SOP'}`")
         st.markdown(f"- **Total Langkah Prosedur:** `{len(sel_sop['steps'])} Langkah Berurutan`")
         
         st.markdown("##### 🚶 **Tahapan Sekuensial & Aktor Pelaksana:**")
