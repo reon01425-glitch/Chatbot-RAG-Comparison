@@ -1,0 +1,7 @@
+system,category,key_fact_recall,rougeL,step_coverage,tir,amr,refusal_correct
+graph,actor,1.0,0.36585365853658536,,,,
+graph,procedural,0.2,0.10344827586206898,0.0625,,0.0,
+naive,actor,1.0,0.36585365853658536,,,,
+naive,procedural,0.0,0.05917159763313609,0.0625,,0.0,
+workflow,actor,1.0,0.3,,,,
+workflow,procedural,0.675,0.2752832099234226,0.375,0.0,0.0,

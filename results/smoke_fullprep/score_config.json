@@ -1,0 +1,16 @@
+{
+  "scored": "2026-10-07T22:33:31",
+  "ragas": false,
+  "judge_model": null,
+  "judge_model_info": null,
+  "judge_embedding": null,
+  "bertscore": false,
+  "bertscore_model": "lang=id default",
+  "reference_system": "naive,graph",
+  "holm_family": "per (reference, metric): all non-reference systems compared with that reference",
+  "bootstrap_resamples": 10000,
+  "seed": 42,
+  "require_verified": false,
+  "n_items": 3,
+  "n_items_verified": 0
+}

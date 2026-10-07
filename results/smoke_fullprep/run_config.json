@@ -1,0 +1,93 @@
+{
+  "run_name": "smoke_fullprep",
+  "created": "2026-10-07T22:31:15",
+  "git_commit": "23f08f0b57626465e9f73d616cb4d5e50c73400b",
+  "git_branch": "exp/full-run-v1",
+  "git_dirty": false,
+  "benchmark_file": "benchmark/sop_benchmark_v1.json",
+  "benchmark_sha256": "7b4346378940495e9c67af6bd40bf9588724422ee9fab2c6cb6a607e10d51978",
+  "benchmark_version": "1.0-draft",
+  "n_items": 3,
+  "n_items_verified": 0,
+  "systems": {
+    "naive": "Naive RAG (Baseline)",
+    "graph": "GraphRAG (Entity Expansion)",
+    "workflow": "Workflow GraphRAG (Process DAG)"
+  },
+  "generator_model": "gemma4:e2b",
+  "embedding_model": "./indo_finetuned_embedding_v3",
+  "embedding_weights_sha256": "327c99cff0a47658d6784d5266f090fcb920e6c92462f7b6f8be312cf3e98eaf",
+  "chroma_path": "chroma_v3",
+  "index_manifest": {
+    "model_id_or_path": "./indo_finetuned_embedding_v3",
+    "model_weights_sha256": "327c99cff0a47658d6784d5266f090fcb920e6c92462f7b6f8be312cf3e98eaf",
+    "corpus_hash": "bf193de1dfe7cd50d2ad8c55a0ed3a2cc7ebf12099134684ae02211023bfdcad",
+    "splitter_params": {
+      "langchain": {
+        "chunk_size": 1700,
+        "chunk_overlap": 100,
+        "length_function": "len"
+      },
+      "htree_leaves": {
+        "chunker": "SOPHierarchicalChunker",
+        "types": [
+          "document_overview",
+          "step"
+        ]
+      }
+    },
+    "collections": {
+      "langchain": 7,
+      "htree_leaves": 51
+    },
+    "created_at": "2026-10-04T18:25:41"
+  },
+  "workflow_graph_sha256": "8691220f9fcbbbe3160a76ecc2dca3c9dc58e94d870c01f08c4d7436b45874ed",
+  "htree_variant": "top1",
+  "ollama_version": "0.35.1",
+  "ollama_cli_version": "ollama version is 0.35.1",
+  "ollama_models": {
+    "gemma4:e2b": {
+      "digest": "7fbdbf8f5e45a75bb122155ed546e765b4d9c53a1285f62fd9f506baa1c5a47e",
+      "size_bytes": 7162405886,
+      "modified_at": "2026-04-24T15:42:45.144014738+07:00",
+      "quantization": "Q4_K_M",
+      "parameter_size": "5.1B",
+      "source": "api/tags"
+    },
+    "llama3.1:8b": null
+  },
+  "host": {
+    "cpu": "Apple M5",
+    "cpu_logical_cores": 10,
+    "ram_bytes": 25769803776,
+    "ram_gb": 24.0,
+    "os": "macOS 26.6.2",
+    "os_build": "25G83",
+    "machine": "arm64",
+    "python": "3.12.5",
+    "python_executable": "/Library/Frameworks/Python.framework/Versions/3.12/bin/python3",
+    "power_source": "Battery Power"
+  },
+  "temperature": 0.0,
+  "seed": 42,
+  "max_tokens": 1024,
+  "num_ctx": 8192,
+  "llm_timeout_s": 300.0,
+  "retrieval_k": 3,
+  "retrieval_threshold": 0.3,
+  "agentic_max_steps": 3,
+  "python": "3.12.5",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "packages": {
+    "langchain": "0.3.27",
+    "langchain-ollama": "0.3.8",
+    "langchain-chroma": "0.2.6",
+    "sentence-transformers": "5.1.1",
+    "ragas": "not installed",
+    "rouge-score": "0.1.2",
+    "bert-score": "0.3.13",
+    "pypdf": "6.1.1"
+  },
+  "notes": "Token counts and latency are recorded for all LLM calls executed via call_llm (synthesis, agentic reasoning steps, and CRAG query rewriting). Latency is wall-clock per query after a warm-up query. The engine's built-in heuristic metrics are not used."
+}

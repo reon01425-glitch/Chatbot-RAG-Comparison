@@ -1,0 +1,49 @@
+system,qid,n,detected,pos,hits,actor_status,actors_found,unit
+naive,CUTI-P1,1,True,4.0,2,correct,Mahasiswa,"Tindakan: Mahasiswa mengunduh, mengisi, dan menandatangani Form C"
+naive,CUTI-P1,2,False,,1,not_detected,,
+naive,CUTI-P1,3,False,,1,not_detected,,
+naive,CUTI-P1,4,False,,0,not_detected,,
+naive,CUTI-P1,5,False,,1,not_detected,,
+naive,CUTI-P1,6,False,,0,not_detected,,
+naive,CUTI-P1,7,False,,0,not_detected,,
+naive,CUTI-P1,8,False,,0,not_detected,,
+naive,CUTI-P2,1,False,,0,not_detected,,
+naive,CUTI-P2,2,False,,0,not_detected,,
+naive,CUTI-P2,3,False,,0,not_detected,,
+naive,CUTI-P2,4,False,,0,not_detected,,
+naive,CUTI-P2,5,False,,0,not_detected,,
+naive,CUTI-P2,6,False,,0,not_detected,,
+naive,CUTI-P2,7,False,,0,not_detected,,
+naive,CUTI-P2,8,False,,0,not_detected,,
+graph,CUTI-P1,1,True,8.0,3,correct,Mahasiswa,"Tindakan: Mahasiswa mengunduh, mengisi, dan menandatangani Form Cuti Akademik serta mengisi secara online melalui SIAP."
+graph,CUTI-P1,2,False,,1,not_detected,,
+graph,CUTI-P1,3,False,,1,not_detected,,
+graph,CUTI-P1,4,False,,0,not_detected,,
+graph,CUTI-P1,5,False,,1,not_detected,,
+graph,CUTI-P1,6,False,,0,not_detected,,
+graph,CUTI-P1,7,False,,0,not_detected,,
+graph,CUTI-P1,8,False,,0,not_detected,,
+graph,CUTI-P2,1,False,,0,not_detected,,
+graph,CUTI-P2,2,False,,0,not_detected,,
+graph,CUTI-P2,3,False,,0,not_detected,,
+graph,CUTI-P2,4,False,,0,not_detected,,
+graph,CUTI-P2,5,False,,0,not_detected,,
+graph,CUTI-P2,6,False,,0,not_detected,,
+graph,CUTI-P2,7,False,,0,not_detected,,
+graph,CUTI-P2,8,False,,0,not_detected,,
+workflow,CUTI-P1,1,True,4.0,3,correct,Mahasiswa,"Mahasiswa mengunduh, mengisi, dan menandatangani Form Cuti Akademik dengan melampirkan persyaratan."
+workflow,CUTI-P1,2,True,9.0,3,correct,Ketua Program Studi;Mahasiswa,Mahasiswa meminta persetujuan dan tanda tangan Ketua Program Studi.
+workflow,CUTI-P1,3,False,,1,not_detected,,
+workflow,CUTI-P1,4,False,,0,not_detected,,
+workflow,CUTI-P1,5,False,,1,not_detected,,
+workflow,CUTI-P1,6,False,,0,not_detected,,
+workflow,CUTI-P1,7,False,,0,not_detected,,
+workflow,CUTI-P1,8,False,,0,not_detected,,
+workflow,CUTI-P2,1,True,5.0,3,correct,Alumni(generic);Mahasiswa(generic),"Mengunduh dan Mengisi Form: Anda harus mengunduh, mengisi, dan menandatangani Form Cuti Akademik serta melampirkan semua persyaratan yang dibutuhkan."
+workflow,CUTI-P2,2,True,10.0,3,correct,Alumni(generic);Ketua Program Studi;Mahasiswa(generic),Meminta Persetujuan Ketua Program Studi: Anda harus meminta persetujuan dan tanda tangan dari Ketua Program Studi Anda.
+workflow,CUTI-P2,3,True,12.0,2,correct,Alumni(generic);Dekan;Ketua Program Studi;Mahasiswa(generic),Penyerahan ke Dekan: Anda menyerahkan Form Cuti Akademik yang telah ditandatangani Ketua Program Studi kepada Dekan.
+workflow,CUTI-P2,4,True,16.0,2,correct,Subbag Akademik,"Pemeriksaan Kelengkapan Persyaratan: Subbag Akademik dan Kemahasiswaan akan menerima, memeriksa, dan meneliti kelengkapan persyaratan form cuti akademik."
+workflow,CUTI-P2,5,False,,1,not_detected,,
+workflow,CUTI-P2,6,False,,0,not_detected,,
+workflow,CUTI-P2,7,False,,0,not_detected,,
+workflow,CUTI-P2,8,False,,0,not_detected,,

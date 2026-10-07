@@ -1,0 +1,10 @@
+system,system_name,qid,category,answerable,verified,status,latency_s,prompt_tokens,completion_tokens,llm_calls,answer_chars,rouge1,rouge2,rougeL,key_fact_recall,refusal,false_refusal,refusal_correct,step_coverage,tir,amr,actor_accuracy,actor_unattributed_rate,steps_detected,steps_total
+naive,Naive RAG (Baseline),CUTI-P1,procedural,True,False,ok,17.035,1191,1024,1,395,0.2011834319526627,0.09580838323353293,0.11834319526627218,0.0,False,0.0,,0.125,,0.0,1.0,0.0,1.0,8.0
+naive,Naive RAG (Baseline),CUTI-P2,procedural,True,False,no_llm_call,0.086,0,0,0,72,0.0,0.0,0.0,0.0,False,0.0,,0.0,,,,,0.0,8.0
+naive,Naive RAG (Baseline),CUTI-A1,actor,True,False,ok,11.525,1270,645,1,486,0.3902439024390244,0.25000000000000006,0.36585365853658536,1.0,False,0.0,,,,,,,,
+graph,GraphRAG (Entity Expansion),CUTI-P1,procedural,True,False,ok,16.837,1280,1024,1,940,0.4568965517241379,0.21739130434782608,0.20689655172413796,0.4,False,0.0,,0.125,,0.0,1.0,0.0,1.0,8.0
+graph,GraphRAG (Entity Expansion),CUTI-P2,procedural,True,False,no_llm_call,0.059,0,0,0,72,0.0,0.0,0.0,0.0,False,0.0,,0.0,,,,,0.0,8.0
+graph,GraphRAG (Entity Expansion),CUTI-A1,actor,True,False,ok,10.487,1270,645,1,486,0.3902439024390244,0.25000000000000006,0.36585365853658536,1.0,False,0.0,,,,,,,,
+workflow,Workflow GraphRAG (Process DAG),CUTI-P1,procedural,True,False,ok,17.317,1701,1024,1,926,0.47161572052401746,0.2555066079295154,0.29694323144104806,0.6,False,0.0,,0.25,0.0,0.0,1.0,0.0,2.0,8.0
+workflow,Workflow GraphRAG (Process DAG),CUTI-P2,procedural,True,False,ok,16.199,1695,1024,1,1495,0.37681159420289856,0.16788321167883213,0.2536231884057971,0.75,False,0.0,,0.5,0.0,0.0,1.0,0.0,4.0,8.0
+workflow,Workflow GraphRAG (Process DAG),CUTI-A1,actor,True,False,ok,11.64,1702,664,1,636,0.33999999999999997,0.22448979591836735,0.3,1.0,False,0.0,,,,,,,,
