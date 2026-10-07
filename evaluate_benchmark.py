@@ -1136,7 +1136,7 @@ def build_parser() -> argparse.ArgumentParser:
     g.add_argument("--systems", default="all", help=f"comma list of: {', '.join(SYSTEMS)}")
     g.add_argument("--model", default=None, help="generator model (default: $OLLAMA_MODEL or gemma4:e2b)")
     g.add_argument("--seed", type=int, default=42)
-    g.add_argument("--max-tokens", type=int, default=1024)
+    g.add_argument("--max-tokens", type=int, default=2048)
     g.add_argument("--num-ctx", type=int, default=8192)
     g.add_argument("--timeout", type=float, default=300.0, help="LLM call timeout in seconds")
     g.add_argument("--k", type=int, default=3)

@@ -96,8 +96,13 @@ def _fill(rows, qid, **kw):
 
 
 def _setup(tmp_path, rows):
+    import re
     b = tmp_path / "bench.json"
-    shutil.copy(BENCH_PATH, b)
+    text = BENCH_PATH.read_text(encoding="utf-8")
+    text = re.sub(r'"verified_by": "[^"]*", ', "", text)
+    text = re.sub(r'"verified_at": "[^"]*", ', "", text)
+    text = re.sub(r'"verified": true', '"verified": false', text)
+    b.write_text(text, encoding="utf-8")
     s = tmp_path / "sheet.csv"
     mvs.write_sheet(s, rows)
     return b, s
