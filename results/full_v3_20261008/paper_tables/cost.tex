@@ -1,0 +1,15 @@
+\begin{tabular}{lcccc}
+\toprule
+System & Prompt tok. & Completion tok. & LLM calls & Latency (s) \\
+\midrule
+Naive RAG & 916 & 555 & 0.75 & 9.9 \\
+GraphRAG (entity) & 949 & 559 & 0.75 & 9.6 \\
+\textbf{Workflow GraphRAG} & 1525 & 710 & 0.95 & 10.7 \\
+Hybrid RAG & 882 & 566 & 0.75 & 9.3 \\
+Agentic RAG & 1815 & 1857 & 3.27 & 28.7 \\
+Corrective RAG & 725 & 661 & 1.05 & 12.7 \\
+Multimodal-layout RAG & 994 & 561 & 0.75 & 9.8 \\
+LLM only & 107 & 792 & 1.00 & 10.4 \\
+Full context & 2722 & 792 & 1.00 & 12.1 \\
+\bottomrule
+\end{tabular}

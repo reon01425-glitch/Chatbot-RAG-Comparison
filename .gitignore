@@ -237,4 +237,5 @@ make_typst.py
 mermaid-diagram*
 page_*_final.png
 paper_*
+!results/*/paper_tables/
 presentation_pak_indra/

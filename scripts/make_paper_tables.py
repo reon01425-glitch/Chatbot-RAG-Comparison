@@ -64,7 +64,9 @@ def load_run(run_name):
 
 
 def write_main_results(summary, out_dir):
-    lines = []
+    lines = ["\\begin{tabular}{lcccccc}", "\\toprule",
+             "System & KFR $\\uparrow$ & Coverage $\\uparrow$ & TIR $\\downarrow$ & AMR $\\downarrow$ "
+             "& Refusal acc. $\\uparrow$ & Prompt tok. \\\\", "\\midrule"]
     for i, group in enumerate([MAIN_ORDER, OTHER_ORDER, REF_ORDER]):
         for sysid, label in group:
             if sysid not in summary.index:
@@ -82,10 +84,13 @@ def write_main_results(summary, out_dir):
             lines.append(f"{label} & " + " & ".join(cells) + " \\\\")
         if i < 2:
             lines.append("\\midrule")
+    lines += ["\\bottomrule", "\\end{tabular}"]
     (out_dir / "main_results.tex").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
     # Supplementary: same table with full 95% bootstrap CIs (referenced from the main table's caption)
-    full_lines = []
+    full_lines = ["\\begin{tabular}{lcccccc}", "\\toprule",
+                  "System & KFR $\\uparrow$ & Coverage $\\uparrow$ & TIR $\\downarrow$ & AMR $\\downarrow$ "
+                  "& Refusal acc. $\\uparrow$ & Prompt tok. \\\\", "\\midrule"]
     for i, group in enumerate([MAIN_ORDER, OTHER_ORDER, REF_ORDER]):
         for sysid, label in group:
             if sysid not in summary.index:
@@ -102,6 +107,7 @@ def write_main_results(summary, out_dir):
             full_lines.append(f"{label} & " + " & ".join(cells) + " \\\\")
         if i < 2:
             full_lines.append("\\midrule")
+    full_lines += ["\\bottomrule", "\\end{tabular}"]
     (out_dir / "main_results_full.tex").write_text(
         "% Same rows/columns as main_results.tex, with 95% bootstrap CI in brackets\n"
         + "\n".join(full_lines) + "\n", encoding="utf-8")
@@ -131,9 +137,10 @@ def write_per_category(cat, out_dir):
     header = "System & " + " & ".join(
         (cat_label[c] + " (KFR/Cov.)" if c == "procedural" else cat_label[c]) for c in cats
     ) + " \\\\"
-    (out_dir / "per_category.tex").write_text(
-        "% Key-fact recall per category (procedural column also has step coverage), for the three main systems\n"
-        + header + "\n\\midrule\n" + "\n".join(lines) + "\n", encoding="utf-8")
+    full = (["% Key-fact recall per category (procedural column also has step coverage), for the three main systems",
+             "\\begin{tabular}{lccccc}", "\\toprule", header, "\\midrule"]
+            + lines + ["\\bottomrule", "\\end{tabular}"])
+    (out_dir / "per_category.tex").write_text("\n".join(full) + "\n", encoding="utf-8")
 
 
 def _mean_llm_calls(run_dir):
@@ -148,7 +155,8 @@ def _mean_llm_calls(run_dir):
 
 def write_cost(summary, out_dir, run_dir):
     calls = _mean_llm_calls(run_dir)
-    lines = []
+    lines = ["\\begin{tabular}{lcccc}", "\\toprule",
+              "System & Prompt tok. & Completion tok. & LLM calls & Latency (s) \\\\", "\\midrule"]
     for sysid, label in ALL_ORDER:
         if sysid not in summary.index:
             continue
@@ -160,9 +168,8 @@ def write_cost(summary, out_dir, run_dir):
             f"{r['latency_median_s']:.1f}",
         ]
         lines.append(f"{label} & " + " & ".join(cells) + " \\\\")
-    (out_dir / "cost.tex").write_text(
-        "% System & Prompt tokens (mean) & Completion tokens (mean) & Mean LLM calls & Latency median (s)\n"
-        + "\n".join(lines) + "\n", encoding="utf-8")
+    lines += ["\\bottomrule", "\\end{tabular}"]
+    (out_dir / "cost.tex").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def write_significance(sig, out_dir):
@@ -191,7 +198,8 @@ def write_significance(sig, out_dir):
 
 
 def write_ablation(summary_v3, summary_base, out_dir):
-    lines = []
+    lines = ["\\begin{tabular}{lcc}", "\\toprule",
+              "System & v3 embedding & Base embedding \\\\", "\\midrule"]
     for sysid, label in MAIN_ORDER:
         row = []
         for summ in (summary_v3, summary_base):
@@ -201,9 +209,8 @@ def write_ablation(summary_v3, summary_base, out_dir):
             r = summ.loc[sysid]
             row.append(_fmt(r["key_fact_recall"]) + " / " + _fmt(r["step_coverage"]))
         lines.append(f"{label} & " + " & ".join(row) + " \\\\")
-    (out_dir / "ablation.tex").write_text(
-        "% System & v3 embedding (KFR / step coverage) & base embedding (KFR / step coverage)\n"
-        + "\n".join(lines) + "\n", encoding="utf-8")
+    lines += ["\\bottomrule", "\\end{tabular}"]
+    (out_dir / "ablation.tex").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def _macro_name(system, metric):
