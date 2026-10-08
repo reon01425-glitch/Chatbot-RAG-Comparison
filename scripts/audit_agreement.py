@@ -115,10 +115,13 @@ def main():
         def _fmt(x):
             return "--" if x is None else f"{x:.3f}"
         tex = (
-            f"Step detected (agreement / $\\kappa$) & {_fmt(detected_agree)} / {_fmt(detected_kappa)} "
-            f"& {n_labelled_detected}/{n_total} rows labelled \\\\\n"
-            f"Actor status (agreement / $\\kappa$) & {_fmt(actor_agree)} / {_fmt(actor_kappa)} "
-            f"& {n_labelled_actor}/{n_total} rows labelled \\\\\n"
+            "\\begin{tabular}{lcc}\n\\toprule\n"
+            "Measure & Agreement / $\\kappa$ & Labelled \\\\\n\\midrule\n"
+            f"Step detected & {_fmt(detected_agree)} / {_fmt(detected_kappa)} "
+            f"& {n_labelled_detected}/{n_total} \\\\\n"
+            f"Actor status & {_fmt(actor_agree)} / {_fmt(actor_kappa)} "
+            f"& {n_labelled_actor}/{n_total} \\\\\n"
+            "\\bottomrule\n\\end{tabular}\n"
         )
     (out_dir / "audit.tex").write_text(tex, encoding="utf-8")
 
