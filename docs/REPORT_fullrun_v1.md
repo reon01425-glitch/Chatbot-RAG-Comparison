@@ -102,7 +102,13 @@ Semua `\todo`/`\tbd` lain (jurnal, pendanaan, ucapan terima kasih, hardware, ver
 
 ## Status kompilasi LaTeX
 
-**`pdflatex` tidak terpasang** di mesin ini. Sesuai aturan, saya tidak memasangnya tanpa izin. Sebagai gantinya saya jalankan `validate_latex.py` (skrip yang sudah ada di folder paper) yang memeriksa keseimbangan `\begin`/`\end` dan bahwa semua `\ref`/`\label`/`\input` cocok — semuanya lolos. **Jumlah halaman dan rendering visual belum diverifikasi** karena tidak ada compiler. Mohon dikompilasi manual (`pdflatex` 3× dari folder paper) sebelum submit, dan periksa jumlah halaman (target 15–20) serta tidak ada `??`.
+**Update 2026-10-08 (atas instruksi Anda):** `pdflatex` awalnya tidak terpasang; Anda menginstal BasicTeX sendiri via Homebrew (plus `enumitem`, `algorithms`, `pgf` via `tlmgr`, juga dijalankan oleh Anda karena keduanya butuh `sudo`). Setelah itu saya kompilasi `paper_concise.tex` 4× dengan `pdflatex -interaction=nonstopmode`.
+
+Kompilasi pertama **gagal** dengan ~100 error berantai ("Misplaced \noalign", "Misplaced \cr") persis di `\bottomrule` Tabel 5. Akar masalahnya: `make_paper_tables.py` menghasilkan baris tabel SAJA untuk di-`\input` ke dalam `\begin{tabular}...\end{tabular}` yang sudah terbuka di `paper_concise.tex` — ini kesalahan TeX klasik: `\\` (row terminator) melakukan *lookahead* ke token berikutnya untuk mendeteksi `\hline`/`\toprule`-sejenis, dan lookahead ini tidak bisa melintasi batas file `\input` dengan bersih, sehingga korup saat `\bottomrule` dipanggil tepat setelah `\input` berakhir. Dikonfirmasi lewat bisection sampai reproduksi minimal 5 baris. **Diperbaiki** (bukan diakali): `make_paper_tables.py` kini menulis blok `\begin{tabular}...\end{tabular}` yang lengkap (dengan `\toprule`/`\midrule`/`\bottomrule` sendiri) untuk tiap tabel, dan `paper_concise.tex` di-sederhanakan menjadi `\input` seluruh tabel, bukan hanya barisnya.
+
+Efek samping ditemukan sekaligus: `results/full_v3_20261008/paper_tables/` **tidak pernah benar-benar ter-commit** pada commit sebelumnya — `.gitignore` punya aturan lama `paper_*` (untuk draft paper lama) yang diam-diam juga mencocokkan folder `paper_tables/` baru. Ditambahkan pengecualian `!results/*/paper_tables/` di `.gitignore`, dan file-filenya benar-benar di-commit sekarang.
+
+Setelah perbaikan: **0 error**, semua `\ref`/`\cite` terselesaikan (tidak ada `??`), **23 halaman** — sedikit di atas target 15–20 (konsisten dengan arahan `HUMAN_INPUTS.md`: "lebih kurang sedikit juga tak apa"). Jika ingin dipangkas ke ≤20 halaman, kandidat pemotongan: paragraf ablation embedding (Discussion), atau menyingkat RQ1/RQ3. Saya tidak memangkas konten sendiri karena itu keputusan editorial, bukan teknis.
 
 ## Hal yang mengejutkan atau mencurigakan
 
