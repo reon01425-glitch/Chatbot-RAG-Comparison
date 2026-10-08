@@ -1,0 +1,564 @@
+=== graph / BEA-P1 ===
+Berdasarkan Standar Operasional Prosedur (SOP) Surat Pengajuan Rekomendasi Beasiswa, berikut adalah alur mendapatkan surat rekomendasi beasiswa dari fakultas beserta pihak-pihak yang terlibat:
+
+**Alur Proses:**
+
+1. **Pengajuan Dokumen oleh Mahasiswa:** Mahasiswa mendownload dan mengisi formulir/Surat Rekomendasi Pengajuan Beasiswa ke Subbag Akademik dan Kemahasiswaan (BAK) Fakultas.
+    *   *Waktu:* ±30 menit.
+    *   *Dokumen yang dibutuhkan:* Surat Rekomendasi Beasiswa dan KHS yang dilegalisir.
+
+2. **Penelitian dan Verifikasi oleh BAK Fakultas:** BAK Fakultas meneliti dan memverifikasi Surat Rekomendasi Pengajuan Beasiswa.
+    *   *Waktu:* ±1 hari.
+
+3. **Pemberian Paraf dan Nomor Surat oleh BAK Fakultas:** BAK Fakultas memberikan paraf dan nomor surat pada Surat Rekomendasi Pengajuan Beasiswa tersebut.
+    *   *Waktu:* ±10 menit.
+
+4. **Penandatanganan oleh Wakil Dekan:** Wakil Dekan Akademik dan Kemahasiswaan memberikan tanda tangan pada Surat Rekomendasi Pengajuan Beasiswa tersebut.
+    *   *Waktu:* ±2 hari.
+
+5. **Pengambilan Surat oleh Mahasiswa:** Mahasiswa mengambil surat tersebut di BAK Fakultas dan mencatat bukti pengambilan.
+    *   *Waktu:* ±5 menit.
+
+**Pihak yang Terlibat:**
+
+*   **Mahasiswa:** Bertanggung jawab untuk mengajukan dokumen, mengisi formulir, dan mengambil surat rekomendasi.
+*   **Subbag Akademik dan Kemahasiswaan (BAK) Fakultas:** Bertanggung jawab meneliti, memverifikasi, memberikan paraf, dan mengambil kembali surat.
+*   **Wakil Dekan Akademik dan Kemahasiswaan:** Bertanggung jawab memberikan tanda tangan pada surat rekomendasi.
+
+=== naive / BEA-P1 ===
+Berdasarkan Standar Operasional Prosedur (SOP) Surat Pengajuan Rekomendasi Beasiswa, berikut adalah alur mendapatkan surat rekomendasi beasiswa dari fakultas beserta pihak-pihak yang terlibat:
+
+**Alur Proses:**
+
+1. **Pengajuan Formulir:** Mahasiswa mendownload dan mengisi formulir/Surat Rekomendasi Pengajuan Beasiswa ke Subbag Akademik dan Kemahasiswaan (BAK) Fakultas.
+    *   *Waktu:* ±30 menit.
+    *   *Dokumen yang dibutuhkan:* Surat Rekomendasi Beasiswa dan KHS yang dilegalisir.
+
+2. **Penelitian dan Verifikasi:** BAK Fakultas meneliti dan memverifikasi Surat Rekomendasi Pengajuan Beasiswa.
+    *   *Waktu:* ±1 hari.
+
+3. **Pemberian Paraf dan Nomor Surat:** BAK Fakultas memberikan paraf dan nomor surat pada Surat Rekomendasi Pengajuan Beasiswa tersebut.
+    *   *Waktu:* ±10 menit.
+
+4. **Penandatanganan:** Wakil Dekan Akademik dan Kemahasiswaan memberikan tanda tangan pada Surat Rekomendasi Pengajuan Beasiswa tersebut.
+    *   *Waktu:* ±2 hari.
+
+5. **Pengambilan Surat:** Mahasiswa mengambil surat tersebut di BAK Fakultas dan mencatat bukti pengambilan.
+    *   *Waktu:* ±5 menit.
+
+**Pihak yang Terlibat:**
+
+*   **Mahasiswa:** Bertanggung jawab untuk mendownload formulir, menyerahkan dokumen, dan mengambil surat rekomendasi.
+*   **Subbag Akademik dan Kemahasiswaan (BAK) Fakultas:** Bertanggung jawab meneliti, memverifikasi, memberikan paraf, dan mengambil kembali surat.
+*   **Wakil Dekan Akademik dan Kemahasiswaan:** Bertanggung jawab memberikan tanda tangan pada surat rekomendasi.
+
+**Output Akhir:**
+Surat Rekomendasi Beasiswa dan KHS yang dilegalisir.
+
+=== workflow / BEA-P1 ===
+Berdasarkan Standar Operasional Prosedur (SOP) Surat Pengajuan Rekomendasi Beasiswa, berikut adalah alur mendapatkan surat rekomendasi beasiswa dari fakultas beserta pihak-pihak yang terlibat:
+
+**Alur Proses Surat Rekomendasi Beasiswa**
+
+1. **Mahasiswa (Pelaksana):**
+   *   **Aksi:** Mendownload dan mengisi formulir/Surat Rekomendasi Pengajuan Beasiswa ke Subbag Akademik dan Kemahasiswaan (BAK) Fakultas.
+   *   **Waktu Estimasi:** ±30 menit.
+   *   **Dokumen Prasyarat:** Surat Rekomendasi Beasiswa dan KHS yang dilegalisir.
+   *   **Luaran:** Surat Rekomendasi Beasiswa dan KHS yang dilegalisir.
+
+2. **BAK Fakultas (Pelaksana):**
+   *   **Aksi:** Meneliti dan memverifikasi Surat Rekomendasi Pengajuan Beasiswa.
+   *   **Waktu Estimasi:** ±1 hari.
+   *   **Aksi Lanjutan:** Memberikan paraf dan nomor surat pada Surat Rekomendasi Pengajuan Beasiswa tersebut.
+   *   **Waktu Estimasi:** ±10 menit.
+
+3. **Wakil Dekan Akademik dan Kemahasiswaan (Pelaksana):**
+   *   **Aksi:** Memberikan tanda tangan pada Surat Rekomendasi Pengajuan Beasiswa tersebut.
+   *   **Waktu Estimasi:** ±2 hari.
+
+4. **Mahasiswa (Pelaksana):**
+   *   **Aksi:** Mengambil surat tersebut di BAK Fakultas dan mencatat bukti pengambilan.
+   *   **Waktu Estimasi:** ±5 menit.
+
+**Ringkasan Pihak yang Terlibat:**
+
+*   **Mahasiswa:** Bertanggung jawab untuk mengisi formulir awal, mengambil surat rekomendasi, dan mencatat bukti pengambilan.
+*   **Subbag Akademik dan Kemahasiswaan (BAK) Fakultas:** Bertanggung jawab untuk meneliti, memverifikasi, memberikan paraf, dan memproses surat rekomendasi.
+*   **Wakil Dekan Akademik dan Kemahasiswaan:** Bertanggung jawab untuk memberikan tanda tangan pada surat rekomendasi.
+
+=== graph / CUTI-P1 ===
+Berdasarkan Standar Operasional Prosedur (SOP) yang tersedia, berikut adalah tahapan mengajukan cuti akademik dari awal sampai perolehan Surat Izin Dekan, beserta pihak yang bertanggung jawab di setiap tahap:
+
+**Tahapan Pengajuan Izin Cuti Akademik:**
+
+1. **Pengajuan Awal dan Pelaporan:**
+    *   **Tindakan:** Mahasiswa membawa surat izin cuti akademik semester melapor kepada Ketua Program Studi dan Subbag Akademik dan Kemahasiswaan.
+    *   **Pelaksana:** Mahasiswa.
+
+2. **Persiapan Dokumen dan Registrasi:**
+    *   **Tindakan:** Mahasiswa mengunduh, mengisi, dan menandatangani Form Cuti Akademik serta mengisi secara online melalui SIAP. Mahasiswa juga menyiapkan dokumen yang dibutuhkan (Form Cuti Akademik, Transkrip Akademik, Bukti bayar SPP/UKT terakhir, Fotokopi KTM, dan dokumen pendukung lain).
+    *   **Pelaksana:** Mahasiswa.
+
+3. **Persetujuan Program Studi:**
+    *   **Tindakan:** Mahasiswa meminta persetujuan dan tanda tangan Ketua Program Studi.
+    *   **Pelaksana:** Mahasiswa dan Ketua Program Studi.
+
+4. **Penyerahan dan Disposisi:**
+    *   **Tindakan:** Mahasiswa menyerahkan Form Cuti Akademik yang telah ditandatangani Ketua Program Studi ke Dekan. Kemudian dilakukan disposisi ke Subbag Akademik dan Kemahasiswaan.
+    *   **Pelaksana:** Mahasiswa, Dekan, dan Subbag Akademik dan Kemahasiswaan.
+
+5. **Verifikasi dan Penandatanganan Dekan:**
+    *   **Tindakan:** Subbag Akademik dan Kemahasiswaan menerima, memeriksa, dan meneliti kelengkapan persyaratan form cuti akademik. Jika lengkap, form diberi paraf dan diproses lebih lanjut. Dekan kemudian menandatangani Surat Izin Dekan.
+    *   **Pelaksana:** Subbag Akademik dan Kemahasiswaan dan Dekan.
+
+6. **Pemberian Nomor Surat:**
+    *   **Tindakan:** Subbag Sumber Daya memberi nomor surat dan mengirimkannya ke Subbag Akademik dan Kemahasiswaan dengan tembusan ke Dosen Wali dan Ketua Program Studi.
+    *   **Pelaksana:** Subbag Sumber Daya.
+
+7. **Penyelesaian Administrasi dan Pemberitahuan:**
+    *   **Tindakan:** Subbag Akademik dan Kemahasiswaan mengupdate status mahasiswa di Sistem Akademik, mengarsipkan Surat Izin Dekan, dan mengirimkan Surat Izin Dekan kepada mahasiswa.
+    *   **Pelaksana:** Subbag Akademik dan Kemahasiswaan.
+
+8. **Pengambilan Surat Izin:**
+    *   **Tindakan:** Mahasiswa dapat mengambil Surat Izin Dekan di loket akademik.
+    *   **Pelaksana:** Mahasiswa.
+
+=== naive / CUTI-P1 ===
+Berdasarkan Standar Operasional Prosedur (SOP) Permohonan Izin Cuti Akademik, berikut adalah tahapan pengajuan cuti akademik dari awal sampai mendapatkan Surat Izin Dekan beserta pihak yang bertanggung jawab pada setiap tahap:
+
+**Tahapan Pengajuan Izin Cuti Akademik:**
+
+1. **Pengisian dan Pengumpulan Dokumen Awal:**
+    *   **Tindakan:** Mahasiswa mengunduh, mengisi, dan menandatangani Form Cuti Akademik serta melampirkan persyaratan, dan wajib mengisi secara online melalui SIAP.
+    *   **Pihak yang Bertanggung Jawab:** Mahasiswa.
+
+2. **Persetujuan Program Studi:**
+    *   **Tindakan:** Mahasiswa meminta persetujuan dan tanda tangan Ketua Program Studi.
+    *   **Pihak yang Bertanggung Jawab:** Mahasiswa dan Ketua Program Studi.
+
+3. **Penyerahan dan Disposisi Dokumen:**
+    *   **Tindakan:** Mahasiswa menyerahkan Form Cuti Akademik yang telah ditandatangani Ketua Program Studi kepada Dekan, kemudian dilakukan disposisi ke Subbag Akademik dan Kemahasiswaan.
+    *   **Pihak yang Bertanggung Jawab:** Mahasiswa dan Dekan/Subbag Akademik dan Kemahasiswaan.
+
+4. **Pemeriksaan Kelengkapan Persyaratan:**
+    *   **Tindakan:** Subbag Akademik dan Kemahasiswaan menerima, memeriksa, dan meneliti kelengkapan persyaratan form cuti akademik. Jika lengkap, form diberi paraf dan diproses lebih lanjut.
+    *   **Pihak yang Bertanggung Jawab:** Subbag Akademik dan Kemahasiswaan.
+
+5. **Penandatanganan Surat Izin Dekan:**
+    *   **Tindakan:** Dekan menandatangani Surat Izin Dekan.
+    *   **Pihak yang Bertanggung Jawab:** Dekan.
+    *   **Output:** Surat Izin Dekan.
+
+6. **Pengiriman Surat Izin:**
+    *   **Tindakan:** Subbag Sumber Daya memberi nomor surat dan mengirimkannya ke Subbag Akademik dan Kemahasiswaan dengan tembusan ke Dosen Wali dan Ketua Program Studi.
+    *   **Pihak yang Bertanggung Jawab:** Subbag Sumber Daya.
+    *   **Output:** Surat Izin Dekan.
+
+7. **Penyelesaian Administrasi dan Pemberitahuan:**
+    *   **Tindakan:** Subbag Akademik dan Kemahasiswaan mengupdate status mahasiswa di Sistem Akademik, mengarsipkan Surat Izin Dekan, dan mengirimkan surat tersebut kepada mahasiswa.
+    *   **Pihak yang Bertanggung Jawab:** Subbag Akademik dan Kemahasiswaan.
+    *   **Output:** Surat Izin Dekan.
+
+8. **Pengambilan Surat Izin:**
+    *   **Tindakan:** Mahasiswa dapat mengambil Surat Izin Dekan di loket akademik.
+    *   **Pihak yang Bertanggung Jawab:** Mahasiswa.
+    *   **Output:** Surat Izin Dekan.
+
+=== workflow / CUTI-P1 ===
+Berdasarkan Standar Operasional Prosedur (SOP) Permohonan Izin Cuti Akademik di Fakultas Sains dan Matematika Universitas Diponegoro, berikut adalah tahapan mengajukan cuti akademik dari awal sampai memperoleh surat izin keluar beserta pelaksanaannya:
+
+**Tahapan Pengajuan Izin Cuti Akademik:**
+
+1. **Pengisian dan Pengumpulan Dokumen (Mahasiswa):**
+   *   Mahasiswa mengunduh, mengisi, dan menandatangani Form Cuti Akademik dengan melampirkan persyaratan.
+   *   Mahasiswa wajib mengisi permohonan secara online melalui SIAP.
+   *   Dokumen yang dibutuhkan meliputi Form Cuti Akademik, Transkrip Akademik, Bukti bayar SPP/UKT terakhir, Fotokopi KTM, dan dokumen pendukung lain.
+
+2. **Persetujuan Ketua Program Studi (Mahasiswa):**
+   *   Mahasiswa meminta persetujuan dan tanda tangan Ketua Program Studi.
+
+3. **Penyerahan dan Disposisi (Mahasiswa):**
+   *   Mahasiswa menyerahkan Form Cuti Akademik yang telah ditandatangani Ketua Program Studi kepada Dekan.
+   *   Dilakukan disposisi ke Subbag Akademik dan Kemahasiswaan.
+
+4. **Pemeriksaan Kelengkapan Persyaratan (Subbag Akademik dan Kemahasiswaan):**
+   *   Subbag Akademik dan Kemahasiswaan menerima, memeriksa, dan meneliti kelengkapan persyaratan form cuti akademik.
+   *   Jika persyaratan lengkap, form diberi paraf dan diproses lebih lanjut.
+
+5. **Penandatanganan Izin (Dekan):**
+   *   Dekan menandatangani Surat Izin Dekan. (Luaran: Surat Izin Dekan)
+
+6. **Pengiriman Surat (Subbag Sumber Daya):**
+   *   Subbag Sumber Daya memberi nomor surat dan mengirimkannya ke Subbag Akademik dan Kemahasiswaan dengan tembusan ke Dosen Wali dan Ketua Program Studi. (Luaran: Surat Izin Dekan)
+
+7. **Pengarsipan dan Pemberitahuan (Subbag Akademik dan Kemahasiswaan):**
+   *   Subbag Akademik dan Kemahasiswaan mengupdate status mahasiswa di Sistem Akademik, mengarsipkan Surat Izin Dekan, dan mengirimkan surat tersebut kepada mahasiswa. (Luaran: Surat Izin Dekan)
+
+8. **Pengambilan Surat (Mahasiswa):**
+   *   Mahasiswa mengambil Surat Izin Dekan di loket akademik. (Luaran: Surat Izin Dekan)
+
+**Maksimal Waktu Pemrosesan:**
+Seluruh proses permohonan izin cuti akademik memiliki total maksimal waktu pemrosesan **3 (tiga) hari kerja**.
+
+=== naive / CUTI-P2 ===
+Maaf, saya tidak menemukan jawaban pada dokumen SOP resmi yang tersedia.
+
+=== workflow / CUTI-P2 ===
+Selamat siang. Sebagai asisten layanan mahasiswa, saya akan menjelaskan urutan prosedur permohonan izin cuti akademik berdasarkan Standar Operasional Prosedur (SOP) yang berlaku di Fakultas Sains dan Matematika Universitas Diponegoro.
+
+Berikut adalah langkah-langkah yang harus Anda ikuti untuk mengajukan permohonan izin cuti akademik:
+
+**Tahap Persiapan dan Pengajuan:**
+
+1. **Mengunduh dan Mengisi Form:** Anda harus mengunduh, mengisi, dan menandatangani **Form Cuti Akademik** serta melampirkan semua persyaratan yang dibutuhkan. Selain itu, Anda wajib mengisi permohonan secara *online* melalui sistem SIAP.
+    *   **Dokumen yang dibutuhkan:** Form Cuti Akademik, Transkrip Akademik, Bukti bayar SPP/UKT terakhir, Fotokopi KTM, dan dokumen pendukung lain.
+    *   **Tautan unduh form:** https://drive.google.com/file/d/1miPHNvRj6XO6LEhFCiC_QXcMtynCPWR2/edit
+
+2. **Meminta Persetujuan Ketua Program Studi:** Anda harus meminta persetujuan dan tanda tangan dari Ketua Program Studi Anda.
+
+3. **Penyerahan ke Dekan:** Anda menyerahkan Form Cuti Akademik yang telah ditandatangani Ketua Program Studi kepada Dekan. Proses ini kemudian akan didisposisi ke Subbag Akademik dan Kemahasiswaan.
+
+**Tahap Pemrosesan Internal:**
+
+4. **Pemeriksaan Kelengkapan Persyaratan:** Subbag Akademik dan Kemahasiswaan akan menerima, memeriksa, dan meneliti kelengkapan persyaratan form cuti akademik. Jika persyaratan lengkap, form akan diberi paraf dan diproses lebih lanjut.
+
+5. **Penandatanganan Surat Izin Dekan:** Dekan akan menandatangani **Surat Izin Dekan**.
+
+6. **Pengiriman Surat Izin:** Subbag Sumber Daya akan memberi nomor surat dan mengirimkannya ke Subbag Akademik dan Kemahasiswaan dengan tembusan kepada Dosen Wali dan Ketua Program Studi.
+
+7. **Pengarsipan dan Pemberitahuan:** Subbag Akademik dan Kemahasiswaan akan meng-*update* status mahasiswa di Sistem Akademik, mengarsipkan Surat Izin Dekan, dan mengirimkan Surat Izin Dekan kepada Anda.
+
+**Tahap Akhir:**
+
+8. **Pengambilan Surat Izin:** Anda dapat mengambil **Surat Izin Dekan** di loket akademik.
+
+**Catatan Tambahan:**
+
+*   **Waktu Pemrosesan:** Total waktu pemrosesan untuk permohonan izin cuti akademik adalah maksimal 3 (tiga) hari kerja.
+*   **Prosedur Setelah Cuti:** Setelah cuti, terdapat prosedur tambahan yang harus diikuti untuk memperoleh izin aktif setelah cuti, yaitu dengan membawa surat izin cuti akademik semester melapor kepada Ketua Program Studi dan Subbag Akademik dan Kemahasiswaan, serta melakukan registrasi *online* pada SSO masing-masing mahasiswa.
+
+Semoga informasi ini membantu Anda dalam memulai proses permohonan cuti akademik.
+
+=== graph / IRS-P1 ===
+Berdasarkan Standar Operasional Prosedur (SOP) Pengisian Isian Rencana Studi (IRS), urutan proses pengisian IRS dari pembayaran sampai IRS disetujui adalah sebagai berikut:
+
+1. **Pembayaran Biaya Pendidikan:** Mahasiswa membayar biaya pendidikan pada bank yang bekerja sama dengan Undip (BNI, Mandiri, BTN, dan BRI). (Output: Bukti Pembayaran SPP/UKT)
+2. **Her-registrasi Online:** Mahasiswa melakukan her-registrasi online melalui SIAP.
+3. **Pengisian IRS Sementara:** Mahasiswa melakukan pengisian, perbaikan, atau mencetak IRS sementara secara online melalui SIAP.
+4. **Konsultasi dengan Pembimbing Akademik:** Mahasiswa menemui Pembimbing Akademik untuk berkonsultasi mengenai mata kuliah yang akan diambil, di mana Pembimbing memberikan arahan. (Output: Print out IRS / Online IRS)
+5. **Persetujuan Pembimbing Akademik:** Apabila mata kuliah dan jumlah SKS sudah sesuai, Pembimbing Akademik melakukan persetujuan secara online pada SIAP. (Output: Persetujuan Pembimbing Akademik melalui SIAP)
+
+Proses ini memiliki total waktu pemrosesan maksimal 3 (tiga) hari kerja.
+
+=== naive / IRS-P1 ===
+Berdasarkan Standar Operasional Prosedur (SOP) Pengisian Isian Rencana Studi (IRS), urutan proses pengisian IRS dari pembayaran sampai IRS disetujui adalah sebagai berikut:
+
+1. **Mahasiswa membayar biaya pendidikan** pada bank yang bekerja sama dengan Undip (BNI, Mandiri, BTN, dan BRI). (Output: Bukti Pembayaran SPP/UKT)
+2. **Mahasiswa melakukan her-registrasi online** melalui SIAP.
+3. **Mahasiswa melakukan pengisian, perbaikan, atau mencetak IRS sementara** secara online melalui SIAP.
+4. **Mahasiswa menemui Pembimbing Akademik** untuk berkonsultasi mengenai mata kuliah yang akan diambil. (Pembimbing memberikan arahan dengan mempertimbangkan ketentuan jumlah SKS maksimal pada semester terkait.) (Output: Print out IRS / Online IRS)
+5. **Apabila mata kuliah dan jumlah SKS sudah sesuai, Pembimbing Akademik melakukan persetujuan secara online pada SIAP.** (Output: Persetujuan Pembimbing Akademik melalui SIAP)
+6. **Mahasiswa dapat melakukan pengecekan IRS online** di sistem SIAP bila diperlukan. (Output: File IRS SIAP)
+
+Proses ini memiliki total waktu pemrosesan maksimal 3 (tiga) hari kerja.
+
+=== workflow / IRS-P1 ===
+Berdasarkan Standar Operasional Prosedur (SOP) Pengisian Isian Rencana Studi (IRS), urutan proses pengisian IRS dari pembayaran sampai IRS disetujui adalah sebagai berikut:
+
+1. **Pembayaran Biaya Pendidikan:** Mahasiswa membayar biaya pendidikan pada bank yang bekerja sama dengan Undip (BNI, Mandiri, BTN, dan BRI), menghasilkan Bukti Pembayaran SPP/UKT.
+2. **Her-registrasi Online:** Mahasiswa melakukan her-registrasi online melalui SIAP.
+3. **Pengisian IRS Sementara:** Mahasiswa melakukan pengisian, perbaikan, atau mencetak IRS sementara secara online melalui SIAP.
+4. **Konsultasi dan Arahan:** Mahasiswa menemui Pembimbing Akademik untuk berkonsultasi mengenai mata kuliah yang akan diambil, di mana Pembimbing Akademik memberikan arahan dengan mempertimbangkan ketentuan jumlah SKS maksimal pada semester terkait.
+5. **Persetujuan Pembimbing Akademik:** Apabila mata kuliah dan jumlah SKS sudah sesuai, Pembimbing Akademik melakukan persetujuan secara online pada SIAP.
+6. **Pengecekan IRS (Opsional):** Mahasiswa dapat melakukan pengecekan IRS online di sistem SIAP bila diperlukan, menghasilkan File IRS SIAP.
+
+Maksimal waktu pemrosesan keseluruhan proses ini adalah 3 hari kerja.
+
+=== graph / IRS-P2 ===
+Maaf, saya tidak menemukan jawaban pada dokumen SOP resmi yang tersedia.
+
+=== naive / IRS-P2 ===
+Maaf, saya tidak menemukan jawaban pada dokumen SOP resmi yang tersedia.
+
+=== workflow / IRS-P2 ===
+Berdasarkan Standar Operasional Prosedur (SOP) Pengisian Isian Rencana Studi (IRS) yang tersedia, berikut adalah urutan tahapan pengisian IRS hingga mendapatkan persetujuan dari Pembimbing Akademik:
+
+**Tahapan Pengisian IRS:**
+
+1. **Pembayaran Biaya Pendidikan:** Mahasiswa membayar biaya pendidikan pada bank yang bekerja sama dengan Undip (BNI, Mandiri, BTN, dan BRI).
+   * *Luaran:* Bukti Pembayaran SPP/UKT.
+
+2. **Her-registrasi Online:** Mahasiswa melakukan her-registrasi online melalui SIAP.
+
+3. **Pengisian IRS Sementara:** Mahasiswa melakukan pengisian, perbaikan, atau mencetak IRS sementara secara online melalui SIAP.
+
+4. **Konsultasi dengan Pembimbing Akademik:** Mahasiswa menemui Pembimbing Akademik untuk berkonsultasi mengenai mata kuliah yang akan diambil. Pembimbing Akademik memberikan arahan dengan mempertimbangkan ketentuan jumlah SKS maksimal pada semester terkait.
+   * *Luaran:* Print out IRS / Online IRS.
+
+5. **Persetujuan Pembimbing Akademik:** Apabila mata kuliah dan jumlah SKS sudah sesuai, Pembimbing Akademik melakukan persetujuan secara online pada SIAP.
+   * *Luaran:* Persetujuan Pembimbing Akademik melalui SIAP.
+
+6. **Pengecekan IRS (Opsional):** Mahasiswa dapat melakukan pengecekan IRS online di sistem SIAP bila diperlukan.
+   * *Luaran:* File IRS SIAP.
+
+Proses ini memiliki total waktu pemrosesan maksimal 3 (tiga) hari kerja.
+
+=== graph / LEG-P1 ===
+Berdasarkan Standar Operasional Prosedur (SOP) Legalisir Ijazah dan Transkrip, berikut adalah tahapan pengesahan (legalisir) ijazah dan transkrip di Fakultas Sains dan Matematika (FSM) beserta pihak yang memproses tiap tahap:
+
+**Tahapan Legalisir Ijazah dan Transkrip:**
+
+1. **Penyerahan Dokumen:**
+    *   **Tahapan:** Alumni menyerahkan fotokopi ijazah/transkrip nilai/sertifikat akreditasi program studi beserta surat aslinya.
+    *   **Pemroses:** Alumni.
+    *   **Waktu:** ±5 menit.
+
+2. **Pemeriksaan Awal dan Pemberian Cap:**
+    *   **Tahapan:** Petugas Subbagian Akademik dan Kemahasiswaan memeriksa keabsahan, kesesuaian foto copy ijazah/transkrip nilai/sertifikat akreditasi program studi dengan surat aslinya dan memberikan cap.
+    *   **Pemroses:** Petugas Subbagian Akademik dan Kemahasiswaan.
+    *   **Output:** Persetujuan Legalisir.
+    *   **Waktu:** ±10 menit.
+
+3. **Pemeriksaan dan Pemberian Paraf Supervisor:**
+    *   **Tahapan:** Supervisor Akademik dan Kemahasiswaan memeriksa dan memberi paraf di samping kanan nama Dekan.
+    *   **Pemroses:** Supervisor Akademik dan Kemahasiswaan.
+    *   **Output:** Paraf Supervisor Akademik dan Kemahasiswaan.
+    *   **Waktu:** ±15 menit.
+
+4. **Pengesahan Resmi:**
+    *   **Tahapan:** Dekan/Wakil Dekan Akademik dan Kemahasiswaan menandatangani pada “Pengesahan Telah diperiksa Kebenarannya dan Sesuai dengan Aslinya”.
+    *   **Pemroses:** Dekan/Wakil Dekan Akademik dan Kemahasiswaan.
+    *   **Output:** TTD Dekan/Wakil Dekan Akademik dan Kemahasiswaan.
+    *   **Waktu:** ±1 hari.
+
+5. **Pemberian Stempel Fakultas:**
+    *   **Tahapan:** Petugas Subbagian Akademik dan Kemahasiswaan mengambil kembali Legalisir yang sudah ditanda tangani Dekan/Wakil Dekan Akademik dan Kemahasiswaan dan memberikan stempel Fakultas Sains dan Matematika.
+    *   **Pemroses:** Petugas Subbagian Akademik dan Kemahasiswaan.
+    *   **Output:** Stempel Fakultas Sains dan Matematika.
+    *   **Waktu:** ±5 menit.
+
+6. **Pengambilan Dokumen:**
+    *   **Tahapan:** Alumni mengambil Legalisir di Subbagian Akademik dan Kemahasiswaan dengan membawa aslinya dan menulis di buku pengambilan serta menandatangani ybs.
+    *   **Pemroses:** Alumni dan Subbagian Akademik dan Kemahasiswaan.
+    *   **Output:** Legalisir Ijazah/transkrip nilai/sertifikat akreditasi.
+    *   **Waktu:** ±15 menit.
+
+=== naive / LEG-P1 ===
+Berdasarkan Standar Operasional Prosedur (SOP) Legalisir Ijazah dan Transkrip, berikut adalah tahapan pengesahan fotokopi ijazah dan transkrip (legalisir) di Fakultas Sains dan Matematika (FSM) beserta pihak yang memproses tiap tahap:
+
+**Tahapan Legalisir Ijazah dan Transkrip:**
+
+1.  **Penyerahan Dokumen:** Alumni menyerahkan fotokopi ijazah/transkrip nilai/sertifikat akreditasi program studi beserta surat aslinya kepada petugas Subbag Akademik dan Kemahasiswaan.
+2.  **Pemeriksaan Awal:** Petugas Subbag Akademik dan Kemahasiswaan memeriksa keabsahan, kesesuaian foto copy ijazah/transkrip nilai/sertifikat akreditasi program studi dengan surat aslinya, dan memberikan cap.
+3.  **Paraf Supervisor:** Supervisor Akademik dan Kemahasiswaan memeriksa dan memberi paraf di samping kanan nama Dekan.
+4.  **Pengesahan:** Dekan/Wakil Dekan Akademik dan Kemahasiswaan menandatangani pada kalimat “Pengesahan Telah diperiksa Kebenarannya dan Sesuai dengan Aslinya”.
+5.  **Pemberian Stempel:** Petugas Subbag Akademik dan Kemahasiswaan mengambil kembali Legalisir yang sudah ditanda tangani Dekan/Wakil Dekan Akademik dan Kemahasiswaan dan memberikan stempel Fakultas Sains dan Matematika.
+6.  **Pengambilan Legalisir:** Alumni mengambil Legalisir di Subbag Akademik dan Kemahasiswaan dengan membawa dokumen asli dan menulis di buku pengambilan serta menandatangani ybs.
+
+Proses ini memiliki total waktu pemrosesan maksimal 3 (tiga) hari kerja.
+
+=== workflow / LEG-P1 ===
+Berdasarkan Standar Operasional Prosedur (SOP) Legalisir Ijazah dan Transkrip, berikut adalah tahapan pengesahan (legalisir) ijazah dan transkrip beserta pihak yang memprosesnya:
+
+| Tahap | Pelaksana / Aktor | Aksi yang Dilakukan | Luaran / Output | Estimasi Waktu |
+| :--- | :--- | :--- | :--- | :--- |
+| 1 | Alumni | Menyerahkan foto copy ijazah/transkrip nilai/sertifikat akreditasi program studi beserta surat aslinya kepada petugas Subbag Akademik dan Kemahasiswaan. | Berkas Pengajuan Legalisir | ±5 menit |
+| 2 | Petugas Subbag Akademik dan Kemahasiswaan | Memeriksa keabsahan, kesesuaian foto copy ijazah/transkrip nilai/sertifikat akreditasi program studi dengan surat aslinya dan memberikan cap. | Persetujuan Legalisir | ±10 menit |
+| 3 | Supervisor Akademik dan Kemahasiswaan | Memeriksa dan memberi paraf di samping kanan nama Dekan. | Paraf Supervisor Akademik dan Kemahasiswaan | ±15 menit |
+| 4 | Dekan/Wakil Dekan Akademik dan Kemahasiswaan | Menandatangani pada 'Pengesahan Telah diperiksa Kebenarannya dan Sesuai dengan Aslinya'. | TTD Dekan/Wakil Dekan Akademik dan Kemahasiswaan | ±1 hari |
+| 5 | Petugas Subbag Akademik dan Kemahasiswaan | Mengambil kembali Legalisir yang sudah ditandatangani Dekan/Wakil Dekan Akademik dan Kemahasiswaan dan memberikan stempel Fakultas Sains dan Matematika. | Stempel Fakultas Sains dan Matematika | ±5 menit |
+| 6 | Alumni | Mengambil Legalisir di Subbag Akademik dan Kemahasiswaan dengan membawa aslinya, menulis di buku pengambilan, dan menandatanganinya. | Legalisir Ijazah/transkrip nilai/sertifikat akreditasi | ±15 menit |
+
+Maksimal waktu pemrosesan keseluruhan untuk proses legalisir ini adalah 3 hari kerja.
+
+=== graph / LEG-P2 ===
+Berdasarkan Standar Operasional Prosedur (SOP) Legalisir Ijazah dan Transkrip, berikut adalah langkah-langkah yang dapat Anda ikuti untuk melakukan legalisir ijazah:
+
+**Persyaratan Awal:**
+Alumni perlu menyiapkan foto copy ijazah/transkrip nilai/sertifikat akreditasi program studi beserta surat aslinya.
+
+**Proses Legalisir:**
+
+1. **Penyerahan Dokumen:** Alumni menyerahkan foto copy ijazah/transkrip nilai/sertifikat akreditasi program studi beserta surat aslinya kepada petugas Subbagian Akademik dan Kemahasiswaan. (Waktu: ±5 menit)
+2. **Pemeriksaan Awal:** Petugas Subbagian Akademik dan Kemahasiswaan memeriksa keabsahan, kesesuaian foto copy ijazah/transkrip nilai/sertifikat akreditasi program studi dengan surat aslinya, dan memberikan cap. (Output: Persetujuan Legalisir)
+3. **Paraf Supervisor:** Supervisor Akademik dan Kemahasiswaan memeriksa dan memberi paraf di samping kanan nama Dekan. (Output: Paraf Supervisor Akademik dan Kemahasiswaan)
+4. **Penandatanganan Dekan:** Dekan/Wakil Dekan Akademik dan Kemahasiswaan menandatangani pada “Pengesahan Telah diperiksa Kebenarannya dan Sesuai dengan Aslinya”. (Output: TTD Dekan/Wakil Dekan Akademik dan Kemahasiswaan)
+5. **Pemberian Stempel:** Petugas Subbagian Akademik dan Kemahasiswaan mengambil kembali Legalisir yang sudah ditanda tangani Dekan/Wakil Dekan Akademik dan Kemahasiswaan dan memberikan stempel Fakultas Sains dan Matematika. (Output: Stempel Fakultas Sains dan Matematika)
+6. **Pengambilan Legalisir:** Alumni mengambil Legalisir di Subbagian Akademik dan Kemahasiswaan dengan membawa dokumen asli dan menulis di buku pengambilan serta menandatangani ybs. (Output: Legalisir Ijazah/transkrip nilai/sertifikat akreditasi)
+
+**Catatan Waktu Pemrosesan:**
+Total waktu pemrosesan untuk proses legalisir ini adalah maksimal 3 (tiga) hari kerja.
+
+=== workflow / LEG-P2 ===
+Berdasarkan Standar Operasional Prosedur (SOP) yang tersedia mengenai Legalisir Ijazah dan Transkrip, berikut adalah alur proses legalisir ijazah yang dapat Anda ikuti:
+
+Proses legalisir ijazah ini memiliki maksimal waktu pemrosesan selama 3 (tiga) hari kerja.
+
+**Tahapan Prosedural:**
+
+1. **Penyerahan Dokumen oleh Alumni:**
+   *   Alumni menyerahkan foto copy ijazah/transkrip nilai/sertifikat akreditasi program studi beserta surat aslinya kepada petugas Subbag Akademik dan Kemahasiswaan.
+   *   *Waktu Estimasi:* ±5 menit.
+   *   *Luaran:* Berkas Pengajuan Legalisir.
+
+2. **Pemeriksaan oleh Petugas:**
+   *   Petugas Subbag Akademik dan Kemahasiswaan memeriksa keabsahan, kesesuaian foto copy ijazah/transkrip nilai/sertifikat akreditasi program studi dengan surat aslinya dan memberikan cap.
+   *   *Waktu Estimasi:* ±10 menit.
+   *   *Luaran:* Persetujuan Legalisir.
+
+3. **Pemeriksaan oleh Supervisor:**
+   *   Supervisor Akademik dan Kemahasiswaan memeriksa dan memberi paraf di samping kanan nama Dekan.
+   *   *Waktu Estimasi:* ±15 menit.
+   *   *Luaran:* Paraf Supervisor Akademik dan Kemahasiswaan.
+
+4. **Pengesahan oleh Dekan/Wakil Dekan:**
+   *   Dekan/Wakil Dekan Akademik dan Kemahasiswaan menandatangani pada 'Pengesahan Telah diperiksa Kebenarannya dan Sesuai dengan Aslinya'.
+   *   *Waktu Estimasi:* ±1 hari.
+   *   *Luaran:* TTD Dekan/Wakil Dekan Akademik dan Kemahasiswaan.
+
+5. **Pemberian Stempel Fakultas:**
+   *   Petugas Subbag Akademik dan Kemahasiswaan mengambil kembali Legalisir yang sudah ditandatangani Dekan/Wakil Dekan Akademik dan Kemahasiswaan dan memberikan stempel Fakultas Sains dan Matematika.
+   *   *Waktu Estimasi:* ±5 menit.
+   *   *Luaran:* Stempel Fakultas Sains dan Matematika.
+
+6. **Pengambilan Dokumen oleh Alumni:**
+   *   Alumni mengambil Legalisir di Subbag Akademik dan Kemahasiswaan dengan membawa aslinya, menulis di buku pengambilan, dan menandatanganinya.
+   *   *Waktu Estimasi:* ±15 menit.
+   *   *Luaran:* Legalisir Ijazah/transkrip nilai/sertifikat akreditasi.
+
+Mohon diperhatikan bahwa total waktu pemrosesan maksimal untuk seluruh proses ini adalah 3 hari kerja.
+
+=== graph / PROP-P1 ===
+Berdasarkan Standar Operasional Prosedur (SOP) Pengajuan Proposal Kegiatan Organisasi Mahasiswa, berikut adalah langkah-langkah yang dapat diikuti untuk mengajukan proposal kegiatan organisasi mahasiswa sampai disetujui:
+
+1. **Penyerahan Proposal:** Mahasiswa menyerahkan proposal kegiatan organisasi kepada petugas kemahasiswaan dan Supervisor Akademik untuk registrasi dan alokasi ruang (jika kegiatan dilaksanakan di FSM). Dokumen yang dibutuhkan adalah Proposal kegiatan organisasi.
+2. **Penelitian dan Verifikasi:** Supervisor Akademik dan Kemahasiswaan meneliti dan memverifikasi proposal kegiatan yang diajukan agar sesuai dengan peraturan dan memberikan paraf.
+3. **Evaluasi Substansi:** Wakil Dekan Akademik dan Kemahasiswaan mengevaluasi substansi proposal kegiatan.
+4. **Persetujuan:** Dilanjutkan dengan pengesahan oleh Wakil Dekan Akademik dan Kemahasiswaan.
+5. **Pengambilan Proposal:** Mahasiswa mengambil proposal kegiatan organisasi yang telah disetujui.
+
+Proses ini memiliki total waktu pemrosesan maksimal 3 (tiga) hari kerja.
+
+=== naive / PROP-P1 ===
+Berdasarkan Standar Operasional Prosedur (SOP) Pengajuan Proposal Kegiatan Organisasi Mahasiswa, berikut adalah langkah-langkah yang dapat diikuti untuk mengajukan proposal kegiatan organisasi mahasiswa sampai disetujui:
+
+Proses ini memiliki total waktu pemrosesan maksimal 3 (tiga) hari kerja.
+
+1. **Penyerahan Proposal:** Mahasiswa menyerahkan proposal kegiatan organisasi kepada petugas kemahasiswaan dan Supervisor Akademik untuk registrasi dan alokasi ruang (jika kegiatan dilaksanakan di FSM).
+    *   *Dokumen yang dibutuhkan:* Proposal kegiatan organisasi.
+
+2. **Penelitian dan Verifikasi:** Supervisor Akademik dan Kemahasiswaan meneliti dan memverifikasi proposal kegiatan yang diajukan agar sesuai dengan peraturan dan memberikan paraf.
+    *   *Output:* Paraf Supervisor Akademik dan Kemahasiswaan.
+
+3. **Evaluasi Substansi:** Wakil Dekan Akademik dan Kemahasiswaan mengevaluasi substansi proposal kegiatan.
+    *   *Output:* Persetujuan Wakil Dekan Akademik dan Kemahasiswaan.
+
+4. **Pengesahan:** Dilanjutkan dengan pengesahan oleh Wakil Dekan Akademik dan Kemahasiswaan.
+
+5. **Pengambilan Proposal:** Mahasiswa mengambil proposal yang telah disetujui.
+    *   *Output:* Proposal kegiatan organisasi yang telah disetujui.
+
+=== graph / UKT-P1 ===
+Berdasarkan Standar Operasional Prosedur (SOP) Permohonan Izin Keterlambatan Pembayaran UKT, berikut adalah tahapan permohonan izin keterlambatan pembayaran UKT beserta pihak yang berwenang di tiap tahap:
+
+1. **Pengisian dan Penandatanganan Form:**
+    *   **Pelaku:** Mahasiswa
+    *   **Tindakan:** Mengunduh, mengisi, dan menandatangani Form Permohonan Keterlambatan Pembayaran UKT serta melampirkan persyaratan.
+
+2. **Permintaan Persetujuan:**
+    *   **Pelaku:** Mahasiswa
+    *   **Tindakan:** Meminta tanda tangan dosen wali serta persetujuan dan tanda tangan Ketua Program Studi.
+
+3. **Penyerahan Form Permohonan:**
+    *   **Pelaku:** Mahasiswa
+    *   **Tindakan:** Menyerahkan Form Permohonan Keterlambatan UKT yang telah ditandatangani dan disetujui kepada Supervisor Sumber Daya.
+
+4. **Pemeriksaan dan Penelitian Persyaratan:**
+    *   **Pelaku:** Supervisor Sumber Daya
+    *   **Tindakan:** Menerima, memeriksa, dan meneliti kelengkapan persyaratan form, serta memberikan paraf.
+
+5. **Pemrosesan Surat Permohonan:**
+    *   **Pelaku:** Wakil Dekan Sumber Daya
+    *   **Tindakan:** Memproses Surat Permohonan Izin Keterlambatan Pembayaran UKT, dan menandatangani Surat Permohonan Izin Keterlambatan Pembayaran UKT.
+
+6. **Pemrosesan Surat:**
+    *   **Pelaku:** Subbag Sumber Daya
+    *   **Tindakan:** Memproses Surat Permohonan Keterlambatan Pembayaran UKT.
+
+7. **Pengajuan ke Tingkat Pimpinan:**
+    *   **Pelaku:** Mahasiswa
+    *   **Tindakan:** Membawa Surat Permohonan Keterlambatan Pembayaran UKT kepada Wakil Rektor II melalui Manajer Akademik.
+
+8. **Disposisi dan Pembayaran:**
+    *   **Pelaku:** Wakil Rektor II
+    *   **Tindakan:** Mendisposisikan ke Direktorat Keuangan untuk memproses pembayaran UKT.
+    *   **Pelaku:** Bendahara Penerimaan UKT
+    *   **Tindakan:** Membuka sistem pembayaran mahasiswa.
+
+9. **Pembayaran Akhir:**
+    *   **Pelaku:** Mahasiswa
+    *   **Tindakan:** Membayar biaya UKT ke bank.
+
+=== naive / UKT-P1 ===
+Berdasarkan Standar Operasional Prosedur (SOP) Permohonan Izin Keterlambatan Pembayaran UKT, berikut adalah tahapan permohonan izin keterlambatan pembayaran UKT beserta pihak yang berwenang di tiap tahap:
+
+1. **Pengisian dan Penandatanganan Form:** Mahasiswa mengunduh, mengisi, dan menandatangani Form Permohonan Keterlambatan Pembayaran UKT serta melampirkan persyaratan.
+2. **Permintaan Persetujuan:** Mahasiswa meminta tanda tangan dosen wali serta persetujuan dan tanda tangan Ketua Program Studi.
+3. **Penyerahan Form:** Mahasiswa menyerahkan Form Permohonan Keterlambatan UKT yang telah ditandatangani dan disetujui kepada Supervisor Sumber Daya.
+4. **Pemeriksaan Persyaratan:** Supervisor Sumber Daya menerima, memeriksa, dan meneliti kelengkapan persyaratan form, serta memberikan paraf.
+5. **Pemrosesan Surat Permohonan:** Wakil Dekan Sumber Daya memproses Surat Permohonan Izin Keterlambatan Pembayaran UKT.
+6. **Penandatanganan Surat:** Wakil Dekan Sumber Daya menandatangani Surat Permohonan Izin Keterlambatan Pembayaran UKT.
+7. **Pemrosesan Surat:** Subbag Sumber Daya memproses Surat Permohonan Keterlambatan Pembayaran UKT.
+8. **Pengajuan ke Tingkat Atas:** Mahasiswa membawa Surat Permohonan Keterlambatan Pembayaran UKT kepada Wakil Rektor II melalui Manajer Akademik.
+9. **Disposisi Pembayaran:** Wakil Rektor II mendisposisikan permohonan ke Direktorat Keuangan untuk memproses pembayaran UKT.
+10. **Pembukaan Sistem Pembayaran:** Bendahara Penerimaan UKT membuka sistem pembayaran mahasiswa.
+11. **Pembayaran UKT:** Mahasiswa membayar biaya UKT ke bank.
+
+*Catatan: Total maksimal waktu pemrosesan untuk permohonan ini adalah maksimal 3 (tiga) hari kerja.*
+
+=== workflow / UKT-P1 ===
+Berdasarkan dokumen resmi Struktur Workflow Alur Resmi Permohonan Izin Keterlambatan Pembayaran UKT, berikut adalah tahapan permohonan izin keterlambatan pembayaran UKT beserta pihak yang berwenang di tiap tahap:
+
+**Maksimal Waktu Pemrosesan:** 3 hari kerja
+
+**Tahapan Prosedural:**
+
+1. **Mahasiswa:** Mengunduh, mengisi, dan menandatangani Form Permohonan Keterlambatan Pembayaran UKT serta melampirkan persyaratan.
+2. **Mahasiswa:** Meminta tanda tangan dosen wali serta persetujuan dan tanda tangan Ketua Program Studi.
+3. **Mahasiswa:** Menyerahkan Form Permohonan Keterlambatan UKT yang telah ditandatangani dan disetujui kepada Supervisor Sumber Daya.
+4. **Supervisor Sumber Daya:** Menerima, memeriksa, dan meneliti kelengkapan persyaratan form, serta memberikan paraf.
+5. **Wakil Dekan Sumber Daya:** Memproses Surat Permohonan Izin Keterlambatan Pembayaran UKT.
+6. **Wakil Dekan Sumber Daya:** Menandatangani Surat Permohonan Izin Keterlambatan Pembayaran UKT.
+7. **Subbag Sumber Daya:** Memproses Surat Permohonan Keterlambatan Pembayaran UKT.
+8. **Mahasiswa:** Membawa Surat Permohonan Keterlambatan Pembayaran UKT kepada Wakil Rektor II melalui Manajer Akademik.
+9. **Wakil Rektor II:** Mendisposisikan ke Direktorat Keuangan untuk memproses pembayaran UKT.
+10. **Bendahara Penerimaan UKT:** Membuka sistem pembayaran mahasiswa.
+11. **Mahasiswa:** Membayar biaya UKT ke bank.
+
+=== graph / UKT-P2 ===
+Maaf, saya tidak menemukan jawaban pada dokumen SOP resmi yang tersedia.
+
+=== naive / UKT-P2 ===
+Maaf, saya tidak menemukan jawaban pada dokumen SOP resmi yang tersedia.
+
+=== workflow / UKT-P2 ===
+Berdasarkan Standar Operasional Prosedur (SOP) Alur Resmi Permohonan Izin Keterlambatan Pembayaran UKT, berikut adalah langkah-langkah yang harus Anda ikuti untuk mengajukan izin keterlambatan pembayaran UKT:
+
+Proses ini memiliki maksimal waktu pemrosesan selama 3 (tiga) hari kerja.
+
+**Tahapan Prosedural Berurutan:**
+
+1. **Mahasiswa** mengunduh, mengisi, dan menandatangani **Form Permohonan Keterlambatan Pembayaran UKT** serta melampirkan persyaratan. (Tautan unduh form: https://drive.google.com/file/d/1o7hogihjZsFTB_V27JU1OfNGBuI2Sr55/)
+2. **Mahasiswa** meminta tanda tangan dosen wali serta persetujuan dan tanda tangan Ketua Program Studi.
+3. **Mahasiswa** menyerahkan Form Permohonan Keterlambatan UKT yang telah ditandatangani dan disetujui kepada **Supervisor Sumber Daya**.
+4. **Supervisor Sumber Daya** menerima, memeriksa, dan meneliti kelengkapan persyaratan form, serta memberikan paraf.
+5. **Wakil Dekan Sumber Daya** memproses Surat Permohonan Izin Keterlambatan Pembayaran UKT.
+6. **Wakil Dekan Sumber Daya** menandatangani Surat Permohonan Izin Keterlambatan Pembayaran UKT.
+7. **Subbag Sumber Daya** memproses Surat Permohonan Keterlambatan Pembayaran UKT.
+8. **Mahasiswa** membawa Surat Permohonan Keterlambatan Pembayaran UKT kepada **Wakil Rektor II** melalui Manajer Akademik.
+9. **Wakil Rektor II** mendisposisikan ke Direktorat Keuangan untuk memproses pembayaran UKT.
+10. **Bendahara Penerimaan UKT** membuka sistem pembayaran mahasiswa.
+11. **Mahasiswa** membayar biaya UKT ke bank.
+
+Mohon pastikan Anda mengikuti urutan langkah-langkah di atas agar proses permohonan Anda dapat diproses dengan lancar.
+

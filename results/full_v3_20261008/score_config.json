@@ -1,0 +1,24 @@
+{
+  "scored": "2026-10-08T09:01:04",
+  "ragas": true,
+  "judge_model": "llama3.1:8b",
+  "judge_model_info": {
+    "digest": "46e0c10c039e019119339687c3c1757cc81b9da49709a3b3924863ba87ca666e",
+    "size_bytes": 4920753328,
+    "modified_at": "2026-10-07T23:32:29.765980177+07:00",
+    "quantization": "Q4_K_M",
+    "parameter_size": "8.0B",
+    "source": "api/tags"
+  },
+  "judge_embedding": "LazarusNLP/all-indo-e5-small-v4",
+  "judge_num_ctx": 8192,
+  "bertscore": false,
+  "bertscore_model": "lang=id default",
+  "reference_system": "naive,graph",
+  "holm_family": "per (reference, metric): all non-reference systems compared with that reference",
+  "bootstrap_resamples": 10000,
+  "seed": 42,
+  "require_verified": true,
+  "n_items": 40,
+  "n_items_verified": 40
+}
