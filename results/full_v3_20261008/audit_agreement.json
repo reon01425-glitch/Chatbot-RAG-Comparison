@@ -1,12 +1,12 @@
 {
   "run": "full_v3_20261008",
   "n_rows_total": 60,
-  "n_rows_labelled_detected": 14,
-  "n_rows_labelled_actor": 14,
-  "detected_agreement": 0.8571428571428571,
-  "detected_kappa": 0.0,
-  "actor_status_agreement": 0.8571428571428571,
-  "actor_status_kappa": 0.0,
+  "n_rows_labelled_detected": 60,
+  "n_rows_labelled_actor": 60,
+  "detected_agreement": 0.9833333333333333,
+  "detected_kappa": 0.9545454545454544,
+  "actor_status_agreement": 0.9333333333333333,
+  "actor_status_kappa": 0.8353909465020577,
   "amr_from_human_labels": 0.0,
-  "fully_labelled": false
+  "fully_labelled": true
 }
