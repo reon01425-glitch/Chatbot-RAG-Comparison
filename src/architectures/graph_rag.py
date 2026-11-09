@@ -39,17 +39,23 @@ class GraphRAG:
         
         # Add entity relations extracted from university SOP
         relations = [
-            ("cuti akademik", "izin cuti", "terkait"),
-            ("cuti akademik", "aktif kembali", "dilanjutkan dengan"),
-            ("cuti akademik", "ketua program studi", "meminta persetujuan"),
-            ("cuti akademik", "dekan", "mengeluarkan surat izin"),
-            ("legalisir", "ijazah", "tujuan berkas"),
-            ("legalisir", "transkrip", "tujuan berkas"),
-            ("beasiswa", "rekomendasi beasiswa", "syarat pengajuan"),
-            ("beasiswa", "spp/ukt", "bukti pembayaran"),
-            ("ukt", "keterlambatan pembayaran", "permohonan izin"),
-            ("irs", "pengisian irs", "proses registrasi akademik"),
-            ("irs", "dosen wali", "menyetujui pengisian")
+            ("cuti akademik", "izin cuti", "prosedur pengajuan"),
+            ("cuti akademik", "aktif kembali", "alur lanjutan"),
+            ("cuti akademik", "ketua program studi", "rekomendasi & persetujuan"),
+            ("cuti akademik", "dekan", "penerbitan SK izin"),
+            ("cuti akademik", "spp/ukt", "syarat bebas tunggakan"),
+            ("legalisir", "ijazah", "dokumen objek"),
+            ("legalisir", "transkrip", "dokumen objek"),
+            ("legalisir", "subbagian akademik", "verifikasi & validasi"),
+            ("beasiswa", "rekomendasi beasiswa", "dokumen pengajuan"),
+            ("beasiswa", "wakil dekan i", "pengesahan surat"),
+            ("ukt", "keterlambatan pembayaran", "permohonan dispensasi"),
+            ("ukt", "bagian keuangan fsm", "verifikasi pembayaran"),
+            ("irs", "pengisian irs", "registrasi akademik per semester"),
+            ("irs", "dosen wali", "bimbingan & persetujuan online"),
+            ("irs", "siap undip", "portal sistem informasi"),
+            ("organisasi mahasiswa", "proposal kegiatan", "pengajuan persetujuan"),
+            ("organisasi mahasiswa", "wakil dekan i", "persetujuan kegiatan")
         ]
         for u, v, r in relations:
             self.graph.add_edge(u, v, relationship=r)
