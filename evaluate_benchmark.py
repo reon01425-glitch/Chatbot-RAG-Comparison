@@ -60,10 +60,11 @@ SYSTEMS: Dict[str, str] = {
     "htree": "Hierarchical Tree RAG",
     "htree_v0": "Hierarchical Tree RAG v0 (Doc Chunk Baseline)",
     "workflow": "Workflow GraphRAG (Process DAG)",
+    "sop_oracle": "SOP-Oracle RAG (rule-selected SOP, raw text)",
     "llm_only": "LLM-only (no retrieval)",
     "full_context": "Full-context LLM (all 7 SOPs in prompt)",
 }
-ENGINE_SYSTEMS = ["naive", "hybrid", "graph", "agentic", "crag", "multimodal", "htree", "htree_v0", "workflow"]
+ENGINE_SYSTEMS = ["naive", "hybrid", "graph", "agentic", "crag", "multimodal", "htree", "htree_v0", "workflow", "sop_oracle"]
 DIRECT_SYSTEMS = ["llm_only", "full_context"]
 
 NO_CONTEXT_TEMPLATE = """

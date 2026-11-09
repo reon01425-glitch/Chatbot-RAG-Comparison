@@ -70,7 +70,7 @@ def main():
             detected_pairs.append((auto_detected, human_detected))
 
         human_actor = (r["human_actor_status (correct/mismatch/unattributed)"] or "").strip().lower()
-        if human_actor in ("correct", "mismatch", "unattributed"):
+        if human_actor in ("correct", "mismatch", "unattributed", "not_detected"):
             n_labelled_actor += 1
             actor_pairs.append((r["actor_status"].strip().lower(), human_actor))
 

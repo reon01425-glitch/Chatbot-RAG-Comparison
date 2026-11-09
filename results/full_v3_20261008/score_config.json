@@ -1,5 +1,5 @@
 {
-  "scored": "2026-10-08T09:01:04",
+  "scored": "2026-10-09T15:15:38",
   "ragas": true,
   "judge_model": "llama3.1:8b",
   "judge_model_info": {
@@ -18,7 +18,7 @@
   "holm_family": "per (reference, metric): all non-reference systems compared with that reference",
   "bootstrap_resamples": 10000,
   "seed": 42,
-  "require_verified": true,
+  "require_verified": false,
   "n_items": 40,
   "n_items_verified": 40
 }

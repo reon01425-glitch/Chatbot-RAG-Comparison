@@ -674,3 +674,78 @@ full_context,UKT-P2,8,True,19.0,2,correct,Alumni(generic);Mahasiswa(generic);Man
 full_context,UKT-P2,9,True,21.0,2,correct,Direktorat Keuangan;Wakil Rektor II,Disposisi Keuangan: Wakil Rektor II akan mendisposisikan permohonan tersebut ke Direktorat Keuangan untuk memproses pembayaran UKT.
 full_context,UKT-P2,10,True,23.0,2,correct,Alumni(generic);Bendahara Penerimaan;Mahasiswa,"Pembayaran: Bendahara Penerimaan UKT akan membuka sistem pembayaran mahasiswa, dan Anda dapat melakukan pembayaran biaya UKT ke bank."
 full_context,UKT-P2,11,False,,1,not_detected,,
+sop_oracle,CUTI-P1,1,True,4.0,4,correct,Mahasiswa,"Tindakan: Mahasiswa mengunduh, mengisi, dan menandatangani Form Cuti Akademik serta melampirkan persyaratan, dan mengisi secara online melalui SIAP."
+sop_oracle,CUTI-P1,2,True,8.0,3,correct,Ketua Program Studi;Mahasiswa,Tindakan: Mahasiswa meminta persetujuan dan tanda tangan Ketua Program Studi.
+sop_oracle,CUTI-P1,3,True,11.0,2,unattributed,Dekan,Penyerahan Dokumen ke Dekan dan Disposisi:
+sop_oracle,CUTI-P1,4,True,17.0,2,correct,Subbag Akademik,"Tindakan: Subbag Akademik dan Kemahasiswaan menerima, memeriksa, dan meneliti kelengkapan persyaratan form cuti akademik."
+sop_oracle,CUTI-P1,5,True,22.0,2,correct,Dekan,Tindakan: Dekan menandatangani Surat Izin Dekan.
+sop_oracle,CUTI-P1,6,True,26.0,3,correct,Dosen Wali;Ketua Program Studi;Subbag Akademik;Subbag Sumber Daya,Tindakan: Subbag Sumber Daya memberi nomor surat dan mengirimkannya ke Subbag Akademik dan Kemahasiswaan dengan tembusan ke Dosen Wali dan Ketua Program Studi.
+sop_oracle,CUTI-P1,7,True,30.0,4,correct,Mahasiswa;Subbag Akademik,"Tindakan: Subbag Akademik dan Kemahasiswaan mengupdate status mahasiswa di Sistem Akademik, mengarsipkan Surat Izin Dekan, dan mengirimkan kepada mahasiswa."
+sop_oracle,CUTI-P1,8,True,34.0,2,correct,Mahasiswa,Tindakan: Mahasiswa dapat mengambil Surat Izin Dekan di loket akademik.
+sop_oracle,CUTI-P2,1,True,3.0,3,correct,Mahasiswa,"Pengisian Form: Mahasiswa mengunduh, mengisi, dan menandatangani Form Cuti Akademik, serta melampirkan persyaratan yang dibutuhkan."
+sop_oracle,CUTI-P2,2,True,8.0,3,correct,Ketua Program Studi;Mahasiswa,Persetujuan Ketua Program Studi: Mahasiswa meminta persetujuan dan tanda tangan Ketua Program Studi.
+sop_oracle,CUTI-P2,3,True,10.0,2,correct,Dekan;Ketua Program Studi;Mahasiswa,Penyerahan ke Dekan: Mahasiswa menyerahkan Form Cuti Akademik yang telah ditandatangani Ketua Program Studi kepada Dekan.
+sop_oracle,CUTI-P2,4,True,14.0,2,correct,Subbag Akademik,"Pemeriksaan Kelengkapan: Subbag Akademik dan Kemahasiswaan menerima, memeriksa, dan meneliti kelengkapan persyaratan form cuti akademik."
+sop_oracle,CUTI-P2,5,True,17.0,2,unattributed,,Penandatanganan Surat Izin: Dekan menandatangani Surat Izin Dekan.
+sop_oracle,CUTI-P2,6,True,19.0,3,correct,Dosen Wali;Ketua Program Studi;Subbag Akademik;Subbag Sumber Daya,Pengiriman Surat: Subbag Sumber Daya memberi nomor surat dan mengirimkannya ke Subbag Akademik dan Kemahasiswaan dengan tembusan ke Dosen Wali dan Ketua Program Studi.
+sop_oracle,CUTI-P2,7,True,22.0,4,correct,Mahasiswa;Subbag Akademik,"Pembaruan Status: Subbag Akademik dan Kemahasiswaan mengupdate status mahasiswa di Sistem Akademik, mengarsipkan Surat Izin Dekan, dan mengirimkan informasi kepada mahasiswa."
+sop_oracle,CUTI-P2,8,True,24.0,2,correct,Mahasiswa,Pengambilan Surat: Mahasiswa dapat mengambil Surat Izin Dekan di loket akademik.
+sop_oracle,LEG-P1,1,True,4.0,3,correct,Alumni,Tahapan: Alumni menyerahkan fotokopi ijazah/transkrip nilai/sertifikat akreditasi program studi beserta surat aslinya.
+sop_oracle,LEG-P1,2,True,10.0,2,correct,Subbag Akademik,"Tahapan: Petugas Subbag Akademik dan Kemahasiswaan memeriksa keabsahan, kesesuaian foto copy ijazah/transkrip nilai/sertifikat akreditasi program studi dengan surat aslinya dan memberikan cap."
+sop_oracle,LEG-P1,3,True,15.0,2,unattributed,,Pemeriksaan dan Paraf Supervisor:
+sop_oracle,LEG-P1,4,True,22.0,2,correct,Dekan;Wakil Dekan Akademik,Tahapan: Dekan/Wakil Dekan Akademik dan Kemahasiswaan menandatangani pada “Pengesahan Telah diperiksa Kebenarannya dan Sesuai dengan Aslinya”.
+sop_oracle,LEG-P1,5,True,27.0,1,unattributed,,Pemberian Stempel Fakultas:
+sop_oracle,LEG-P1,6,True,34.0,2,correct,Alumni;Subbag Akademik,Tahapan: Alumni mengambil Legalisir di Subbag Akademik dan Kemahasiswaan dengan membawa aslinya dan menulis di buku pengambilan serta menandatangani ybs.
+sop_oracle,LEG-P2,1,True,6.0,3,correct,Alumni;Subbag Akademik,Penyerahan Dokumen: Alumni menyerahkan fotokopi ijazah/transkrip nilai/sertifikat akreditasi program studi beserta surat aslinya kepada petugas Subbag Akademik dan Kemahasiswaan.
+sop_oracle,LEG-P2,2,True,10.0,2,correct,Subbag Akademik,"Pemeriksaan Awal: Petugas Subbag Akademik dan Kemahasiswaan memeriksa keabsahan, kesesuaian foto copy ijazah/transkrip nilai/sertifikat akreditasi program studi dengan surat aslinya dan memberikan cap"
+sop_oracle,LEG-P2,3,True,14.0,2,correct,Dekan;Supervisor Akademik,Paraf Supervisor: Supervisor Akademik dan Kemahasiswaan memeriksa dan memberi paraf di samping kanan nama Dekan.
+sop_oracle,LEG-P2,4,True,18.0,2,correct,Dekan;Wakil Dekan Akademik,Pengesahan: Dekan/Wakil Dekan Akademik dan Kemahasiswaan menandatangani pada “Pengesahan Telah diperiksa Kebenarannya dan Sesuai dengan Aslinya”.
+sop_oracle,LEG-P2,5,True,22.0,1,correct,Dekan;Subbag Akademik;Wakil Dekan Akademik,Pemberian Stempel: Petugas Subbag Akademik dan Kemahasiswaan mengambil kembali Legalisir yang sudah ditanda tangani Dekan/Wakil Dekan Akademik dan Kemahasiswaan dan memberikan stempel Fakultas Sains d
+sop_oracle,LEG-P2,6,True,26.0,2,correct,Alumni;Subbag Akademik,Pengambilan Dokumen: Alumni mengambil Legalisir di Subbag Akademik dan Kemahasiswaan dengan membawa dokumen asli dan menulis di buku pengambilan serta menandatangani ybs.
+sop_oracle,PROP-P1,1,True,2.0,3,correct,Mahasiswa;Petugas Kemahasiswaan;Supervisor Akademik,Penyerahan Proposal: Mahasiswa menyerahkan proposal kegiatan organisasi kepada petugas kemahasiswaan dan Supervisor Akademik untuk registrasi dan alokasi ruang (jika kegiatan dilaksanakan di FSM).
+sop_oracle,PROP-P1,2,True,5.0,3,correct,Supervisor Akademik,Penelitian dan Verifikasi: Supervisor Akademik dan Kemahasiswaan meneliti dan memverifikasi proposal kegiatan yang diajukan agar sesuai dengan peraturan dan memberikan paraf.
+sop_oracle,PROP-P1,3,True,7.0,2,correct,Wakil Dekan Akademik,Evaluasi Substansi: Wakil Dekan Akademik dan Kemahasiswaan mengevaluasi substansi proposal kegiatan.
+sop_oracle,PROP-P1,4,True,9.0,1,correct,Wakil Dekan Akademik,Pengesahan: Dilanjutkan dengan pengesahan oleh Wakil Dekan Akademik dan Kemahasiswaan.
+sop_oracle,PROP-P1,5,True,11.0,2,correct,Mahasiswa,Pengambilan Proposal: Mahasiswa mengambil proposal kegiatan organisasi yang telah disetujui.
+sop_oracle,BEA-P1,1,True,3.0,2,correct,Mahasiswa;Subbag Akademik,Pengajuan Formulir: Mahasiswa mendownload dan mengisi formulir/Surat Rekomendasi Pengajuan Beasiswa ke Subbag Akademik dan Kemahasiswaan (BAK) Fakultas.
+sop_oracle,BEA-P1,2,True,7.0,1,correct,Subbag Akademik,Penelitian dan Verifikasi: BAK Fakultas meneliti dan memverifikasi Surat Rekomendasi Pengajuan Beasiswa.
+sop_oracle,BEA-P1,3,True,10.0,2,correct,Subbag Akademik,Pemberian Paraf dan Nomor Surat: BAK Fakultas memberikan paraf dan nomor surat pada Surat Rekomendasi Pengajuan Beasiswa tersebut.
+sop_oracle,BEA-P1,4,True,13.0,1,correct,Wakil Dekan Akademik,Persetujuan Tanda Tangan: Wakil Dekan Akademik dan Kemahasiswaan memberikan tanda tangan pada Surat Rekomendasi Pengajuan Beasiswa tersebut.
+sop_oracle,BEA-P1,5,True,16.0,2,correct,Mahasiswa;Subbag Akademik,Pengambilan Surat: Mahasiswa mengambil surat tersebut di BAK Fakultas dan mencatat bukti pengambilan.
+sop_oracle,IRS-P1,1,True,2.0,3,correct,Mahasiswa,"Pembayaran Biaya Pendidikan: Mahasiswa membayar biaya pendidikan pada bank yang bekerja sama dengan Undip (BNI, Mandiri, BTN, dan BRI)."
+sop_oracle,IRS-P1,2,True,5.0,1,correct,Mahasiswa,Her-registrasi Online: Mahasiswa melakukan her-registrasi online melalui SIAP.
+sop_oracle,IRS-P1,3,True,7.0,3,correct,Mahasiswa,"Pengisian/Perbaikan IRS Sementara: Mahasiswa melakukan pengisian, perbaikan, atau mencetak IRS sementara secara online melalui SIAP."
+sop_oracle,IRS-P1,4,True,9.0,3,correct,Dosen Wali;Mahasiswa,"Konsultasi dengan Pembimbing Akademik: Mahasiswa menemui Pembimbing Akademik untuk berkonsultasi mengenai mata kuliah yang akan diambil, di mana Pembimbing memberikan arahan dengan mempertimbangkan ke"
+sop_oracle,IRS-P1,5,True,12.0,2,correct,Dosen Wali,"Persetujuan Pembimbing Akademik: Apabila mata kuliah dan jumlah SKS sudah sesuai, Pembimbing Akademik melakukan persetujuan secara online pada SIAP."
+sop_oracle,IRS-P1,6,True,15.0,1,correct,Mahasiswa,Pengecekan IRS (Opsional): Mahasiswa dapat melakukan pengecekan IRS online di sistem SIAP bila diperlukan.
+sop_oracle,IRS-P2,1,True,2.0,3,correct,Mahasiswa,"Pembayaran Biaya Pendidikan: Mahasiswa membayar biaya pendidikan pada bank yang bekerja sama dengan Undip (BNI, Mandiri, BTN, dan BRI)."
+sop_oracle,IRS-P2,2,True,5.0,1,correct,Mahasiswa,Her-registrasi Online: Mahasiswa melakukan her-registrasi online melalui SIAP.
+sop_oracle,IRS-P2,3,True,7.0,3,correct,Mahasiswa,"Pengisian IRS Sementara: Mahasiswa melakukan pengisian, perbaikan, atau mencetak IRS sementara secara online melalui SIAP."
+sop_oracle,IRS-P2,4,True,9.0,2,correct,Dosen Wali;Mahasiswa,Konsultasi dengan Pembimbing Akademik: Mahasiswa menemui Pembimbing Akademik untuk berkonsultasi mengenai mata kuliah yang akan diambil.
+sop_oracle,IRS-P2,5,True,13.0,2,correct,Dosen Wali,"Persetujuan Pembimbing Akademik: Apabila mata kuliah dan jumlah SKS sudah sesuai, Pembimbing Akademik melakukan persetujuan secara online pada SIAP."
+sop_oracle,IRS-P2,6,True,16.0,1,correct,Mahasiswa,Pengecekan IRS (Opsional): Mahasiswa dapat melakukan pengecekan IRS online di sistem SIAP bila diperlukan.
+sop_oracle,AKT-P1,1,True,2.0,2,correct,Ketua Program Studi;Mahasiswa;Subbag Akademik,Melapor kepada Ketua Program Studi dan Subbag Akademik dan Kemahasiswaan: Mahasiswa membawa surat izin cuti akademik semester untuk melapor kepada Ketua Program Studi dan Subbag Akademik dan Kemahasis
+sop_oracle,AKT-P1,2,True,5.0,2,correct,Mahasiswa,Registrasi Online: Mahasiswa melakukan registrasi online pada SSO masing-masing mahasiswa.
+sop_oracle,AKT-P1,3,True,8.0,1,correct,Mahasiswa,Pendaftaran Status Aktif: Mahasiswa terdaftar sebagai Peserta Kuliah / Mahasiswa Aktif di Fakuktas.
+sop_oracle,UKT-P1,1,True,4.0,3,unattributed,,"Tindakan: Mengunduh, mengisi, dan menandatangani Form Permohonan Keterlambatan Pembayaran UKT serta melampirkan persyaratan."
+sop_oracle,UKT-P1,2,True,8.0,2,correct,Dosen Wali;Ketua Program Studi,Tindakan: Meminta tanda tangan dosen wali serta persetujuan dan tanda tangan Ketua Program Studi.
+sop_oracle,UKT-P1,3,True,12.0,2,unattributed,Supervisor Sumber Daya,Tindakan: Menyerahkan Form Permohonan Keterlambatan UKT yang telah ditandatangani dan disetujui kepada Supervisor Sumber Daya.
+sop_oracle,UKT-P1,4,True,16.0,2,unattributed,,"Tindakan: Menerima, memeriksa, dan meneliti kelengkapan persyaratan form, serta memberikan paraf."
+sop_oracle,UKT-P1,5,False,,1,not_detected,,
+sop_oracle,UKT-P1,6,False,,1,not_detected,,
+sop_oracle,UKT-P1,7,True,24.0,1,correct,Subbag Sumber Daya,Pelaku: Subbag Sumber Daya
+sop_oracle,UKT-P1,8,True,29.0,2,unattributed,Manajer Akademik;Wakil Rektor II,Tindakan: Membawa Surat Permohonan Keterlambatan Pembayaran UKT kepada Wakil Rektor II melalui Manajer Akademik.
+sop_oracle,UKT-P1,9,True,33.0,2,unattributed,Direktorat Keuangan,Tindakan: Mendisposisikan ke Direktorat Keuangan untuk memproses pembayaran UKT.
+sop_oracle,UKT-P1,10,False,,1,not_detected,,
+sop_oracle,UKT-P1,11,True,41.0,2,unattributed,,Tindakan: Membayar biaya UKT ke bank.
+sop_oracle,UKT-P2,1,True,4.0,3,correct,Mahasiswa,"Mengunduh dan Mengisi Form: Mahasiswa mengunduh, mengisi, dan menandatangani Form Permohonan Keterlambatan Pembayaran UKT serta melampirkan persyaratan."
+sop_oracle,UKT-P2,2,True,7.0,2,correct,Dosen Wali;Ketua Program Studi;Mahasiswa,Meminta Persetujuan: Mahasiswa meminta tanda tangan dosen wali serta persetujuan dan tanda tangan Ketua Program Studi.
+sop_oracle,UKT-P2,3,True,9.0,2,correct,Mahasiswa;Supervisor Sumber Daya,Penyerahan Form: Mahasiswa menyerahkan Form Permohonan Keterlambatan UKT yang telah ditandatangani dan disetujui kepada Supervisor Sumber Daya.
+sop_oracle,UKT-P2,4,True,11.0,2,correct,Supervisor Sumber Daya,"Pemeriksaan Persyaratan: Supervisor Sumber Daya menerima, memeriksa, dan meneliti kelengkapan persyaratan form, serta memberikan paraf."
+sop_oracle,UKT-P2,5,True,13.0,2,correct,Wakil Dekan Sumber Daya,Pemrosesan Surat: Wakil Dekan Sumber Daya memproses Surat Permohonan Izin Keterlambatan Pembayaran UKT.
+sop_oracle,UKT-P2,6,True,15.0,2,correct,Wakil Dekan Sumber Daya,Penandatanganan Surat: Wakil Dekan Sumber Daya menandatangani Surat Permohonan Izin Keterlambatan Pembayaran UKT.
+sop_oracle,UKT-P2,7,True,17.0,1,correct,Subbag Sumber Daya,Pemrosesan Surat Lanjutan: Subbag Sumber Daya memproses Surat Permohonan Keterlambatan Pembayaran UKT.
+sop_oracle,UKT-P2,8,True,19.0,2,correct,Mahasiswa;Manajer Akademik;Wakil Rektor II,Pengajuan Surat: Mahasiswa membawa Surat Permohonan Keterlambatan Pembayaran UKT kepada Wakil Rektor II melalui Manajer Akademik.
+sop_oracle,UKT-P2,9,True,21.0,2,correct,Direktorat Keuangan;Wakil Rektor II,Disposisi Pembayaran: Wakil Rektor II mendisposisikan ke Direktorat Keuangan untuk memproses pembayaran UKT.
+sop_oracle,UKT-P2,10,True,23.0,2,correct,Bendahara Penerimaan;Mahasiswa,Pembukaan Sistem: Bendahara Penerimaan UKT membuka sistem pembayaran mahasiswa.
+sop_oracle,UKT-P2,11,True,25.0,2,correct,Mahasiswa,Pembayaran: Mahasiswa membayar biaya UKT ke bank.

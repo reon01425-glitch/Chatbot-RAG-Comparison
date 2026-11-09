@@ -1067,6 +1067,94 @@ class RAGEngine:
             "metrics": metrics
         }
 
+    def execute_sop_oracle_rag(self, query_text: str, k: int = 3, threshold: float = 0.3) -> Dict[str, Any]:
+        """Ablation for Workflow GraphRAG: uses the EXACT SAME rule-based SOP selection
+        (self.core.workflow_graph.match_sop) and the same top-3 supporting-chunk retrieval,
+        but the selected SOP is given to the generator as its raw PDF chunk text, not as the
+        graph-derived ordered, actor-explicit block. This isolates how much of Workflow
+        GraphRAG's gain comes from selecting one correct SOP (instead of retrieving three)
+        versus how much comes from the explicit workflow structure itself."""
+        start_time = time.time()
+        trace = []
+
+        matched_sop = self.core.workflow_graph.match_sop(query_text)
+        trace.append({
+            "step": "1. Rule-Based SOP Identification (identical rule to Workflow GraphRAG)",
+            "type": "SOP Matching",
+            "detail": f"Identified SOP: {matched_sop['title'] if matched_sop else 'None'}"
+        })
+
+        raw_sop_text = ""
+        if matched_sop:
+            source_pdf = matched_sop.get("source_pdf", "")
+            for chunk in self.core.chunks:
+                if os.path.basename(chunk.metadata.get("source", "")) == source_pdf:
+                    raw_sop_text = chunk.page_content
+                    break
+            trace.append({
+                "step": "2. Raw SOP Text Lookup (no graph structure)",
+                "type": "Unstructured Context",
+                "detail": f"Retrieved the selected SOP's raw PDF chunk text ({len(raw_sop_text)} chars); no ordered steps, no explicit actor/document fields."
+            })
+
+        expanded_query = query_text
+        if matched_sop:
+            expanded_query += f" {matched_sop['title']} " + " ".join([s['action'] for s in matched_sop['steps'][:3]])
+
+        docs = self.core.db.similarity_search(expanded_query, k=k)
+        query_embedding = self.core.embedding_function.embed_query(query_text)
+
+        scored_results = []
+        for doc in docs:
+            doc_embedding = self.core.embedding_function.embed_query(doc.page_content)
+            sim = float(cosine_similarity([query_embedding], [doc_embedding])[0][0])
+            scored_results.append((doc, sim))
+
+        scored_results.sort(key=lambda x: x[1], reverse=True)
+        best_doc, best_score = scored_results[0] if scored_results else (None, 0.0)
+
+        trace.append({
+            "step": "3. Vector Context Alignment",
+            "type": "Similarity Retrieval",
+            "detail": f"Aligned {len(docs)} text chunks from Chroma. Best cosine similarity: {best_score:.4f}"
+        })
+
+        if not matched_sop and best_score < threshold:
+            answer = "Maaf, prosedur atau informasi terkait pertanyaan Anda tidak ditemukan dalam dokumen SOP resmi FSM UNDIP."
+            sources = []
+            contexts = []
+            scores = []
+        else:
+            sources = [doc.metadata.get("id", os.path.basename(doc.metadata.get("source", "SOP.pdf"))) for doc, _ in scored_results]
+            contexts = [doc.page_content for doc, _ in scored_results]
+            scores = [score for _, score in scored_results]
+
+            doc_context_text = "\n\n---\n\n".join(contexts)
+            full_context = f"{raw_sop_text}\n\nKonteks Dokumen Pendukung:\n{doc_context_text}"
+            prompt = PROMPT_TEMPLATE.format(context=full_context, question=query_text)
+            answer = self.core.generate_synthesis(prompt, contexts, query_text)
+
+            trace.append({
+                "step": "4. Synthesis",
+                "type": "LLM Synthesis",
+                "detail": "Synthesized answer from the selected SOP's raw PDF text plus supporting chunks (no graph structure)."
+            })
+
+        total_latency = time.time() - start_time
+        metrics = self.calculate_metrics(query_text, answer, contexts if (matched_sop or best_score >= threshold) else [], scores, total_latency)
+
+        return {
+            "architecture": "SOP-Oracle RAG (rule-selected SOP, raw text)",
+            "answer": answer,
+            "sources": sources,
+            "contexts": contexts,
+            "scores": scores,
+            "matched_sop": matched_sop["title"] if matched_sop else None,
+            "raw_docs": [doc.metadata for doc, _ in scored_results] if scored_results else [],
+            "trace": trace,
+            "metrics": metrics
+        }
+
     def execute_hierarchical_rag_v0(self, query_text: str, k: int = 3, threshold: float = 0.3) -> Dict[str, Any]:
         """8a. Hierarchical Tree RAG v0 (Ablation Baseline: Document-level Chunk Retrieval + Parent Tree Expansion)"""
         start_time = time.time()
@@ -1243,7 +1331,9 @@ class RAGEngine:
     def query_architecture(self, arch_name: str, query_text: str, k: int = 3, threshold: float = 0.3) -> Dict[str, Any]:
         """Dispatch query to specified architecture and guarantee visual flowchart attachment."""
         norm_name = arch_name.lower()
-        if "workflow" in norm_name or "bpmn" in norm_name:
+        if "oracle" in norm_name:
+            result = self.execute_sop_oracle_rag(query_text, k=k, threshold=threshold)
+        elif "workflow" in norm_name or "bpmn" in norm_name:
             result = self.execute_workflow_graph_rag(query_text, k=k, threshold=threshold)
         elif "htree_v0" in norm_name or "tree_v0" in norm_name or "hierarchical_v0" in norm_name or ("v0" in norm_name and ("tree" in norm_name or "hierarchical" in norm_name)):
             result = self.execute_hierarchical_rag_v0(query_text, k=k, threshold=threshold)
